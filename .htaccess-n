@@ -1,0 +1,35 @@
+# Aktifkan RewriteEngine
+RewriteEngine On
+
+# ==== IZINKAN AKSES LANGSUNG KE FOLDER TERTENTU ====
+# Biarkan akses langsung ke /app
+RewriteCond %{REQUEST_URI} ^/app/ [NC]
+RewriteRule ^ - [L]
+
+# Biarkan akses langsung ke /assets
+RewriteCond %{REQUEST_URI} ^/assets/ [NC]
+RewriteRule ^ - [L]
+
+# Biarkan akses langsung ke /node_modules
+RewriteCond %{REQUEST_URI} ^/node_modules/ [NC]
+RewriteRule ^ - [L]
+
+# ==== BLOK FILE/FOLDER SENSITIF ====
+<FilesMatch "\.(env|json|lock|md|gitignore|htaccess|xml|yml|ini|log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Tampilkan halaman error jika akses ke folder sensitif
+# RewriteRule ^(config|images)/(.*)$ ^/error/error.php [L]
+
+# ==== REDIRECT SEMUA REQUEST LAIN KE INDEX.PHP ====
+# Jika file/folder tidak ada 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+
+# ==== OPSIONAL: REDIRECT HTTP -> HTTPS ====
+# Uncomment kalau mau semua dipaksa HTTPS
+#RewriteCond %{HTTPS} off
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

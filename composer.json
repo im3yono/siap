@@ -1,0 +1,15 @@
+{
+  "name": "im3/siap",
+  "description": "Sistem Informasi Administrasi Pendidikan",
+  "autoload": {
+    "psr-4": {
+      "Im3\\Siap\\": "src/"
+    }
+  },
+  "require": {
+    "phpoffice/phpspreadsheet": "^5.1"
+  },
+  "config": {
+    "vendor-dir": "assets/vendor"
+  }
+}

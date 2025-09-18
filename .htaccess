@@ -1,0 +1,6 @@
+Options -Indexes
+
+RewriteEngine On
+
+# Redirect 404 errors to custom page
+ErrorDocument 403 /siap/app/error/403.php
