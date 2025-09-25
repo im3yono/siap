@@ -1,6 +1,8 @@
 <?php
 require_once "../config/server.php";
 require_once "../assets/vendor/autoload.php";
+
+$route = $_POST['id'];
 ?>
 
 
@@ -8,13 +10,13 @@ require_once "../assets/vendor/autoload.php";
 
 
 <div class="row p-2 border-bottom fs-3 mb-4 shadow-sm ">
-	<div class="col-auto "><button data-route="v_siswa" class="btn btn-outline-dark"><i class="bi bi-arrow-left"></i> Kembali</button></div> Upload File Data Siswa
+	<div class="col-auto "><button data-route="<?= $route; ?>" class="btn btn-outline-dark"><i class="bi bi-arrow-left"></i> Kembali</button></div> Upload File Data Staf
 </div>
 <div class="row mt-3 p-3">
 	<div class="col-12">
 		<div class="card card-outline card-warning">
 			<div class="card-header">
-				<h3 class="card-title">Download Format Upload</h3>
+				<h3 class="card-title">Download Format Upload Data Staf</h3>
 				<!-- /.card-tools -->
 			</div>
 			<!-- /.card-header -->
@@ -25,8 +27,8 @@ require_once "../assets/vendor/autoload.php";
 					</div>
 					<div class="col">
 						<p>Silahkan download format upload data siswa pada link dibawah ini: <strong>Jangan melakukan perubahan pada struktur file agar proses upload berjalan dengan baik.</strong></p>
-						<button onclick="window.location.href='app/file/fu_data siswa.xlsx'" class="btn btn-success">
-							<i class="bi bi-download"></i> Download Format Upload
+						<button onclick="window.location.href='app/file/fu_data staf.xlsx'" class="btn btn-success">
+							<i class="bi bi-download"></i> Download Format Upload Data Staf
 						</button>
 					</div>
 				</div>

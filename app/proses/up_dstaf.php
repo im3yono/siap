@@ -1,0 +1,3 @@
+<!-- 
+INSERT INTO `tb_dstaf` (`id_dstaf`, `id_staf`, `nm_staf`, `nik`, `nkk`, `nuptk`, `nip`, `jk`, `tmp_l`, `tgl_l`, `ppdk`, `glar`, `sklh_univ`, `stt_pgw`, `jptk`, `agm`, `almt`, `kontak`, `tgs_tmbh`, `sk_cpns`, `tgl_cpns`, `sk_pengaktn`, `tmt_angkt`, `lbg_angkt`, `pngkat_gl`, `sgaji`, `nm_ibu`, `sts_kwn`, `psngn`, `tmt_pns`, `npwp`, `nm_npwp`, `warga`, `rcd`, `upd`, `sts`) VALUES (NULL, '1', '1', '1', '1', '1', '1', 'L', '1', '2025-09-25', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2025-09-25', '1', '2025-09-25', '1', '1', '1', '1', '1', '1', '2025-09-25', '1', '1', '1', current_timestamp(), current_timestamp(), 'Y');
+-->

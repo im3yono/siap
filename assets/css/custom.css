@@ -1,0 +1,12 @@
+/* CSS untuk loading spinner */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-top: -27vh;
+}
+/* Sembunyikan form secara default */
+#content-route {
+  display: none;
+}

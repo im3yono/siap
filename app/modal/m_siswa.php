@@ -19,6 +19,8 @@ $kec 		= $almt['kec'] != "" ? $almt['kec'] : '';
 $kdpos	= $almt['kdpos'] != "" ? ", Kode Pos " . $almt['kdpos'] : '';
 $almt		= $jl . " RT " . $rt . "/" . $rw .  $dusun . ", Kel. " . $kel . ", Kec. " . $kec .  $kdpos;
 
+$tlp		= json_decode($row['tlp/hp'], true);
+
 $ayah		= json_decode($row['ayah'], true);
 $ibu		= json_decode($row['ibu'], true);
 $wali		= json_decode($row['wali'], true);
@@ -56,12 +58,13 @@ function barisData($label, $data, $class = '')
 			. barisData('Agama', $row['agm'])
 			. barisData('Alamat', $almt)
 			. barisData('Transportasi', $row['trasport'])
-			. barisData('No. Telp/HP', $row['tlp/hp'])
+			. barisData('No. Telpon', $tlp['tlp'] ?? '')
+			. barisData('No. Handphone', $tlp['hp'] ?? '')
 			. barisData('Email', $row['email'])
-			. barisData('Tanggal Masuk', tgl($row['masuk']))
 			. barisData('Kelas', $row['kls'])
 			. barisData('No. Akta', $row['no_akta'])
 			. barisData('Disabilitas', $row['disabel'])
+			. barisData('Status Masuk', $row['masuk'])
 			. barisData('Sekolah Asal', $row['sklh_asl'])
 			. barisData('Anak	 Ke', $sdr['ke'] . " dari " . $sdr['sdr'] . " bersaudara")
 			. barisData('Berat', $bb)

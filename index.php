@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="assets/css/simple-datatables.css">
 	<link rel="stylesheet" href="assets/css/sweetalert2.min.css">
 	<link rel="stylesheet" href="assets/bootstrap-icons/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" href="assets/css/custom.css">
 
 	<!-- lib Modul -->
 	<link rel="stylesheet" href="assets/ckeditor5/ckeditor5.css">
@@ -30,9 +31,9 @@
 			<div class="container-fluid">
 				<ul class="navbar-nav">
 					<li class="nav-item">
-						<button data-page="" class="nav-link" data-lte-toggle="sidebar" role="button"><i class="bi bi-list"></i></button>
+						<button data-route="" class="nav-link" data-lte-toggle="sidebar" role="button"><i class="bi bi-list"></i></button>
 					</li>
-					<li class="nav-item d-none d-md-block fw-semibold"><button data-page="" class="nav-link">Sistem Informasi Administrasi Pendidikan</button></li>
+					<li class="nav-item d-none d-md-block fw-semibold"><button data-route="" class="nav-link">Sistem Informasi Administrasi Pendidikan</button></li>
 				</ul>
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item dropdown user-menu">
@@ -42,7 +43,7 @@
 						</button>
 						<ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
 							<li class="user-header text-bg-primary">
-								<img src="app/images/account.png" alt="" class="rounded-circle shadow" />
+								<img src="assets/img/account.png" alt="" class="rounded-circle shadow" />
 								<p>
 									Administrator
 									<small>Member since Nov. 2023</small>
@@ -75,7 +76,7 @@
 				<nav class="mt-2">
 					<ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
 						<li class="nav-item">
-							<a data-page="dashboard" data-id="2" class="nav-link">
+							<a data-route="dashboard" class="nav-link">
 								<img src="assets/icon/dashboard.svg" class="nav-icon">
 								<p>Dashboard</p>
 							</a>
@@ -88,22 +89,22 @@
 							</a>
 							<ul class="nav nav-treeview">
 								<li class="nav-item">
-									<!-- <a data-page="v_siswa" class="nav-link">
+									<!-- <a data-route="v_siswa" class="nav-link">
 										<img src="./assets/icon/local_library.svg" class="nav-icon">
 										<p>Siswa</p>
 									</a> -->
-									<button data-page="v_siswa" class="nav-link w-100"><img src="./assets/icon/local_library.svg" class="nav-icon">
+									<button data-route="v_siswa" class="nav-link w-100"><img src="./assets/icon/local_library.svg" class="nav-icon">
 										<p>Siswa</p>
 									</button>
 								</li>
 								<li class="nav-item">
-									<a data-page="v_guru" class="nav-link">
+									<a data-route="v_guru" class="nav-link">
 										<img src="./assets/icon/person_group.svg" class="nav-icon">
 										<p>Guru</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a data-page="v_tendik" class="nav-link">
+									<a data-route="v_tendik" class="nav-link">
 										<img src="./assets/icon/book_open.svg" class="nav-icon">
 										<p>Tendik</p>
 									</a>
@@ -119,19 +120,19 @@
 							</a>
 							<ul class="nav nav-treeview">
 								<!-- <li class="nav-item">
-									<a data-page="#" class="nav-link">
+									<a data-route="#" class="nav-link">
 										<img src="./assets/icon/local_library.svg" class="nav-icon">
 										<p>Siswa</p>
 									</a>
 								</li> -->
 								<li class="nav-item">
-									<a data-page="mapel" class="nav-link">
+									<a data-route="mapel" class="nav-link">
 										<img src="./assets/icon/book_open.svg" class="nav-icon">
 										<p>Mata Pelajaran</p>
 									</a>
 								</li>
 								<li class="nav-item">
-									<a data-page="kelas" class="nav-link">
+									<a data-route="kelas" class="nav-link">
 										<img src="./assets/icon/person_group.svg" class="nav-icon">
 										<p>Kelas</p>
 									</a>
@@ -144,8 +145,13 @@
 		</aside>
 		<main class="app-main">
 			<div class="app-content"></div>
+			<div id="loadingSpinner" class="spinner-container" style="margin-bottom: -5vh;">
+				<div id="loadingSpinner" class="spinner-border" role="status" style="width: 3rem; height: 3rem;">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
 			<div id="" class="container-fluid">
-				<div id="content-page">
+				<div id="content-route">
 					<?php
 					// include_once "app/views/dashboard.php" 
 					?>
@@ -189,28 +195,28 @@
 	});
 </script>
 
-<!-- content-page  -->
-<script>
-	function loadPage(page, pushState = true, id = '') {
+<!-- content-route  -->
+<!-- <script>
+	function loadRoute(route, pushState = true, id = '') {
 		$.ajax({
 			type: "POST",
 			url: "app/route.php",
 			data: {
-				page: page,
+				route: route,
 				id: id
 			},
 			success: function(res) {
 				if (res.trim() === "") {
-					$("#content-page").html("<h3 class='text-center text-muted mt-5'>Dalam tahap pengembangan<br>Halaman masih kosong</h3>");
+					$("#content-route").html("<h3 class='text-center text-muted mt-5'>Dalam tahap pengembangan<br>Halaman masih kosong</h3>");
 				} else {
-					$("#content-page").html(res);
+					$("#content-route").html(res);
 				}
 				// Tambah ke riwayat hanya kalau memang dipicu klik, bukan popstate
 				if (pushState) {
 					history.pushState({
-						page: page,
+						route: route,
 						id: id
-					}, "", "?page=" + page + (id ? "&id=" + id : ""));
+					}, "", "?route=" + route + (id ? "&id=" + id : ""));
 				}
 
 				// Jika ada datatable di halaman
@@ -229,21 +235,34 @@
 				}
 
 				// Update menu aktif
-				updateActiveMenu(page);
+				updateActiveMenu(route);
+				hideLoading();
 			},
 			error: function() {
-				$("#content-page").html("Terjadi kesalahan memuat halaman.");
+				$("#content-route").html("Terjadi kesalahan memuat halaman.");
 			}
 		});
 	}
 
-	function updateActiveMenu(page) {
+	function hideLoading() {
+		setTimeout(function() {
+			document.getElementById("loadingSpinner").style.display = "none";
+			document.getElementById("content-route").style.display = "block";
+		}, 300);
+	}
+
+	function showLoading() {
+		document.getElementById("loadingSpinner").style.display = "flex";
+		document.getElementById("content-route").style.display = "none";
+	}
+
+	function updateActiveMenu(route) {
 		// reset semua menu
 		$('.sidebar-menu .nav-link').removeClass('active');
 		$('.sidebar-menu li').removeClass('menu-open');
 
-		// aktifkan link sesuai page
-		const $link = $(`.sidebar-menu .nav-link[data-page="${page}"]`);
+		// aktifkan link sesuai route
+		const $link = $(`.sidebar-menu .nav-link[data-route="${route}"]`);
 		$link.addClass('active');
 
 		// jika link ada di dalam treeview
@@ -255,43 +274,126 @@
 		}
 	}
 
-	// Klik link dengan atribut data-page
+	// Klik link dengan atribut data-route
 	$(document).on("click", "nav a", function(e) {
 		e.preventDefault();
-		let page = $(this).data("page");
+		let route = $(this).data("route");
 		let id = $(this).data("id");
-		if (page !== undefined) {
-			loadPage(page, true , id);
-		} else if (page === '') {
-			loadPage('dashboard', true);
+		if (route !== undefined) {
+			showLoading();
+			loadRoute(route, true, id);
+		} else if (route === '') {
+			showLoading();
+			loadRoute('dashboard', true);
 		}
 	});
 
-	// Klik button dengan atribut data-page
-	$(document).on("click", "button[data-page]", function(e) {
+	// Klik button dengan atribut data-route
+	$(document).on("click", "button[data-route]", function(e) {
 		e.preventDefault();
-		let page = $(this).data("page");
+		let route = $(this).data("route");
 		let id = $(this).data("id");
-		if (page !== undefined) {
-			loadPage(page, true , id);
-		} else if (page === '') {
-			loadPage('dashboard', true);
+		if (route !== undefined) {
+			showLoading();
+			loadRoute(route, true, id);
+		} else if (route === '') {
+			showLoading();
+			loadRoute('dashboard', true);
 		}
 	});
 
 	// Saat pertama kali load / refresh
 	$(document).ready(function() {
 		const urlParams = new URLSearchParams(window.location.search);
-		let page = urlParams.get("page") || "dashboard"; // default dashboard
-		loadPage(page, false); // false -> jangan pushState ulang
+		let route = urlParams.get("route") || "dashboard"; // default dashboard
+		let id = urlParams.get("id") || "";
+
+		loadRoute(route, false, id); // false -> jangan pushState ulang
 	});
 
 	// Navigasi back/forward browser
 	window.onpopstate = function(event) {
-		if (event.state && event.state.page) {
-			loadPage(event.state.page, false); // false -> jangan pushState lagi
+		if (event.state && event.state.route) {
+			loadRoute(event.state.route, false); // false -> jangan pushState lagi
 		} else {
-			loadPage('dashboard', false);
+			loadRoute('dashboard', false);
 		}
 	};
+</script> -->
+
+<script>
+	function loadRoute(route, pushState = true, id = '') {
+		$.post("app/route.php", { route, id })
+			.done(res => {
+				$("#content-route").html(res.trim() || 
+					"<h3 class='text-center text-muted mt-5'>Dalam tahap pengembangan<br>Halaman masih kosong</h3>");
+
+				if (pushState) {
+					history.pushState({ route, id }, "", `?route=${route}${id ? "&id=" + id : ""}`);
+				}
+
+				if ($(".table").length) {
+					new simpleDatatables.DataTable(".table", {
+						perPageSelect: [5, 10, 25, 50, 100],
+						perPage: 10,
+						labels: {
+							placeholder: "Cari...",
+							perPage: " Data per halaman",
+							noRows: "Tidak ada data yang ditemukan",
+							info: "Menampilkan {start}/{end} dari {rows} Data",
+						}
+					});
+				}
+
+				updateActiveMenu(route);
+				hideLoading();
+			})
+			.fail(() => $("#content-route").html("Terjadi kesalahan memuat halaman."));
+	}
+
+	const hideLoading = () => setTimeout(() => {
+		$("#loadingSpinner").hide();
+		$("#content-route").show();
+	}, 300);
+
+	const showLoading = () => {
+		$("#loadingSpinner").css("display", "flex");
+		$("#content-route").hide();
+	};
+
+	function updateActiveMenu(route) {
+		$(".sidebar-menu .nav-link").removeClass("active");
+		$(".sidebar-menu li").removeClass("menu-open");
+
+		const $link = $(`.sidebar-menu .nav-link[data-route="${route}"]`).addClass("active");
+		const treeview = $link.closest(".nav-treeview");
+		if (treeview.length) {
+			treeview.show()
+				.prev(".nav-link").removeClass("collapsed")
+				.parent("li").addClass("menu-open");
+		}
+	}
+
+	$(document).on("click", "nav a, button[data-route]", function(e) {
+		e.preventDefault();
+		const route = $(this).data("route");
+		const id = $(this).data("id");
+		if (route === undefined) return;
+		showLoading();
+		loadRoute(route, true, id);
+	});
+
+	// Saat pertama kali load / refresh
+	$(document).ready(() => {
+		const urlParams = new URLSearchParams(window.location.search);
+		const route = urlParams.get("route") || "dashboard";
+		const id = urlParams.get("id") || "";
+		loadRoute(route, false, id);
+	});
+
+	// Navigasi back/forward browser
+	window.onpopstate = e => {
+		loadRoute((e.state && e.state.route) || "dashboard", false, e.state?.id || "");
+	};
 </script>
+<!-- end content-route  -->
