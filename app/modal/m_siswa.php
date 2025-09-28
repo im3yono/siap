@@ -42,7 +42,7 @@ function barisData($label, $data, $class = '')
 ?>
 <div class="row">
 	<div class="col-auto mx-4 p-2">
-		<img src="app/images/account.png" alt="<?= $row['nipd'] ?> " class="img-thumbnail shadow" style="width: 150px; height: 200px; object-fit: cover;">'
+		<img src="<?= ft($row['nipd'],'siswa','../../'); ?>" alt="<?= $row['nipd'] ?> " class="img-thumbnail shadow" style="width: 150px; height: 200px; object-fit: cover;">'
 	</div>
 	<div class="col">
 		<div class="row fw-bold text-bg-dark">

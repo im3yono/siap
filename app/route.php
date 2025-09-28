@@ -4,7 +4,7 @@ $route = $_POST['route'] != '' ? $_POST['route'] : 'dashboard';
 $id = $_POST['id'] ?? '';
 
 // whitelist halaman agar aman
-$allowed = ['dashboard', 'v_siswa', 'up_sis', 'edt_sis', 'v_guru', 'v_tendik', 'up_staf'];
+$allowed = ['dashboard', 'siswa', 'up_sis', 'edt_sis', 'guru', 'tendik', 'up_staf', 'p_data', 'jurnal','mapel','kelas'];
 
 
 if (!in_array($route, $allowed)) {
@@ -12,8 +12,8 @@ if (!in_array($route, $allowed)) {
 	exit;
 }
 
-if (file_exists("views/{$route}.php")) {
-	include_once "views/{$route}.php";
+if (file_exists("page/{$route}.php")) {
+	include_once "page/{$route}.php";
 } else {
 	include_once "error/404.php";
 }

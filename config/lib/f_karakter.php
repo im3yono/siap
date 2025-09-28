@@ -1,19 +1,20 @@
 <?php
 
-function singkatNama($nama)
+function f_singkatNama($nama, $max = 3)
 {
+	$nm_umum = ['Muhammad', 'Mohammad','Muhamad', 'Ahmad', 'Akhmad'];
 	$nama = ucwords(strtolower($nama)); // ubah menjadi huruf kecil dan kapitalisasi awal kata
 	$kata = explode(' ', $nama);
 	$jumlah = count($kata);
 
-	if ($jumlah <= 3) {
+	if ($jumlah <= $max) {
 		return $nama; // tidak disingkat
 	}
 
-	$singkat = implode(' ', array_slice($kata, 0, 3)) . ' ';
+	$singkat = implode(' ', array_slice($kata, 0, $max)) . ' ';
 
 	// ambil inisial dari kata tengah
-	for ($i = 3; $i < $jumlah - 1; $i++) {
+	for ($i = $max; $i < $jumlah; $i++) {
 		$singkat .= strtoupper(substr($kata[$i], 0, 1)) . '. ';
 	}
 
@@ -22,24 +23,13 @@ function singkatNama($nama)
 
 function f_nama($nama)
 {
-	$nama = ucwords(strtolower($nama)); // ubah menjadi huruf kecil dan kapitalisasi awal kata
-	$kata = explode(' ', $nama);
-	$jumlah = count($kata);
-
-	if ($jumlah <= 3) {
-		return $nama; // tidak disingkat
-	}
-
-	$singkat = implode(' ', array_slice($kata, 0, 3)) . ' ';
-
-	// ambil inisial dari kata tengah
-	for ($i = 3; $i < $jumlah - 1; $i++) {
-		$singkat .= strtoupper(substr($kata[$i], 0, 1)) . '. ';
-	}
-
-	return $singkat . end($kata);
+	return ucwords(strtolower($nama)); // ubah menjadi huruf kecil dan kapitalisasi awal kata
 }
 
+function f_kapital($text)
+{
+	return strtoupper($text);
+}
 
 // token Acak
 function GeraHash($qtd)

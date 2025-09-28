@@ -40,7 +40,7 @@ function tgl_hari($waktu)
 	return "$hari, $tanggal $bulan $tahun";
 }
 
-function tgl($tgl)
+function tgl($tgl, $format = 'Y-M-D')
 {
 	$tanggal = date('j', strtotime($tgl));
 	$bulan_array = array(
@@ -66,7 +66,15 @@ function tgl($tgl)
 	//return "$hari, $tanggal $bulan $tahun $jam";
 
 	//untuk menampilkan hari, tanggal bulan tahun
-	return "$tanggal $bulan $tahun";
+	if ($format == 'Y-M-D') {
+		return "$tanggal $bulan $tahun";
+	} elseif ($format == 'Y-M') {
+		return "$bulan $tahun";
+	} elseif ($format == 'Y') {
+		return "$tahun";
+	} else {
+		return "$tanggal $bulan $tahun";
+	}	
 }
 
 function menitToJam($time, $format = '00:00')
