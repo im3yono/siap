@@ -10,7 +10,7 @@ $route = $_POST['id'];
 
 
 <div class="row p-2 border-bottom fs-3 mb-4 shadow-sm ">
-	<div class="col-auto "><button data-route="<?= $route; ?>" class="btn btn-outline-dark"><i class="bi bi-arrow-left"></i> Kembali</button></div> Upload File Data Staf
+	<div class="col-auto "><button onclick="history.go(-1);" class="btn btn-outline-dark"><i class="bi bi-arrow-left"></i> Kembali</button></div> Upload File Data Staf
 </div>
 <div class="row mt-3 p-3">
 	<div class="col-12">

@@ -57,9 +57,6 @@
 </div>
 
 
-
-<!-- INSERT INTO `tb_mpel` (`id_mpel`, `kd_mpel`, `mpel`, `sgkat`, `guru`, `jdwl`, `rcd`, `upd`, `sts`) VALUES (NULL, 'U-123', 'Pendidikan Agama', 'PA', '{\"11021\",\"11014\"}', '{\"11021\",\"11014\"}', current_timestamp(), current_timestamp(), 'Y'); -->
-
 <div class="row mt-5">
 	<div class="table-responsive">
 		<table class="table table-hover" id="jtable">
@@ -71,7 +68,7 @@
 				<th>Guru Mengajar</th>
 				<th>Opsi</th>
 			</thead>
-			<tbody>
+			<tbody id="isTable">
 				<?php
 				require_once("../config/server.php");
 
@@ -128,8 +125,8 @@
 				<div id="viewDataStaf"></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" id="simpan"> Simpan</button>
-				<button type="button" class="btn btn-info" id="md_edit"></i> <i class="bi bi-pencil"></i> Edit</button>
+				<button type="button" class="btn btn-primary" id="simpan" onclick="saveData('add')"> Simpan</button>
+				<button type="button" class="btn btn-info" id="md_edit" onclick="saveData('edit')"></i> <i class="bi bi-pencil"></i> Edit</button>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
 			</div>
 		</div>
@@ -165,8 +162,6 @@
 		});
 	}
 
-
-	// Delete Data
 	function delData(id) {
 		Swal.fire({
 			title: 'Yakin menghapus ' + id + '?',
@@ -181,18 +176,19 @@
 			if (result.isConfirmed) {
 				$.ajax({
 					type: 'POST',
-					url: 'app/proses/',
+					url: 'app/proses/pr_mpel.php',
 					data: {
-						id: id
+						kode: id,
+						prd: 'del'
 					},
 					success: function(response) {
-						if (response === 'success') {
+						if (response === 'ok') {
 							Swal.fire(
 								'Terhapus!',
 								id + ' berhasil dihapus.',
 								'success'
 							).then(() => {
-								loadRoute('siswa', false); // Muat ulang halaman tanpa menambah ke riwayat
+								r_halaman(); // Muat ulang halaman tanpa menambah ke riwayat
 							});
 						} else {
 							Swal.fire(
@@ -201,15 +197,64 @@
 								'error'
 							);
 						}
+						console.log(response);
 					},
 					error: function() {
 						Swal.fire(
 							'Gagal!',
-							'Gagal menghapus <b>' + id + '</b>. Silahkan coba lagi.',
+							'Silahkan coba lagi.',
 							'error'
 						);
 					}
 				});
+			}
+		});
+	}
+
+	function notif(icon, title, text, konfirmasi = '') {
+		if (konfirmasi == '') {
+			Swal.fire({
+				icon: icon,
+				title: title,
+				text: text
+			});
+		} else {
+			Swal.fire({
+				icon: icon,
+				title: title,
+				text: text
+			}).then((result) => {
+				if (result.isConfirmed) {
+					r_halaman();
+				}
+			})
+		}
+	}
+
+	function saveData(prd) {
+		var data = $('#add_mpel').serialize();
+		data += '&prd=' + encodeURIComponent(prd);
+
+		$.ajax({
+			type: 'POST',
+			data: data,
+			url: 'app/proses/pr_mpel.php',
+			success: function(i) {
+				// alert(i);
+				if (i == 'ok') {
+					notif('success', 'Berhasil!', 'Data berhasil disimpan.', 'kon');
+					$('#d_tendik').modal('hide');
+				} else if (i == 'update') {
+					notif('success', 'Berhasil!', 'Data berhasil diupdate.', 'kon');
+					$('#d_tendik').modal('hide');
+				} else if (i == 'err') {
+					notif('error', 'Gagal!', 'Gagal menyimpan data. Silahkan coba lagi.');
+				} else if (i == 'dup') {
+					notif('warning', 'Peringatan!', 'Kode Mata Pelajaran Sudah Ada');
+				} else {
+					notif('error', 'Gagal!', 'Gagal menyimpan data. Silahkan coba lagi.');
+				}
+				// console.log(i);
 			}
 		});
 	}

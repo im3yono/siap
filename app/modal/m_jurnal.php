@@ -132,6 +132,13 @@ if ($_POST['id'] == 'create') {
 					<option value="f4">Folio/F4</option>
 				</select>
 			</div>
+			<div class="col-lg-3 col-12 mb-3">
+				<label for="orien" class="form-label">Orientasi Kertas</label>
+				<select name="orien" id="orien" class="form-select">
+					<option value="L" selected>Landscape</option>
+					<option value="P">Portrait</option>
+				</select>
+			</div>
 		</div>
 		<div class="row g-2 justify-content-center">
 			<div class="col-auto">
@@ -187,6 +194,6 @@ if ($_POST['id'] == 'create') {
 <?php } 
 
 if ($_POST['id'] == 'add') {?>
-coba
+Tahap Pengembangan
 
 <?php }

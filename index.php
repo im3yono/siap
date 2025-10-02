@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php require_once("config/server.php") ?>
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -161,7 +163,7 @@
 				</nav>
 			</div>
 		</aside>
-		<main class="app-main">
+		<main class="app-main mb-3 border-bottom">
 			<div class="app-content"></div>
 			<div class="progress" id="loadingProgress" role="progressbar" aria-label="Example 1px high" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="height: 2.5px">
 				<div class="progress-bar" id="myProgressBar" style="width: 0%"></div>
@@ -171,6 +173,7 @@
 					<span class="visually-hidden">Loading...</span>
 				</div>
 			</div> -->
+			<?php require_once("config/server.php") ?>
 			<div id="" class="container-fluid">
 				<div id="content-route">
 					<?php
@@ -179,6 +182,11 @@
 				</div>
 			</div>
 		</main>
+		<footer class="app-footer">
+			<strong>
+				<?= $buat.$by.$ver_app; ?>
+			</strong>
+		</footer>
 	</div>
 
 </body>
@@ -539,6 +547,13 @@
 		const id = urlParams.get("id") || "";
 		loadRoute(route, false, id);
 	});
+
+	function r_halaman() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const route = urlParams.get("route") || "dashboard";
+		const id = urlParams.get("id") || "";
+		loadRoute(route, false, id);
+	}
 
 	// Navigasi back/forward browser
 	window.onpopstate = e => {
