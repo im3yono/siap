@@ -30,7 +30,8 @@
 
 	.table-responsive th:nth-child(5),
 	.table-responsive td:nth-child(5) {
-		min-width: 300px;
+		min-width: 250px;
+		max-width: 400px;
 		text-align: center;
 		align-content: baseline;
 	}
@@ -87,7 +88,7 @@
 							<?php
 							$ar_gr = json_decode($row['guru']);
 							foreach ($ar_gr as $dt) {
-								$gr = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE jptk='Guru' AND id_staf ='$dt'");
+								$gr = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE jptk='Guru' AND kd_staf ='$dt'");
 								$gr->execute();
 								$nm = $gr->fetch(PDO::FETCH_ASSOC);
 								echo $nm['nm_staf'] == '' ? '' : $nm['nm_staf'] . ', ';
@@ -197,7 +198,7 @@
 								'error'
 							);
 						}
-						console.log(response);
+						// console.log(response);
 					},
 					error: function() {
 						Swal.fire(

@@ -139,7 +139,7 @@
 										<p>Kelas</p>
 									</a>
 								</li>
-								<li class="nav-item">
+								<!-- <li class="nav-item">
 									<a data-route="jadwal" class="nav-link">
 										<img src="./assets/icon/calendar_month.svg" class="nav-icon">
 										<p>Jadwal</p>
@@ -150,7 +150,7 @@
 										<img src="./assets/icon/assignment.svg" class="nav-icon">
 										<p>Absensi</p>
 									</a>
-								</li>
+								</li> -->
 								<li class="nav-item">
 									<a data-route="jurnal" class="nav-link">
 										<img src="./assets/icon/table_chart_view.svg" class="nav-icon">
@@ -485,6 +485,8 @@
 				hideLoading();
 			})
 			.fail(() => $("#content-route").html("Terjadi kesalahan memuat halaman."));
+			// console.clear();
+			// console.log('SIAP (Sistem Infomasi Administrasi Pendidikan)');
 	}
 
 	// Ganti spinner -> progress bar

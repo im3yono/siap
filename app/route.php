@@ -1,10 +1,11 @@
 <?php
 
-$route = $_POST['route'] != '' ? $_POST['route'] : 'dashboard';
-$id = $_POST['id'] ?? '';
+$route 		= $_POST['route'] != '' ? $_POST['route'] : 'dashboard';
+$id 			= $_POST['id'] ?? '';
+
 
 // whitelist halaman agar aman
-$allowed = ['dashboard', 'siswa', 'up_sis', 'edt_sis', 'guru', 'tendik', 'up_staf', 'p_data', 'jurnal','mapel','kelas'];
+$allowed 	= ['dashboard', 'siswa', 'up_sis', 'edt_sis', 'guru', 'tendik', 'up_staf', 'p_data', 'jurnal', 'mapel', 'kelas', 'jadwal', 'absensi'];
 
 
 if (!in_array($route, $allowed)) {

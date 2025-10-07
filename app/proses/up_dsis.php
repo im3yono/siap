@@ -97,7 +97,7 @@ if (isset($dt)) {
 				"kerja" => ($Data[$i][41]),
 				"upah" 	=> ($Data[$i][42])
 			));
-			$masuk 		= $Data[$i][43];
+			$masuk 		= $Data[$i][43] ?? 'baru';
 			$kls 			= $Data[$i][44];
 			$akta 		= $Data[$i][45] ?? '';
 			$disabel 	= $Data[$i][46] ?? '';

@@ -155,6 +155,13 @@ foreach ($kls as $kls) {
 		$jml_l = $jml_l == 0 ? '       ' : $jml_l;
 		$jml_p = $jml_p == 0 ? '       ' : $jml_p;
 
+		$dtkls		= db_Proses($pdo_conn, 'SELECT tk.*,tg.nm_staf AS nmgr, tg.glar AS glargr FROM tb_kls tk INNER JOIN tb_dstaf tg ON tk.kd_staf = tg.kd_staf WHERE tk.kls = ?;', [$kls]);
+		$dtgr			= $dtkls->fetch(PDO::FETCH_ASSOC);
+		$walas 		= $dtgr['nmgr'] ?? '';
+		$glr 			= $dtgr['glargr'] ?? '';
+		$glr			= $glr == '' ? '' : ', ' . $glr;
+		$walas		= $walas == '' ? '' : f_singkatNama($walas, 2) . $glr;
+
 		$pdf->SetFont('Cambria', 'B', 18);
 
 		// Menulis teks
@@ -169,7 +176,7 @@ foreach ($kls as $kls) {
 			$pdf->Cell($j_C, $jt, 'Mata Pelajaran', 0, 0);
 			$pdf->Cell($js_C, $jt, ': ' . $mpel, 0, 0);
 			$pdf->Cell($j_R, $jt, 'Wali Kelas', 0, 0);
-			$pdf->Cell($js_R, $jt, ': ............................', 0, 1);
+			$pdf->Cell($js_R, $jt, ': ' . $walas, 0, 1);
 
 			$pdf->Cell($j_L, $jt, 'Bulan Pelaksanaan', 0, 0);
 			$pdf->Cell($js_L, $jt, ': ' . $bln, 0, 0);
@@ -198,7 +205,7 @@ foreach ($kls as $kls) {
 			$pdf->Cell($js_R, $jt, ': ' . $mpel, 0, 1);
 
 			$pdf->Cell($j_L,  $jt, 'Wali Kelas', 0, 0);
-			$pdf->Cell($js_L, $jt, ': ' . f_singkatNama('Muhammad Marzuki', 2) . ', S.Pd', 0, 0);
+			$pdf->Cell($js_L, $jt, ': ' . $walas, 0, 0);
 			$pdf->Cell($j_R,  $jt, 'Guru Pengajar', 0, 0);
 			$pdf->Cell($js_R, $jt, ': ' . $nm, 0, 1);
 
@@ -345,7 +352,7 @@ foreach ($kls as $kls) {
 					$pdf->Cell($rw32[1], $t_tbl, $nm, 0, 1, 'L');
 				} elseif ($set == 33 && $orien == 'L') {
 					$pdf->Cell($rw33[0]);
-					$pdf->Cell($rw33[1], $t_tbl, $kepsek['nm_staf'] . ', ' . $kepsek['glar'], 0, 0, 'L');
+					$pdf->Cell($rw33[1], $t_tbl, $kepsek_nm, 0, 0, 'L');
 					$pdf->Cell($rw33[2], $t_tbl, $nip, 0, 1, 'L');
 				} elseif ($set == 34 && $orien == 'L') {
 					$pdf->Cell($rw34[0]);
@@ -446,7 +453,7 @@ foreach ($kls as $kls) {
 					$pdf->Cell($rw32[1], $t_tbl, $nm, 0, 1, 'L');
 				} elseif ($set == 33 && $orien == 'L') {
 					$pdf->Cell($rw33[0]);
-					$pdf->Cell($rw33[1], $t_tbl, $kepsek['nm_staf'] . ', ' . $kepsek['glar'], 0, 0, 'L');
+					$pdf->Cell($rw33[1], $t_tbl, $kepsek_nm, 0, 0, 'L');
 					$pdf->Cell($rw33[2], $t_tbl, $nip, 0, 1, 'L');
 				} elseif ($set == 34 && $orien == 'L') {
 					$pdf->Cell($rw34[0]);

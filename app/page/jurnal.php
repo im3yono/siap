@@ -8,6 +8,10 @@ else $smt = 'Ganjil' . date('Y') . '-' . date('Y') + 1;
 $updt = $pdo_conn->prepare("SELECT upd FROM `tb_dsis` GROUP BY upd ORDER BY `tb_dsis`.`upd` DESC LIMIT 1;");
 $updt->execute();
 $updt = $updt->fetch(PDO::FETCH_ASSOC);
+
+if (!$updt || empty($updt['upd'])) {
+	$updt = ['upd' => date('Y-m-d')]; // Atur default jika data kosong
+}
 $date = date('d-m-Y', strtotime($updt['upd']));
 ?>
 <div class="row p-2 border-bottom fs-3 mb-4 shadow-sm ">

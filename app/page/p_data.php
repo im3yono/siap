@@ -2,11 +2,11 @@
 require_once "../config/server.php";
 $id = $_POST['id'];
 
-$dtbl = [['tbl'=>'tb_dstaf','field'=>'id_staf'],['tbl'=>'tb_dsis','field'=>'nipd']];
-foreach($dtbl as $dt){
-	$stmt = $pdo_conn->prepare("SELECT * FROM ".$dt['tbl']." WHERE ".$dt['field']."=:id");
-	$stmt->execute(array(":id"=>$id));
-	if($stmt->rowCount() > 0){
+$dtbl = [['tbl' => 'tb_dstaf', 'field' => 'kd_staf'], ['tbl' => 'tb_dsis', 'field' => 'nipd']];
+foreach ($dtbl as $dt) {
+	$stmt = $pdo_conn->prepare("SELECT * FROM " . $dt['tbl'] . " WHERE " . $dt['field'] . "=:id");
+	$stmt->execute(array(":id" => $id));
+	if ($stmt->rowCount() > 0) {
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 		if ($dt['tbl'] == 'tb_dsis') {
 			$nm 		= $row['nm'];
@@ -14,7 +14,7 @@ foreach($dtbl as $dt){
 		}
 		if ($dt['tbl'] == 'tb_dstaf') {
 			$nm 		= $row['nm_staf'];
-			$id_akun = $row['id_staf'];
+			$id_akun = $row['kd_staf'];
 		}
 	}
 }

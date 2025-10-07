@@ -50,15 +50,15 @@ if ($id != '') {
 						$ck->execute();
 						$ck->rowCount();
 
-						if ($ck != 0 && $rw['id_staf'] == $key) {
+						if ($ck != 0 && $rw['kd_staf'] == $key) {
 							$cek = 'checked';
 						}
 					}
 				}
 			?>
 				<div class="col-6 from-check">
-					<input type="checkbox" name="guru[]" id="<?= $rw['id_staf']; ?>" class="form-check-input" value="<?= $rw['id_staf']; ?>" <?= $cek; ?>>
-					<label for="<?= $rw['id_staf']; ?>" class="form-check-label"><?= $rw['nm_staf']; ?></label>
+					<input type="checkbox" name="guru[]" id="<?= $rw['kd_staf']; ?>" class="form-check-input" value="<?= $rw['kd_staf']; ?>" <?= $cek; ?>>
+					<label for="<?= $rw['kd_staf']; ?>" class="form-check-label"><?= $rw['nm_staf']; ?></label>
 				</div>
 			<?php
 			}

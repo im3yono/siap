@@ -105,7 +105,7 @@
 
 				require_once "../config/server.php";
 
-				$stmt = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE jptk='Guru' ORDER BY id_staf ASC");
+				$stmt = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE jptk='Guru' ORDER BY kd_staf ASC");
 				$stmt->execute();
 
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -122,15 +122,15 @@
 
 					$psngan		= json_decode($row['psngn'], true);
 
-					// $ft = "app/images/siswa/" . $row['id_staf'];
+					// $ft = "app/images/siswa/" . $row['kd_staf'];
 					// $ft = "assets/img/account.png";
 				?>
 
 					<tr>
 						<td><?= $notbl++; ?>
-							<img src="<?= ft($row['id_staf'], "staf"); ?>" alt="<?= $row['id_staf']; ?>" class="" style="width: 75px; height: 100px; object-fit: cover;">
+							<img src="<?= ft($row['kd_staf'], "staf"); ?>" alt="<?= $row['kd_staf']; ?>" class="" style="width: 75px; height: 100px; object-fit: cover;">
 						</td>
-						<td><?= $row['id_staf'] ?></td>
+						<td><?= $row['kd_staf'] ?></td>
 						<td><?= $row['nip'] . '<br>' . $row['nuptk']; ?></td>
 						<td><?= f_nama($row['nm_staf']); ?></td>
 						<td><?= $row['jk'] == 'L' ? "Laki-Laki" : "Perempuan"; ?></td>
@@ -146,13 +146,13 @@
 						<td>
 							<div class="row g-1">
 								<div class="col-12">
-									<button data-route="p_data" data-id="<?= $row['id_staf']; ?>" class="btn btn-sm btn-primary" style="width: 80px;"><i class="bi bi-card-text"></i> Lihat</button>
+									<button data-route="p_data" data-id="<?= $row['kd_staf']; ?>" class="btn btn-sm btn-primary" style="width: 80px;"><i class="bi bi-card-text"></i> Lihat</button>
 								</div>
 								<div class="col-12">
-									<button data-route="edt_staf" data-id="<?= $row['id_staf']; ?>" class="btn btn-sm btn-info" style="width: 80px;"><i class="bi bi-pencil"></i> Edit</button>
+									<button data-route="edt_staf" data-id="<?= $row['kd_staf']; ?>" class="btn btn-sm btn-info" style="width: 80px;"><i class="bi bi-pencil"></i> Edit</button>
 								</div>
 								<div class="col-12">
-									<button class="btn btn-sm btn-danger" onclick="delData('<?= $row['id_staf']; ?>')" style="width: 80px;"><i class="bi bi-trash3"></i> Hapus</button>
+									<button class="btn btn-sm btn-danger" onclick="delData('<?= $row['kd_staf']; ?>')" style="width: 80px;"><i class="bi bi-trash3"></i> Hapus</button>
 								</div>
 							</div>
 						</td>

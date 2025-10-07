@@ -34,9 +34,14 @@ function db_Proses(PDO $pdo, string $sql, array $data = [])
 	try {
 		$stmt->execute($data);	// 2. Eksekusi query dengan data array
 		return $stmt;						// 3. Kembalikan statement object
-	} catch (PDOException $e) {
-		// bisa log error ke file, jangan ditampilkan ke user
-		error_log("SQL Error: " . $e->getMessage());
+	}
+	// catch (PDOException $e) {
+	// 	// bisa log error ke file, jangan ditampilkan ke user
+	// 	error_log("SQL Error: " . $e->getMessage());
+	// 	return false;
+	// }
+	catch (PDOException $e) {
+		echo "SQL Error: " . $e->getMessage();
 		return false;
 	}
 }

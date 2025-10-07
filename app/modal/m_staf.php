@@ -37,7 +37,7 @@ $kontak    = json_decode($row['kontak'], true);
 function barisData($label, $data, $label2 = '', $data2 = '', $class = '')
 {
 	$cls = '-auto';
-	if ($data2 != ''&& $label2 != '') {
+	if ($data2 != '' && $label2 != '') {
 		$label2 = '<div class="col-3 text-start">
 								<div class="row justify-content-between">
 									<div class="col">' . $label2 . '</div>
@@ -46,7 +46,7 @@ function barisData($label, $data, $label2 = '', $data2 = '', $class = '')
 							</div>';
 		$data2 = '<div class="col text-start"> ' . $data2 . '</div>';
 		$cls = '-3';
-	}else {
+	} else {
 		$label2 = '';
 		$data2 = '';
 		$cls = '';
@@ -66,13 +66,13 @@ function barisData($label, $data, $label2 = '', $data2 = '', $class = '')
 ?>
 <div class="row justify-content-around">
 	<div class="col-lg-2 col-12 mx-2 p-2">
-		<img src="<?= ft($row['id_staf'], "staf", '../../'); ?>" alt="<?= $row['id_staf'] ?> " class="img-thumbnail shadow" style="width: 150px; height: 200px; object-fit: cover;">'
+		<img src="<?= ft($row['kd_staf'], "staf", '../../'); ?>" alt="<?= $row['kd_staf'] ?> " class="img-thumbnail shadow" style="width: 150px; height: 200px; object-fit: cover;">'
 	</div>
 	<div class="col-lg-9 col-12">
-		<?= barisData('ID Staf', $row['id_staf']); ?>
-		<?= barisData('Nama Lengkap', f_nama($row['nm_staf']) . $gelar,'','',' fw-bold'); ?>
-		<?= barisData("NIP", $row['nip'], "NUPTK", $row['nuptk'],' fst-italic'); ?>
-		<?= barisData('Jenis Kelamin', $row['jk'] == 'L' ? "Laki-Laki" : "Perempuan",'Tempat, Tanggal Lahir', f_nama($row['tmp_l']) . ", " . tgl($row['tgl_l'])); ?>
+		<?= barisData('ID Staf', $row['kd_staf']); ?>
+		<?= barisData('Nama Lengkap', f_nama($row['nm_staf']) . $gelar, '', '', ' fw-bold'); ?>
+		<?= barisData("NIP", $row['nip'], "NUPTK", $row['nuptk'], ' fst-italic'); ?>
+		<?= barisData('Jenis Kelamin', $row['jk'] == 'L' ? "Laki-Laki" : "Perempuan", 'Tempat, Tanggal Lahir', f_nama($row['tmp_l']) . ", " . tgl($row['tgl_l'])); ?>
 		<?= barisData("Agama", $row['agm'], "Pendidikan", $row['ppdk']); ?>
 		<?= barisData('Status Pegawai', $row['stt_pgw'], "Jabatan/Tugas", $row['jptk']); ?>
 		<?= barisData('Alamat', $almt); ?>

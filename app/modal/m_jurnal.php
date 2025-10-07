@@ -25,7 +25,7 @@ if ($_POST['id'] == 'create') {
 					$stmt->execute();
 					while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 						$nmglr = $row['glar'] == '' ? $row['nm_staf'] : $row['nm_staf'] . ', ' . $row['glar'];
-						echo '<option value="' . $row['id_staf'] . '">' .  $nmglr . '</option>';
+						echo '<option value="' . $row['kd_staf'] . '">' .  $nmglr . '</option>';
 					}
 					?>
 				</select>
@@ -191,9 +191,9 @@ if ($_POST['id'] == 'create') {
 			});
 		});
 	</script>
-<?php } 
+<?php }
 
-if ($_POST['id'] == 'add') {?>
-Tahap Pengembangan
+if ($_POST['id'] == 'add') { ?>
+	Tahap Pengembangan
 
 <?php }

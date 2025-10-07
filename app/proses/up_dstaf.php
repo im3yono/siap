@@ -29,14 +29,15 @@ if (isset($dt)) {
 		$baris = count($Data);
 
 		for ($i = $start; $i < $baris; $i++) {
-			$id_staf     = $Data[$i][1];
-			$nm_staf     = f_nama($Data[$i][2]);
-			$nik         = $Data[$i][3];
-			$nkk         = $Data[$i][4]??'';
-			$nuptk       = $Data[$i][5]??'-';
-			$nip         = $Data[$i][6]??'-';
+			$id_staf    = $Data[$i][1];
+			$nm_staf    = explode(',', f_nama($Data[$i][2]));
+			$nm_staf		= $nm_staf[0];
+			$nik        = $Data[$i][3];
+			$nkk        = $Data[$i][4] ?? '';
+			$nuptk      = $Data[$i][5] ?? '-';
+			$nip        = $Data[$i][6] ?? '-';
 			$jk         = $Data[$i][7];
-			$tmp_lahir   = $Data[$i][8];
+			$tmp_lahir  = $Data[$i][8];
 			// $tgl_lahir = $Data[$i][9];
 			if (!empty($Data[$i][9])) {
 				if ($Data[$i][9] != date('Y-m-d', strtotime($Data[$i][9]))) {
@@ -49,30 +50,30 @@ if (isset($dt)) {
 			} else {
 				$tgl_lahir = null; // Atur menjadi null jika kosong
 			}
-			$ppdk       = $Data[$i][10]??'';
-			$glar       = $Data[$i][11]??'';
-			$sklh_univ   = $Data[$i][12]??'';
-			$stt_pgw     = $Data[$i][13]??'';
+			$ppdk       = $Data[$i][10] ?? '';
+			$glar       = $Data[$i][11] ?? '';
+			$sklh_univ   = $Data[$i][12] ?? '';
+			$stt_pgw     = $Data[$i][13] ?? '';
 			$jptk       = $Data[$i][14];
 			$agm         = $Data[$i][15];
 			$almt_arr = array(
 				"almt"   => ($Data[$i][16]),
 				"rt"     => $Data[$i][17],
-				"rw"     => $Data[$i][18]??'',
-				"dusun" => ($Data[$i][19]??''),
+				"rw"     => $Data[$i][18] ?? '',
+				"dusun" => ($Data[$i][19] ?? ''),
 				"kel"   => ($Data[$i][20]),
 				"kec"   => ($Data[$i][21]),
-				"kdpos" => $Data[$i][22]??''
+				"kdpos" => $Data[$i][22] ?? ''
 			);
 			$almt     = json_encode($almt_arr);
 			$kontak_arr = array(
-				"tlp" => ($Data[$i][23]??''),
-				"hp"   => ($Data[$i][24]??''),
-				"email" => ($Data[$i][25]??'')
+				"tlp" => ($Data[$i][23] ?? ''),
+				"hp"   => ($Data[$i][24] ?? ''),
+				"email" => ($Data[$i][25] ?? '')
 			);
 			$kontak     = json_encode($kontak_arr);
-			$tgs_tmbh   = $Data[$i][26]??'';
-			$sk_cpns     = $Data[$i][27]??'';
+			$tgs_tmbh   = $Data[$i][26] ?? '';
+			$sk_cpns     = $Data[$i][27] ?? '';
 			// $tgl_cpns = $Data[$i][28];
 			if (!empty($Data[$i][28])) {
 				if ($Data[$i][28] != date('Y-m-d', strtotime($Data[$i][28]))) {
@@ -98,15 +99,15 @@ if (isset($dt)) {
 			} else {
 				$tmt_angkt = ''; // Atur menjadi null jika kosong
 			}
-			$lbg_angkt   = $Data[$i][31]??'';
-			$pngkat_gl   = $Data[$i][32]??'';
-			$sgaji     = $Data[$i][33]??'';
+			$lbg_angkt   = $Data[$i][31] ?? '';
+			$pngkat_gl   = $Data[$i][32] ?? '';
+			$sgaji     = $Data[$i][33] ?? '';
 			$nm_ibu     = (f_nama($Data[$i][34]));
 			$sts_kwn     = $Data[$i][35];
 			$psngan    = json_encode(array(
-				"nm"   => (f_nama($Data[$i][36]??'')),
-				"nip" => $Data[$i][37]??'',
-				"kerja"   => ($Data[$i][38]??'')
+				"nm"   => (f_nama($Data[$i][36] ?? '')),
+				"nip" => $Data[$i][37] ?? '',
+				"kerja"   => ($Data[$i][38] ?? '')
 			));
 			// $tmt_pns = $Data[$i][40];
 			if (!empty($Data[$i][39])) {
@@ -120,16 +121,16 @@ if (isset($dt)) {
 			} else {
 				$tmt_pns = ''; // Atur menjadi null jika kosong
 			}
-			$npwp     = $Data[$i][40]??'';
-			$nm_npwp   = ($Data[$i][41]??'');
+			$npwp     = $Data[$i][40] ?? '';
+			$nm_npwp   = ($Data[$i][41] ?? '');
 			$warga     = $Data[$i][42];
 			$rcd       = date('Y-m-d H:i:s');
 			$upd       = date('Y-m-d H:i:s');
 			$sts       = 'Y';
 
-			
-			// Cek apakah data dengan id_staf sudah ada
-			$stmt = $pdo_conn->prepare("SELECT COUNT(*) FROM tb_dstaf WHERE id_staf = :id_staf");
+
+			// Cek apakah data dengan kd_staf sudah ada
+			$stmt = $pdo_conn->prepare("SELECT COUNT(*) FROM tb_dstaf WHERE kd_staf = :id_staf");
 			$stmt->bindParam(':id_staf', $id_staf);
 			$stmt->execute();
 			$count = $stmt->fetchColumn();
@@ -168,7 +169,7 @@ if (isset($dt)) {
                 nm_npwp = :nm_npwp,
                 warga = :warga,
                 upd = :upd
-              WHERE id_staf = :id_staf";
+              WHERE kd_staf = :id_staf";
 				$stmt = $pdo_conn->prepare($sql);
 				$stmt->bindParam(':id_staf', $id_staf);
 				$stmt->bindParam(':nm_staf', $nm_staf);
