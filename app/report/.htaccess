@@ -1,0 +1,9 @@
+# Aktifkan mod_rewrite
+RewriteEngine On
+
+# Pastikan file dan folder asli tetap bisa diakses
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Hilangkan ekstensi .php
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ $1.php [L]

@@ -111,6 +111,8 @@ $pdf->SetFillColor(217, 217, 217); // Warna latar belakang
 
 require_once("jrnl_page.php");
 
+
+$pdf->SetDisplayMode('real');  // Menampilkan ukuran asli (bukan fit to page)
 // Output PDF
 if (isset($_POST['print'])) {
 	$pdf->Output('I', 'Jurnal Mengajar ' . $nm . ' Bulan_' . $bln . '_' . $thn . '.pdf');

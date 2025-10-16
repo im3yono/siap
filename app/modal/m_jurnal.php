@@ -13,7 +13,7 @@ if ($_POST['id'] == 'create') {
 	$date = date('d-m-Y', strtotime($updt['upd']));
 	$time = date(('H:i'), strtotime($updt['upd']));
 ?>
-	<form action="app/report/v_jurnal.php" method="post" id="form" target="blank">
+	<form action="app/report/v_jurnal" method="post" id="form" target="blank">
 		<div class="col-12 h5 bg-info-subtle mb-2 py-3 text-center" style="border-radius: 5px;">Update Data <br> <?= tgl_hari($date) . ', Pukul ' . $time; ?></div>
 		<div class="row">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
@@ -182,6 +182,7 @@ if ($_POST['id'] == 'create') {
 				$('#thn_ajar').val(thn_ajar);
 			});
 		})
+		
 		$(document).ready(function() {
 			$('#all').on('change', function() {
 				$('.ckall').prop('checked', $(this).prop('checked'));

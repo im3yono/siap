@@ -6,13 +6,13 @@ $guru = db_Proses($pdo_conn, "SELECT kd_staf AS id, nm_staf AS nama FROM tb_dsta
 
 $id_kls = $_POST['id'] ?? ''; //echo$id_kls;
 $prd 		= $_POST['prd'] ?? '';
-$tkt = '';
-$skls = '';
-$walas = '';
+$tkt 		= '';
+$skls 	= '';
+$walas 	= '';
 if ($id_kls != '') {
 	$dkls = db_Proses($pdo_conn, "SELECT * FROM tb_kls WHERE id_kls = ?", [$id_kls]);
 	$dkls = $dkls->fetch(PDO::FETCH_ASSOC);
-	$tkt = $dkls['tkt'];
+	$tkt 	= $dkls['tkt'];
 	$skls = $dkls['kls'];
 	$walas = $dkls['kd_staf'];
 }
@@ -22,17 +22,9 @@ if ($id_kls != '') {
 	<input type="text" name="id" id="id" value="<?= $id_kls; ?>" hidden>
 	<div class="row g-2">
 		<div class="col-12 col-sm-6">
-			<label for="tkt" class="form-label">Tingkat</label>
-			<select name="tkt" id="tkt" class="form-select">
-				<option value="X" <?= $tkt == 'X' ? 'selected' : ''; ?>>X</option>
-				<option value="XI" <?= $tkt == 'XI' ? 'selected' : ''; ?>>XI</option>
-				<option value="XII" <?= $tkt == 'XII' ? 'selected' : ''; ?>>XII</option>
-			</select>
-		</div>
-		<div class="col-12 col-sm-6">
 			<label for="kls" class="form-label">Kelas</label>
 			<select name="kls" id="kls" class="form-select">
-				<option value="" selected disabled>-- Pilih --</option>
+				<option value="" selected>-- Pilih --</option>
 				<?php while ($r_kls = $kls->fetch(PDO::FETCH_ASSOC)) {
 					$hide = db_Proses($pdo_conn, 'SELECT * FROM tb_kls WHERE kls = ?', [$r_kls['kls']]);
 					$hide = $hide->fetch(PDO::FETCH_ASSOC);
@@ -45,10 +37,34 @@ if ($id_kls != '') {
 					<option value="<?= $r_kls['kls']; ?>" <?= $hide; ?><?= $skls == $r_kls['kls'] ? 'selected' : ''; ?>><?= $r_kls['kls']; ?></option>
 				<?php } ?>
 			</select>
+			<script>
+				$(document).ready(function() {
+					$('#kls').on('change', function() {
+						let kls = $(this).val();
+
+						if (kls != '') {
+							$('#tkt').removeAttr('disabled', false);
+							$('#walas').removeAttr('disabled', false);
+						} else {
+							$('#tkt').attr('disabled', true);
+							$('#walas').attr('disabled', true);
+						}
+					});
+				});
+			</script>
+		</div>
+		<div class="col-12 col-sm-6">
+			<label for="tkt" class="form-label">Tingkat</label>
+			<select name="tkt" id="tkt" class="form-select" disabled>
+				<option value="" selected>-- Pilih --</option>
+				<option value="X" <?= $tkt == 'X' ? 'selected' : ''; ?>>X</option>
+				<option value="XI" <?= $tkt == 'XI' ? 'selected' : ''; ?>>XI</option>
+				<option value="XII" <?= $tkt == 'XII' ? 'selected' : ''; ?>>XII</option>
+			</select>
 		</div>
 		<div class="col-12">
 			<label for="walas" class="form-label">Wali Kelas</label>
-			<select name="walas" id="walas" class="form-select">
+			<select name="walas" id="walas" class="form-select" <?= $tkt == '' ? 'disabled' : '' ?>>
 				<option value="" selected disabled>-- Pilih --</option>
 				<?php while ($r_guru = $guru->fetch(PDO::FETCH_ASSOC)) {
 					$hide = db_Proses($pdo_conn, 'SELECT * FROM tb_kls WHERE kd_staf = ?', [$r_guru['id']]);
@@ -67,7 +83,7 @@ if ($id_kls != '') {
 
 <?php
 if ($prd == 'edt' && $id_kls != '') { ?>
-<div class="row border-bottom my-3"></div>
+	<div class="row border-bottom my-3"></div>
 
 	<table class="table border-black table-hover m-2" id="jtable">
 		<thead>
