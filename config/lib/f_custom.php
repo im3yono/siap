@@ -47,14 +47,14 @@ function f_qrCode($data)
 
 function f_pdfqrCode($data)
 {
-    require_once __DIR__ . "/../../assets/phpqrcode/qrlib.php";
+	require_once __DIR__ . "/../../assets/phpqrcode/qrlib.php";
 
-    // Tangkap QR ke buffer
-    ob_start();
-    QRcode::png($data, null, QR_ECLEVEL_L, 5);
-    $imageString = ob_get_contents();
-    ob_end_clean();
+	// Tangkap QR ke buffer
+	ob_start();
+	QRcode::png($data, null, QR_ECLEVEL_L, 3, 1);
+	$imageString = ob_get_contents();
+	ob_end_clean();
 
-    // Hasilkan string base64 tanpa tag HTML
-    return base64_encode($imageString);
+	// Hasilkan string base64 tanpa tag HTML
+	return base64_encode($imageString);
 }

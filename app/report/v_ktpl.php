@@ -4,11 +4,15 @@ require_once("../../assets/fpdf/fpdf.php");  // Include FPDF
 require_once("../../assets/phpqrcode/qrlib.php");
 
 
+$tkt = $_POST['tkt'] ?? '';
 $kls = $_POST['kls'] ?? '';
 $nis = $_POST['nis'] ?? '';
 $nma = $_POST['nama'] ?? '';
 $kertas = $_POST['kertas'];
 
+$kls == '' ? $nmkls = $tkt : $nmkls = $kls;
+
+$nm_File = 'Kartu Pelajar_' . $nmkls;
 
 // $nx 	= 14.5; // Modifikasi Left
 // $ny 	= 4; // Default Header
@@ -38,7 +42,7 @@ switch ($kertas) {
 		break;
 }
 
-if ($kls == '' && $nis == '' && $nma == '') {
+if ($tkt == '' && $kls == '' && $nis == '' && $nma == '') {
 	include_once("../error/403.php");
 	exit;
 }
@@ -47,15 +51,30 @@ $sql = 'SELECT * FROM tb_dsis';
 $params = [];
 $conditions = [];
 
+$params[] = 'Y';
+$conditions[] = 'sts = ?';
+
+
 // Jika ada kelas
 if ($kls != '') {
 	$conditions[] = 'kls = ?';
 	$params[] = $kls;
+} elseif ($tkt != '') {
+	$dkls = db_Proses($pdo_conn, "SELECT * FROM tb_kls WHERE tkt = ?", [$tkt]);
+	while ($r = $dkls->fetch(PDO::FETCH_ASSOC)) {
+		$klsList[] 	= $r['kls'];
+	}
+	if (!empty($klsList)) {
+		// Gunakan hasil kelas dari database untuk filter
+		$placeholdersKls = rtrim(str_repeat('?,', count($klsList)), ',');
+		$conditions[] = "kls IN ($placeholdersKls)";
+		$params = array_merge($params, $klsList);
+	}
 }
 
 // Jika ada NIPD (bisa satu atau banyak)
 if ($nis != '') {
-	$nipdList = array_map('trim', explode(',', $nis));
+	$nipdList 		= array_map('trim', explode(',', $nis));
 	$placeholders = rtrim(str_repeat('?,', count($nipdList)), ',');
 	$conditions[] = "nipd IN ($placeholders)";
 	$params = array_merge($params, $nipdList);
@@ -96,29 +115,31 @@ class PDF extends FPDF
 		$this->SetTextColor(0, 0, 0);
 
 		// Posisi teks relatif terhadap posisi kartu
-		$this->SetXY($x + 20, $y + 14);
+		$this->SetXY($x + 22, $y + 14);
 		$this->SetFont('aladin', '', 14);
 		$this->MultiCell(60, 4, f_nama($nama), 0, 2);
-		$this->SetXY($x + 20, $y + 22);
+		$this->SetXY($x + 22, $y + 22);
 		$this->SetFont('arialnarrow', 'I', 12);
 		$this->Cell(40, 4, "NISN $nisn", 0, 0);
 		$this->Cell(20, 4, "NIS $nipd", 0, 1);
 		$this->SetFont('arialnarrow', '', 9);
-		$this->SetXY($x + 20, $y + 26);
-		$this->Cell(60, 4, "$ttl", 0, 2);
+		$this->SetXY($x + 22, $y + 26);
+		$this->Cell(60, 7, "$ttl", 0, 2);
 		$this->MultiCell(43, 4, "$alamat", 0, 2);
 
 		// === QR-Code ===
-		$qr_data = "$nama\nNISN $nisn\nNIS $nipd\n$ttl\n$alamat";
+		$qr_data = "$nama\nNISN $nisn\nNIS $nipd\n$ttl\n";
 
 		// Buat QR base64 (tidak disimpan ke file)
 		$qr_base64 = f_pdfqrCode($qr_data);
 
 		// Decode base64 menjadi data gambar biner
-		$qr_binary = base64_decode($qr_base64);
+		// $qr_binary = base64_decode($qr_base64);
 
 		// Simpan sementara ke stream memori (tanpa file fisik)
-		$qr_img = 'data://text/plain;base64,' . $qr_base64;
+		// $qr_img = 'data://text/plain;base64,' . $qr_base64;
+		$qr_img = 'data://image/plain;base64,' . $qr_base64;
+		// $qr_img = 'data://text/plain;base64,' . $qr_binary;
 
 		// Masukkan ke FPDF
 		$this->Image($qr_img, $x + 66, $y + 33, 20, 20, 'PNG');
@@ -151,7 +172,7 @@ $pdf = new PDF('P', 'mm', $kertas);
 $pdf->AddFont('Arialnarrow', '', 'arialnarrow.php');
 $pdf->AddFont('Arialnarrow', 'I', 'arialnarrow_italic.php');
 $pdf->AddFont('Aladin', '', 'aladin.php');
-$pdf->SetTitle('Kartu Pelajar');
+$pdf->SetTitle($nm_File);
 
 // for ($i = 0; $i <= 0; $i++) {
 $pdf->AddPage();
@@ -206,4 +227,4 @@ foreach ($data as $d) {
 // }
 
 $pdf->SetDisplayMode('real');  // Menampilkan ukuran asli (bukan fit to page)
-$pdf->Output();
+$pdf->Output('D', $nm_File . '.pdf');

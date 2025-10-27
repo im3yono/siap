@@ -5,6 +5,8 @@ require_once "../../config/server.php";
 $nipd = $_POST['id'] ?? '';
 $prd 	= $_POST['prd'];
 
+
+// Menampilkan Data Lengkap Siswa
 if ($prd == 'edt'):
 	$stmt = $pdo_conn->prepare("SELECT * FROM tb_dsis WHERE nipd=:nipd");
 	$stmt->bindParam(":nipd", $nipd);
@@ -37,38 +39,49 @@ if ($prd == 'edt'):
 	function barisData($label, $data, $class = '')
 	{
 		$view1 = '
-	<div class="col-3">' . $label . '</div>
-	<div class="col">: ' . $data . '</div>';
+	<div class="col-4">' . $label . '</div>:
+	<div class="col">' . $data . '</div>';
 		return '<div class="row ' . $class . '">' . $view1 . '</div>';
+	}
+	function barisData1($label, $data, $class = '')
+	{
+		$view1 = "<td>$label</td><td>:</td><td>$data</td>";
+		return "<tr class='$class'>$view1</tr>";
 	}
 ?>
 	<div class="row">
 		<div class="col-12 text-center p-2">
 			<img src="<?= ft($row['nipd'], 'siswa', '../../'); ?>" alt="<?= $row['nipd'] ?> " class="img-thumbnail shadow" style="width: 150px; height: 200px; object-fit: cover;">'
 		</div>
-		<div class="col">
-			<div class="row fw-bold text-bg-dark">
-				<div class="col-3">NIPD</div>
-				<div class="col-auto">: <?= $row['nipd']; ?></div>
-				<div class="col-3">NISN</div>
-				<div class="col">: <?= $row['nisn']; ?></div>
+		<div class="col-12 text-center">
+			<div class="fw-bold h5 text-uppercase">
+				<?= ($row['nm']); ?>
 			</div>
+			<div class="fw-bold h5 pb-3">
+				<?= $row['nipd']; ?>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="bg-info p-2 h6" style="border-radius:5px;">Data Siswa</div>
 			<?php
-			echo barisData('Nama', f_nama($row['nm']), 'fw-bold h5 py-2')
+			echo
+			barisData('NISN', f_nama($row['nisn']), 'fw-bold')
+				. barisData('NIK', f_nama($row['nik']))
+				. barisData('NIKK', f_nama($row['nkk']))
 				. barisData('Tempat, Tanggal Lahir', f_nama($row['tmp_lahir']) . ", " . tgl($row['tgl_lahir']))
 				. barisData('Jenis Kelamin', $row['jk'] == 'L' ? "Laki-Laki" : "Perempuan")
 				. barisData('Agama', $row['agm'])
 				. barisData('Alamat', $almt)
 				. barisData('Transportasi', $row['trasport'])
 				. barisData('No. Telpon', $tlp['tlp'] ?? '')
-				. barisData('No. Handphone', $tlp['hp'] ?? '')
+				. barisData('No. Hp', $tlp['hp'] ?? '')
 				. barisData('Email', $row['email'])
 				. barisData('Kelas', $row['kls'])
 				. barisData('No. Akta', $row['no_akta'])
 				. barisData('Disabilitas', $row['disabel'])
 				. barisData('Status Masuk', $row['masuk'])
 				. barisData('Sekolah Asal', $row['sklh_asl'])
-				. barisData('Anak	 Ke', $sdr['ke'] . " dari " . $sdr['sdr'] . " bersaudara")
+				. barisData('Anak	 Ke', $sdr['ke'] . " dengan " . $sdr['sdr'] . " saudara")
 				. barisData('Berat', $bb)
 				. barisData('Tinggi', $tb)
 				. barisData(('Lingkar Kepala'), $tb_bb_lk['lk'] . ' Cm')
@@ -109,6 +122,9 @@ if ($prd == 'edt'):
 	</div>
 <?php
 endif;
+
+
+// Form Kartu Pelajar
 if ($prd == 'ktpl'):
 	$sql = "SELECT kls FROM tb_dsis GROUP BY kls ORDER BY kls ASC";
 	$stmt = db_Proses($pdo_conn, $sql);
@@ -211,11 +227,12 @@ if ($prd == 'ktpl'):
 			$("#ctk").hide();
 
 			function cekInput() {
+				let tkt = $("#tkt").val();
 				let kls = $("#kls").val();
 				let nis = $("#nis").val().trim();
 				let nama = $("#nama").val().trim();
 
-				if (kls || nis || nama) {
+				if (tkt || kls || nis || nama) {
 					$("#ctk").fadeIn();
 					// $('#cetak').slideDown(150)
 					// 	.css('opacity', 0)
@@ -239,7 +256,7 @@ if ($prd == 'ktpl'):
 				}
 			}
 
-			$("#kls, #nis, #nama").on("input change", cekInput);
+			$("#tkt, #kls, #nis, #nama").on("input change", cekInput);
 
 			$("#cetak").on("click", function(e) {
 				e.preventDefault(); // cegah submit langsung
@@ -277,6 +294,9 @@ if ($prd == 'ktpl'):
 	</script>
 <?php
 endif;
+
+
+// Form Tambah Siswa
 if ($prd == 'add'):
 	echo 'tes ok';
 endif;
