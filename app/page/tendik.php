@@ -131,7 +131,7 @@
 						</td>
 						<td><?= $row['kd_staf']; ?></td>
 						<td><?= $row['nip'] . '<br>' . $row['nuptk']; ?></td>
-						<td><?= f_nama($row['nm_staf']); ?></td>
+						<td><?= f_nmGelar(f_nama($row['nm_staf']), $row['glar']); ?></td>
 						<td><?= $row['jk'] == 'L' ? "Laki-Laki" : "Perempuan"; ?></td>
 						<td><?= f_nama($row['tmp_l']) . "<br>" . tgl($row['tgl_l']); ?></td>
 						<td><?= $almt; ?></td>

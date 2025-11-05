@@ -22,8 +22,7 @@ $dt_kepsek = $pdo_conn->prepare("SELECT nm_staf, nip, glar FROM tb_dstaf WHERE j
 // $dt_kepsek->bindParam(':id', 'kepsek');
 $dt_kepsek->execute();
 $kepsek = $dt_kepsek->fetch(PDO::FETCH_ASSOC);
-$kepsek_glr = $kepsek['glar'] == '' ? '' : ', ' . $kepsek['glar'];
-$kepsek_nm = $kepsek['nm_staf'] . $kepsek_glr;
+$kepsek_nm = f_nmGelar($kepsek['nm_staf'], $kepsek['glar']);
 
 
 $nmpt = "SMAN 1 Sungai Tabuk";
@@ -31,8 +30,8 @@ $lksi = 'Sungai Tabuk';
 
 $jdl 	= 'JURNAL MENGAJAR ' . f_kapital($nmpt);
 
-$glr_gr	= $result['glar'] == '' ? '' : ', ' . $result['glar'];
-$nm 	= $result['nm_staf'] . $glr_gr;
+// $glr_gr	= $result['glar'] == '' ? '' : ', ' . $result['glar'];
+$nm 	= f_nmGelar(f_nama($result['nm_staf']), $result['glar']);
 $nip 	= $_POST['nip'] ?? '';
 $mpel = $_POST['mapel'] ?? '';
 $alw 	= $_POST['al_waktu'] ?? '';

@@ -40,12 +40,12 @@
 				<ul class="navbar-nav ms-auto">
 					<li class="nav-item dropdown user-menu">
 						<button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
-							<img src="assets/img/account.png" alt="User Image" class="user-image rounded-circle shadow" />
+							<img src="assets/img/account.png" alt="User Image" class="user-image shadow-sm" />
 							<span class="d-none d-md-inline">Administrator</span>
 						</button>
 						<ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
 							<li class="user-header text-bg-primary">
-								<img src="assets/img/account.png" alt="" class="rounded-circle shadow" />
+								<img src="assets/img/account.png" alt="" class="rounded-circle shadow-sm" />
 								<p>
 									Administrator
 									<small>Member since Nov. 2023</small>
@@ -202,6 +202,7 @@
 <script src="assets/js/overlayscrollbars.min.js"></script>
 <script src="assets/js/simple-datatables.js"></script>
 <script src="assets/js/sweetalert2.min.js"></script>
+<script src="assets/js/custom.js"></script>
 
 <script>
 	const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";

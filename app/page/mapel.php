@@ -212,26 +212,6 @@
 		});
 	}
 
-	function notif(icon, title, text, konfirmasi = '') {
-		if (konfirmasi == '') {
-			Swal.fire({
-				icon: icon,
-				title: title,
-				text: text
-			});
-		} else {
-			Swal.fire({
-				icon: icon,
-				title: title,
-				text: text
-			}).then((result) => {
-				if (result.isConfirmed) {
-					r_halaman();
-				}
-			})
-		}
-	}
-
 	function saveData(prd) {
 		var data = $('#add_mpel').serialize();
 		data += '&prd=' + encodeURIComponent(prd);

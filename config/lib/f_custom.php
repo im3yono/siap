@@ -58,3 +58,4 @@ function f_pdfqrCode($data)
 	// Hasilkan string base64 tanpa tag HTML
 	return base64_encode($imageString);
 }
+

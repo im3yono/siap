@@ -76,6 +76,54 @@ function tgl($tgl, $format = 'Y-M-D')
 		return "$tanggal $bulan $tahun";
 	}	
 }
+function tglJam($tgl, $format = 'Y-M-D')
+{
+	$hari_array = array(
+		'Minggu',
+		'Senin',
+		'Selasa',
+		'Rabu',
+		'Kamis',
+		'Jumat',
+		'Sabtu'
+	);
+	$hr = date('w', strtotime($tgl));
+	$hari = $hari_array[$hr];
+
+	$tanggal = date('j', strtotime($tgl));
+	$bulan_array = array(
+		1 => 'Januari',
+		2 => 'Februari',
+		3 => 'Maret',
+		4 => 'April',
+		5 => 'Mei',
+		6 => 'Juni',
+		7 => 'Juli',
+		8 => 'Agustus',
+		9 => 'September',
+		10 => 'Oktober',
+		11 => 'November',
+		12 => 'Desember',
+	);
+	$bl = date('n', strtotime($tgl));
+	$bulan = $bulan_array[$bl];
+	$tahun = date('Y', strtotime($tgl));
+	$jam = date('H:i:s', strtotime($tgl));
+
+	//untuk menampilkan hari, tanggal bulan tahun jam
+	//return "$hari, $tanggal $bulan $tahun $jam";
+
+	//untuk menampilkan hari, tanggal bulan tahun
+	if ($format == 'Y-M-D') {
+		return "$tanggal $bulan $tahun";
+	} elseif ($format == 'Y-M') {
+		return "$bulan $tahun";
+	} elseif ($format == 'Y') {
+		return "$tahun";
+	} else {
+		return "$hari, $tanggal $bulan $tahun. $jam";
+	}	
+}
 
 function menitToJam($time, $format = '00:00')
 {

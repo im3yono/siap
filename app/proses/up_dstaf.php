@@ -1,5 +1,5 @@
 <!-- 
-INSERT INTO `tb_dstaf` (`id_dstaf`, `id_staf`, `nm_staf`, `nik`, `nkk`, `nuptk`, `nip`, `jk`, `tmp_l`, `tgl_l`, `ppdk`, `glar`, `sklh_univ`, `stt_pgw`, `jptk`, `agm`, `almt`, `kontak`, `tgs_tmbh`, `sk_cpns`, `tgl_cpns`, `sk_pengaktn`, `tmt_angkt`, `lbg_angkt`, `pngkat_gl`, `sgaji`, `nm_ibu`, `sts_kwn`, `psngn`, `tmt_pns`, `npwp`, `nm_npwp`, `warga`, `rcd`, `upd`, `sts`) VALUES (NULL, '1', '1', '1', '1', '1', '1', 'L', '1', '2025-09-25', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2025-09-25', '1', '2025-09-25', '1', '1', '1', '1', '1', '1', '2025-09-25', '1', '1', '1', current_timestamp(), current_timestamp(), 'Y');
+INSERT INTO `tb_dstaf` (`id_dstaf`, `kd_staf`, `nm_staf`, `nik`, `nkk`, `nuptk`, `nip`, `jk`, `tmp_l`, `tgl_l`, `ppdk`, `glar`, `sklh_univ`, `stt_pgw`, `jptk`, `agm`, `almt`, `kontak`, `tgs_tmbh`, `sk_cpns`, `tgl_cpns`, `sk_pengaktn`, `tmt_angkt`, `lbg_angkt`, `pngkat_gl`, `sgaji`, `nm_ibu`, `sts_kwn`, `psngn`, `tmt_pns`, `npwp`, `nm_npwp`, `warga`, `rcd`, `upd`, `sts`) VALUES (NULL, '1', '1', '1', '1', '1', '1', 'L', '1', '2025-09-25', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2025-09-25', '1', '2025-09-25', '1', '1', '1', '1', '1', '1', '2025-09-25', '1', '1', '1', current_timestamp(), current_timestamp(), 'Y');
 -->
 
 <?php
@@ -19,6 +19,7 @@ if (isset($dt)) {
 	$start = 1;
 	$dt_pr_in = 0;
 	$dt_pr_up = 0;
+	$clm_d  = 0;
 
 	if (isset($dt) && in_array($dt['type'], $file)) {
 		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -29,7 +30,7 @@ if (isset($dt)) {
 		$baris = count($Data);
 
 		for ($i = $start; $i < $baris; $i++) {
-			$id_staf    = $Data[$i][1];
+			$kd_staf    = $Data[$i][1];
 			$nm_staf    = explode(',', f_nama($Data[$i][2]));
 			$nm_staf		= $nm_staf[0];
 			$nik        = $Data[$i][3];
@@ -51,87 +52,87 @@ if (isset($dt)) {
 				$tgl_lahir = null; // Atur menjadi null jika kosong
 			}
 			$ppdk       = $Data[$i][10] ?? '';
-			$glar       = $Data[$i][11] ?? '';
-			$sklh_univ   = $Data[$i][12] ?? '';
-			$stt_pgw     = $Data[$i][13] ?? '';
-			$jptk       = $Data[$i][14];
-			$agm         = $Data[$i][15];
+			$glard      = $Data[$i][11] ?? '';
+			$glarb      = $Data[$i][12] ?? '';
+			$glar       = json_encode(array("gld" => $glard, "glb" => $glarb));
+			$sklh_univ  = $Data[$i][13] ?? '';
+			$stt_pgw    = $Data[$i][14] ?? '';
+			$jptk       = $Data[$i][15];
+			$agm        = $Data[$i][16];
 			$almt_arr = array(
-				"almt"   => ($Data[$i][16]),
-				"rt"     => $Data[$i][17],
-				"rw"     => $Data[$i][18] ?? '',
-				"dusun" => ($Data[$i][19] ?? ''),
-				"kel"   => ($Data[$i][20]),
-				"kec"   => ($Data[$i][21]),
-				"kdpos" => $Data[$i][22] ?? ''
+				"almt"   => ($Data[$i][17]),
+				"rt"     => $Data[$i][18],
+				"rw"     => $Data[$i][19] ?? '',
+				"dusun" => ($Data[$i][20] ?? ''),
+				"kel"   => ($Data[$i][21]),
+				"kec"   => ($Data[$i][22]),
+				"kdpos" => $Data[$i][23] ?? ''
 			);
 			$almt     = json_encode($almt_arr);
 			$kontak_arr = array(
-				"tlp" => ($Data[$i][23] ?? ''),
-				"hp"   => ($Data[$i][24] ?? ''),
-				"email" => ($Data[$i][25] ?? '')
+				"tlp" => ($Data[$i][24] ?? ''),
+				"hp"   => ($Data[$i][25] ?? ''),
+				"email" => ($Data[$i][26] ?? '')
 			);
 			$kontak     = json_encode($kontak_arr);
-			$tgs_tmbh   = $Data[$i][26] ?? '';
-			$sk_cpns     = $Data[$i][27] ?? '';
+			$tgs_tmbh   = $Data[$i][27] ?? '';
+			$sk_cpns     = $Data[$i][28] ?? '';
 			// $tgl_cpns = $Data[$i][28];
-			if (!empty($Data[$i][28])) {
-				if ($Data[$i][28] != date('Y-m-d', strtotime($Data[$i][28]))) {
-					# code...
-					$dateObj = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($Data[$i][28]);
+			if (!empty($Data[$i][29])) {
+				if ($Data[$i][29] != date('Y-m-d', strtotime($Data[$i][29]))) {
+					$dateObj = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($Data[$i][29]);
 					$tgl_cpns = $dateObj->format('Y-m-d'); // Format menjadi yyyy-mm-dd
 				} else {
-					$tgl_cpns = $Data[$i][28];
+					$tgl_cpns = $Data[$i][29];
 				}
 			} else {
 				$tgl_cpns = ''; // Atur menjadi null jika kosong
 			}
-			$sk_pengaktn = $Data[$i][29];
+			$sk_pengaktn = $Data[$i][30];
 			// $tmt_angkt = $Data[$i][30];
-			if (!empty($Data[$i][30])) {
-				if ($Data[$i][30] != date('Y-m-d', strtotime($Data[$i][30]))) {
-					# code...
-					$dateObj = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($Data[$i][30]);
+			if (!empty($Data[$i][31])) {
+				if ($Data[$i][31] != date('Y-m-d', strtotime($Data[$i][31]))) {
+					$dateObj = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($Data[$i][31]);
 					$tmt_angkt = $dateObj->format('Y-m-d'); // Format menjadi yyyy-mm-dd
 				} else {
-					$tmt_angkt = $Data[$i][30];
+					$tmt_angkt = $Data[$i][31];
 				}
 			} else {
 				$tmt_angkt = ''; // Atur menjadi null jika kosong
 			}
-			$lbg_angkt   = $Data[$i][31] ?? '';
-			$pngkat_gl   = $Data[$i][32] ?? '';
-			$sgaji     = $Data[$i][33] ?? '';
-			$nm_ibu     = (f_nama($Data[$i][34]));
-			$sts_kwn     = $Data[$i][35];
+			$lbg_angkt   = $Data[$i][32] ?? '';
+			$pngkat_gl   = $Data[$i][33] ?? '';
+			$sgaji     = $Data[$i][34] ?? '';
+			$nm_ibu     = (f_nama($Data[$i][35]));
+			$sts_kwn     = $Data[$i][36];
 			$psngan    = json_encode(array(
-				"nm"   => (f_nama($Data[$i][36] ?? '')),
-				"nip" => $Data[$i][37] ?? '',
-				"kerja"   => ($Data[$i][38] ?? '')
+				"nm"   => (f_nama($Data[$i][37] ?? '')),
+				"nip" => $Data[$i][38] ?? '',
+				"kerja"   => ($Data[$i][39] ?? '')
 			));
 			// $tmt_pns = $Data[$i][40];
-			if (!empty($Data[$i][39])) {
-				if ($Data[$i][39] != date('Y-m-d', strtotime($Data[$i][39]))) {
+			if (!empty($Data[$i][40])) {
+				if ($Data[$i][40] != date('Y-m-d', strtotime($Data[$i][40]))) {
 					# code...
-					$dateObj = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($Data[$i][39]);
+					$dateObj = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($Data[$i][40]);
 					$tmt_pns = $dateObj->format('Y-m-d'); // Format menjadi yyyy-mm-dd
 				} else {
-					$tmt_pns = $Data[$i][39];
+					$tmt_pns = $Data[$i][40];
 				}
 			} else {
 				$tmt_pns = ''; // Atur menjadi null jika kosong
 			}
-			$npwp     = $Data[$i][40] ?? '';
-			$nm_npwp   = ($Data[$i][41] ?? '');
-			$warga     = $Data[$i][42];
+			$npwp     = $Data[$i][41] ?? '';
+			$nm_npwp   = ($Data[$i][42] ?? '');
+			$warga     = $Data[$i][43];
 			$rcd       = date('Y-m-d H:i:s');
 			$upd       = date('Y-m-d H:i:s');
 			$sts       = 'Y';
 
 
 			// Cek apakah data dengan kd_staf sudah ada
-			$stmt = $pdo_conn->prepare("SELECT COUNT(*) FROM tb_dstaf WHERE kd_staf = :id_staf");
-			$stmt->bindParam(':id_staf', $id_staf);
+			$stmt = $pdo_conn->prepare("SELECT COUNT(*) FROM tb_dstaf WHERE kd_staf = :kd_staf");
+			$stmt->bindParam(':kd_staf', $kd_staf);
 			$stmt->execute();
 			$count = $stmt->fetchColumn();
 			if ($count > 0) {
@@ -169,9 +170,9 @@ if (isset($dt)) {
                 nm_npwp = :nm_npwp,
                 warga = :warga,
                 upd = :upd
-              WHERE kd_staf = :id_staf";
+              WHERE kd_staf = :kd_staf";
 				$stmt = $pdo_conn->prepare($sql);
-				$stmt->bindParam(':id_staf', $id_staf);
+				$stmt->bindParam(':kd_staf', $kd_staf);
 				$stmt->bindParam(':nm_staf', $nm_staf);
 				$stmt->bindParam(':nik', $nik);
 				$stmt->bindParam(':nkk', $nkk);
@@ -209,13 +210,13 @@ if (isset($dt)) {
 			} else {
 				// Jika tidak ada, lakukan insert baru
 				$sql = "INSERT INTO tb_dstaf (
-                id_staf, nm_staf, nik, nkk, nuptk, nip, jk, tmp_l, tgl_l, ppdk, glar,
+                kd_staf, nm_staf, nik, nkk, nuptk, nip, jk, tmp_l, tgl_l, ppdk, glar,
                 sklh_univ, stt_pgw, jptk, agm, almt, kontak, tgs_tmbh, sk_cpns,
                 tgl_cpns, sk_pengaktn, tmt_angkt, lbg_angkt, pngkat_gl, sgaji,
                 nm_ibu, sts_kwn, psngn, tmt_pns, npwp, nm_npwp, warga,
                 rcd, upd, sts
               ) VALUES (
-                :id_staf, :nm_staf, :nik, :nkk, :nuptk, :nip, :jk, :tmp_l, :tgl_l,
+                :kd_staf, :nm_staf, :nik, :nkk, :nuptk, :nip, :jk, :tmp_l, :tgl_l,
                 :ppdk, :glar, :sklh_univ, :stt_pgw, :jptk, :agm, :almt,
                 :kontak, :tgs_tmbh, :sk_cpns, :tgl_cpns, :sk_pengaktn,
                 :tmt_angkt, :lbg_angkt, :pngkat_gl, :sgaji,
@@ -224,7 +225,7 @@ if (isset($dt)) {
                 :rcd, :upd, :sts
               )";
 				$stmt = $pdo_conn->prepare($sql);
-				$stmt->bindParam(':id_staf', $id_staf);
+				$stmt->bindParam(':kd_staf', $kd_staf);
 				$stmt->bindParam(':nm_staf', $nm_staf);
 				$stmt->bindParam(':nik', $nik);
 				$stmt->bindParam(':nkk', $nkk);

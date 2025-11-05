@@ -159,8 +159,10 @@ foreach ($kls as $kls) {
 		$dtgr			= $dtkls->fetch(PDO::FETCH_ASSOC);
 		$walas 		= $dtgr['nmgr'] ?? '';
 		$glr 			= $dtgr['glargr'] ?? '';
-		$glr			= $glr == '' ? '' : ', ' . $glr;
-		$walas		= $walas == '' ? '' : f_singkatNama($walas, 2) . $glr;
+		// $glr			= $glr == '' ? '' : ', ' . $glr;
+		$walas		= $walas == '' ? '' : f_singkatNama($walas, 2);
+		// $walas		= $walas == '' ? '' : f_singkatNama($walas, 2) . $glr;
+		$walas		= f_nmGelar($walas, $glr);
 
 		$pdf->SetFont('Cambria', 'B', 18);
 

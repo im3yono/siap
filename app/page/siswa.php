@@ -70,7 +70,7 @@
 </div>
 <div class="row g-2">
 	<div class="col-auto">
-		<button onclick="viewData('add')" class="btn btn-primary" id="tambahData"><i class="bi bi-plus-lg"></i> Tambah Data</button>
+		<button data-route="fm_sis" class="btn btn-primary" id="tambahData"><i class="bi bi-plus-lg"></i> Tambah Data</button>
 	</div>
 	<div class="col-auto">
 		<button data-route="up_sis" type="button" class="btn btn-outline-primary"><i class="bi bi-upload"></i> Upload Data</button>
@@ -124,7 +124,7 @@
 
 					<tr>
 						<td><?= $notbl++; ?>
-							<img src="<?= ft($row['nipd'], 'siswa'); ?>" alt="<?= $row['nipd']; ?>" class="" style="width: 75px; height: 100px; object-fit: cover;">
+							<img src="<?= ft($row['nipd'], 'siswa'); ?>" alt="<?= $row['nipd']; ?>" class="shadow-sm img-thumbnail" style="width: 75px; height: 100px; object-fit: cover;">
 						</td>
 						<td><?= $row['nipd'] . "<br>" . $row['nisn']; ?></td>
 						<td><?= f_nama($row['nm']); ?></td>
@@ -144,7 +144,7 @@
 									<button class="btn btn-sm btn-primary" onclick="viewData('edt','<?= $row['nipd']; ?>')" style="width: 80px;"><i class="bi bi-card-text"></i> Lihat</button>
 								</div>
 								<div class="col-12">
-									<button data-route="edt_sis" data-id="<?= $row['nipd']; ?>" class="btn btn-sm btn-info" style="width: 80px;"><i class="bi bi-pencil"></i> Edit</button>
+									<button data-route="fm_sis" data-id="<?= $row['nipd']; ?>" class="btn btn-sm btn-info" style="width: 80px;"><i class="bi bi-pencil"></i> Edit</button>
 								</div>
 								<div class="col-12">
 									<button class="btn btn-sm btn-danger" onclick="delData('<?= $row['nipd']; ?>')" style="width: 80px;"><i class="bi bi-trash3"></i> Hapus</button>
@@ -173,7 +173,7 @@
 			</div>
 			<div class="modal-footer" id="md_btn">
 				<button class="btn btn-primary" name="simpan" id="simpan">Simpan</button>
-				<button data-route="edt_sis" data-id="" class="btn btn-primary" id="md_edit" data-bs-dismiss="modal"><i class="bi bi-pencil"></i> Edit</button>
+				<button data-route="fm_sis" data-id="" class="btn btn-primary" id="md_edit" data-bs-dismiss="modal"><i class="bi bi-pencil"></i> Edit</button>
 				<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button> -->
 			</div>
 		</div>

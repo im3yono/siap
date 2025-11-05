@@ -9,12 +9,18 @@ if ($_POST['id'] == 'create') {
 
 	$updt = $pdo_conn->prepare("SELECT upd FROM `tb_dsis` GROUP BY upd ORDER BY `tb_dsis`.`upd` DESC LIMIT 1;");
 	$updt->execute();
-	$updt = $updt->fetch(PDO::FETCH_ASSOC);
-	$date = date('d-m-Y', strtotime($updt['upd']));
-	$time = date(('H:i'), strtotime($updt['upd']));
+	if ($updt->rowCount() != 0) {
+		$updt = $updt->fetch(PDO::FETCH_ASSOC);
+		$date = tgl_hari(date('d-m-Y', strtotime($updt['upd'])));
+		$date .= ', Pukul ' . date(('H:i'), strtotime($updt['upd']));
+		$bgdt = 'bg-info-subtle';
+	} else {
+		$date = 'Data Belum Update';
+		$bgdt = 'bg-danger-subtle';
+	}
 ?>
 	<form action="app/report/v_jurnal" method="post" id="form" target="blank">
-		<div class="col-12 h5 bg-info-subtle mb-2 py-3 text-center" style="border-radius: 5px;">Update Data <br> <?= tgl_hari($date) . ', Pukul ' . $time; ?></div>
+		<div class="col-12 h5 <?= $bgdt; ?> mb-2 py-3 text-center" style="border-radius: 5px;">Update Data <br> <?= $date; ?></div>
 		<div class="row">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<label for="nama" class="form-label">Nama Guru</label>
@@ -24,7 +30,12 @@ if ($_POST['id'] == 'create') {
 					$stmt = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE jptk='Guru' ORDER BY nm_staf ASC");
 					$stmt->execute();
 					while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-						$nmglr = $row['glar'] == '' ? $row['nm_staf'] : $row['nm_staf'] . ', ' . $row['glar'];
+						$glr = json_decode($row['glar'], true);
+						$glr_d	= $glr['gld'] ?? '';
+						$glr_b	= $glr['glb'] ?? '';
+						$nmglr	= $glr_b 	== '' ? $row['nm_staf'] : $row['nm_staf'] . ', ' . $glr_b;
+						$nmglr	.= $glr_d == '' ? '' : $glr_d . '.';
+
 						echo '<option value="' . $row['kd_staf'] . '">' .  $nmglr . '</option>';
 					}
 					?>
@@ -182,7 +193,7 @@ if ($_POST['id'] == 'create') {
 				$('#thn_ajar').val(thn_ajar);
 			});
 		})
-		
+
 		$(document).ready(function() {
 			$('#all').on('change', function() {
 				$('.ckall').prop('checked', $(this).prop('checked'));
