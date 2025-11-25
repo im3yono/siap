@@ -74,7 +74,7 @@ function tgl($tgl, $format = 'Y-M-D')
 		return "$tahun";
 	} else {
 		return "$tanggal $bulan $tahun";
-	}	
+	}
 }
 function tglJam($tgl, $format = 'Y-M-D')
 {
@@ -122,7 +122,7 @@ function tglJam($tgl, $format = 'Y-M-D')
 		return "$tahun";
 	} else {
 		return "$hari, $tanggal $bulan $tahun. $jam";
-	}	
+	}
 }
 
 function menitToJam($time, $format = '00:00')
@@ -227,4 +227,14 @@ function tambahJam($awal, $tambah)
 	// Tampilkan hasil
 	return $time1->format("H:i:s"); // Output: 12:36:00
 
+}
+
+function f_bln_ta($ta, $bln)
+{
+	$bln_ta = explode('/', $ta);
+	if ($bln > 6) {
+		return $bln_ta[1];
+	} else {
+		return $bln_ta[0];
+	}
 }

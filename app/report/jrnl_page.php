@@ -181,7 +181,7 @@ foreach ($kls as $kls) {
 			$pdf->Cell($js_R, $jt, ': ' . $walas, 0, 1);
 
 			$pdf->Cell($j_L, $jt, 'Bulan Pelaksanaan', 0, 0);
-			$pdf->Cell($js_L, $jt, ': ' . $bln, 0, 0);
+			$pdf->Cell($js_L, $jt, ': ' . ($bln == str_repeat(chr(160), 22) ? '............................' : $bln), 0, 0);
 			$pdf->Cell($j_C, $jt, 'Guru Pengajar', 0, 0);
 			$pdf->Cell($js_C, $jt, ': ' . $nm, 0, 0);
 			$pdf->Cell($j_R, $jt, 'Laki-Laki', 0, 0);
@@ -341,7 +341,8 @@ foreach ($kls as $kls) {
 					}
 				} elseif ($set == 27 && $orien == 'L') {
 					$pdf->Cell($rw27[0]);
-					$pdf->Cell($rw27[1], $t_tbl, $lksi . ',       ' . $bln . ' ' . tgl(date('Y'), "Y"), 0, 1, 'L');
+					// $pdf->Cell($rw27[1], $t_tbl, $lksi . ',       ' . $bln . ' ' . f_bln_ta($thn, $bln), 0, 1, 'L');
+					$pdf->Cell($rw27[1], $t_tbl, $lksi . ',       ' . $bln . ' ' . f_bln_ta($thn, $bln), 0, 1, 'L');
 				} elseif ($set == 28 && $orien == 'L') {
 					$pdf->Cell($rw28[0]);
 					$pdf->Cell($rw28[1], $t_tbl, 'Mengetahui, ', 0, 0, 'L');
@@ -442,7 +443,7 @@ foreach ($kls as $kls) {
 					}
 				} elseif ($set == 27 && $orien == 'L') {
 					$pdf->Cell($rw27[0]);
-					$pdf->Cell($rw27[1], $t_tbl, $lksi . ',       ' . $bln . ' ' . tgl(date('Y'), "Y"), 0, 1, 'L');
+					$pdf->Cell($rw27[1], $t_tbl, $lksi . ',       ' . $bln . ' ' . f_bln_ta($thn, $bln), 0, 1, 'L');
 				} elseif ($set == 28 && $orien == 'L') {
 					$pdf->Cell($rw28[0]);
 					$pdf->Cell($rw28[1], $t_tbl, 'Mengetahui, ', 0, 0, 'L');
@@ -503,7 +504,7 @@ foreach ($kls as $kls) {
 			// if ($set == 27) {
 			$pdf->Ln(3);
 			$pdf->Cell($rw27[0]);
-			$pdf->Cell($rw27[1], $t_tbl, $lksi . ',       ' . $bln . ' ' . tgl(date('Y'), "Y"), 0, 1, 'L');
+			$pdf->Cell($rw27[1], $t_tbl, $lksi . ',       ' . $bln . ' ' . f_bln_ta($thn, $bln), 0, 1, 'L');
 			// } elseif ($set == 28) {
 			$pdf->Cell($rw28[0]);
 			$pdf->Cell($rw28[1], $t_tbl, 'Mengetahui, ', 0, 0, 'L');

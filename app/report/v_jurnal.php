@@ -81,9 +81,11 @@ if ($bln != '') {
 			$bln = 'Desember';
 			break;
 		default:
-			$bln = '';
+			$bln = str_repeat(chr(160), 16); // gunakan 6 non-breaking spaces agar tampil di FPDF
 			break;
 	}
+}else{
+	$bln = str_repeat(chr(160), 22); // gunakan 6 non-breaking spaces agar tampil di FPDF
 }
 $kl 	= [];
 for ($i = 0; $i < $alt; $i++) {

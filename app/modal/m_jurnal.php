@@ -74,7 +74,7 @@ if ($_POST['id'] == 'create') {
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<label for="bln" class="form-label">Bulan Pelaksanaan</label>
 				<select name="bln" id="bln" class="form-select">
-					<option value="" selected disabled>-- Pilih --</option>
+					<option value="" selected>-- Pilih --</option>
 					<option value="1">Januari</option>
 					<option value="2">Februari</option>
 					<option value="3">Maret</option>
@@ -179,20 +179,38 @@ if ($_POST['id'] == 'create') {
 			})
 		})
 
-		$(document).ready(function() {
-			$('#bln').on('change', function() {
-				const bln = $(this).val();
-				const thn = new Date().getFullYear();
-				let smt;
-				if (bln >= 7) smt = 'Ganjil';
-				else smt = 'Genap';
-				$('#smt').val(smt);
-				let thn_ajar;
-				if (smt == 'Ganjil') thn_ajar = thn + '/' + (thn + 1);
-				else thn_ajar = (thn - 1) + '/' + thn;
-				$('#thn_ajar').val(thn_ajar);
-			});
-		})
+$(document).ready(function() {
+    $('#bln').on('change', function() {
+        const bln = parseInt($(this).val());     // bulan yang dipilih
+        const now = new Date();
+        let thn = now.getFullYear();            // tahun sekarang
+        const bln_now = now.getMonth() + 1;     // bulan sekarang (1-12)
+
+        // === LOGIKA PERGANTIAN TAHUN ===
+        // Jika ingin cetak Januari padahal sekarang Desember
+        // atau bulan dipilih < bulan sekarang → artinya untuk tahun depan
+        if (bln < bln_now) {
+            thn = thn + 1;
+        }
+
+        // === TENTUKAN SEMESTER ===
+        let smt = (bln >= 7) ? 'Ganjil' : 'Genap';
+        $('#smt').val(smt);
+
+        // === HITUNG TAHUN AJAR BERDASARKAN BULAN TERPILIH ===
+        let thn_ajar;
+        if (smt === 'Ganjil') {
+            // Tahun ajar ganjil: thn/thn+1
+            thn_ajar = thn + '/' + (thn + 1);
+        } else {
+            // Semester genap: (thn-1)/thn
+            thn_ajar = (thn - 1) + '/' + thn;
+        }
+        
+        $('#thn_ajar').val(thn_ajar);
+    });
+});
+
 
 		$(document).ready(function() {
 			$('#all').on('change', function() {
