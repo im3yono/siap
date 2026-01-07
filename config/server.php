@@ -14,7 +14,7 @@ try {
 } catch (PDOException $th) {
 	// eror pada console
 	error_log("Koneksi Database Error: " . $th->getMessage());
-	die("Koneksi ke database gagal : " . $th->getMessage());
+	die( "Koneksi ke database gagal : " . $th->getMessage());
 }
 
 $db_tbl = ['tb_dsis', 'tb_dstaf', 'tb_mpel'];

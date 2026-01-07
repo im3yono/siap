@@ -238,3 +238,45 @@ function f_bln_ta($ta, $bln)
 		return $bln_ta[0];
 	}
 }
+
+function f_bulan_nama($bln)
+{
+	$bln = (string)$bln;
+	switch ($bln) {
+		case '1':
+		case '01':
+			return 'Januari';
+		case '2':
+		case '02':
+			return 'Februari';
+		case '3':
+		case '03':
+			return 'Maret';
+		case '4':
+		case '04':
+			return 'April';
+		case '5':
+		case '05':
+			return 'Mei';
+		case '6':
+		case '06':
+			return 'Juni';
+		case '7':
+		case '07':
+			return 'Juli';
+		case '8':
+		case '08':
+			return 'Agustus';
+		case '9':
+		case '09':
+			return 'September';
+		case '10':
+			return 'Oktober';
+		case '11':
+			return 'November';
+		case '12':
+			return 'Desember';
+		default:
+			return str_repeat(chr(160), 16); // non-breaking spaces for FPDF
+	}
+}

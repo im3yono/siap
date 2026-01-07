@@ -44,6 +44,9 @@
 		<button class="btn btn-primary" id="tambahData" onclick="viewData('add')"><i class="bi bi-plus-lg"></i> Tambah Data</button>
 	</div>
 	<div class="col-auto">
+		<button class="btn btn-outline-primary" id="kls_khusus" onclick="viewData('addkk','','modal-lg')"><i class="bi bi-plus-lg"></i> Kelas Khusus</button>
+	</div>
+	<div class="col-auto">
 		<!-- <button data-route="up_staf" data-id="tendik" type="button" class="btn btn-outline-primary"><i class="bi bi-upload"></i> Upload Data</button> -->
 	</div>
 </div>
@@ -100,8 +103,81 @@
 								</div>
 							</td>
 						</tr>
-				<?php }
-				} ?>
+					<?php }
+				}
+
+				$kls_k = db_Proses($pdo_conn, "SELECT * FROM tb_kls");
+				while ($r_kls = $kls_k->fetch(PDO::FETCH_ASSOC)) {
+
+					$d_sis = json_decode($r_kls['d_sis'], true);
+					if (!is_array($d_sis)) {
+						$d_sis = [];
+					}
+
+					$cr_kls = db_Proses(
+						$pdo_conn,
+						"SELECT kls FROM tb_dsis WHERE kls = ?",
+						[$r_kls['kls']]
+					);
+
+					if ($cr_kls->rowCount() == 0) {
+
+						// Guru
+						$r_gr = '';
+						if (!empty($r_kls['kd_staf'])) {
+							$gr = db_Proses(
+								$pdo_conn,
+								"SELECT nm_staf FROM tb_dstaf WHERE kd_staf = ?",
+								[$r_kls['kd_staf']]
+							)->fetch(PDO::FETCH_ASSOC);
+
+							$r_gr = $gr['nm_staf'] ?? '';
+						}
+
+						// Hitung L & P
+						$jml_l = 0;
+						$jml_p = 0;
+
+						foreach ($d_sis as $nipd) {
+							$l = db_Proses(
+								$pdo_conn,
+								"SELECT jk FROM tb_dsis WHERE jk = ? AND nipd = ?",
+								['L', $nipd]
+							)->rowCount();
+
+							$p = db_Proses(
+								$pdo_conn,
+								"SELECT jk FROM tb_dsis WHERE jk = ? AND nipd = ?",
+								['P', $nipd]
+							)->rowCount();
+
+							$jml_l += $l;
+							$jml_p += $p;
+						}
+					?>
+						<tr>
+							<td><?= $notbl++; ?></td>
+							<td><?= $r_kls['tkt']; ?></td>
+							<td><?= $r_kls['kls']; ?></td>
+							<td><?= $r_gr; ?></td>
+							<td><?= $jml_l; ?> Laki-Laki<br><?= $jml_p; ?> Perempuan</td>
+							<td>
+								<div class="row g-1 justify-content-center">
+									<div class="col-auto">
+										<!-- <button class="btn btn-sm btn-info" style="width: 80px;" onclick="viewData('edt','<?= $r_kls['id_kls']; ?>','modal-lg')"><i class="bi bi-pencil"></i> Edit</button> -->
+									</div>
+									<div class="col-auto">
+										<button class="btn btn-sm btn-danger" style="width: 80px;" onclick="delData('<?= $r_kls['id_kls']; ?>','<?= $r_kls['kls']; ?>')"><i class="bi bi-trash3"></i> Hapus</button>
+									</div>
+								</div>
+							</td>
+						</tr>
+				<?php
+					}
+				}
+
+
+				?>
 			</tbody>
 		</table>
 	</div>
@@ -136,6 +212,11 @@
 		if (title == 'add') {
 			$('#d_modal').modal('show');
 			$('#d_modalLabel').text('Tambah Data Kelas');
+			$('#simpan').show();
+			$('#md_edit').hide();
+		} else if (title == 'addkk') {
+			$('#d_modal').modal('show');
+			$('#d_modalLabel').text('Tambah Data Kelas Khusus');
 			$('#simpan').show();
 			$('#md_edit').hide();
 		} else if (title == 'edt' && id != '') {
@@ -179,26 +260,53 @@
 	}
 
 	function saveData(prd) {
-		var data = $('#add_kls').serialize();
-		data += '&prd=' + encodeURIComponent(prd);
+		let data = $('#add_kls').serializeArray();
+
+		// mode proses
+		data.push({
+			name: 'prd',
+			value: prd
+		});
+
+		// ambil siswa ter-checklist (jika ada)
+		let siswa = [];
+		$('.row-check:checked').each(function() {
+			siswa.push($(this).val());
+		});
+
+		// jika tabel siswa ada → kirim array
+		// if (siswa.length > 0) {
+		// 	$.each(siswa, function(i, val) {
+		// 		data.push({
+		// 			name: 'siswa[]',
+		// 			value: val
+		// 		});
+		// 	});
+		// }
 
 		$.ajax({
 			type: 'POST',
-			data: data,
 			url: 'app/proses/pr_kls.php',
+			data: $.param(data),
 			success: function(res) {
-				if (res == 'ok') {
-					notif('success', 'Berhasil!', 'Data berhasil disimpan.', 'kon');
-					$('#d_modal').modal('hide');
-				} else if (res == 'update') {
-					notif('success', 'Berhasil!', 'Data berhasil diupdate.', 'kon');
-					$('#d_modal').modal('hide');
-				} else if (res == 'err') {
-					notif('error', 'Gagal!', 'Gagal menyimpan data. Silahkan coba lagi.');
-				} else if (res == 'dup') {
-					notif('warning', 'Peringatan!', 'Kode Mata Pelajaran Sudah Ada');
-				} else {
-					notif('error', 'Gagal!', 'Gagal menyimpan data. Silahkan coba lagi.');
+				switch (res) {
+					case 'ok':
+						notif('success', 'Berhasil!', 'Data berhasil disimpan.', 'kon');
+						$('#d_modal').modal('hide');
+						break;
+
+					case 'update':
+						notif('success', 'Berhasil!', 'Data berhasil diupdate.', 'kon');
+						$('#d_modal').modal('hide');
+						break;
+
+					case 'dup':
+						notif('warning', 'Peringatan!', 'Kode kelas sudah ada');
+						break;
+
+					case 'err':
+					default:
+						notif('error', 'Gagal!', 'Gagal menyimpan data. Silahkan coba lagi.');
 				}
 				// console.log(res);
 			}

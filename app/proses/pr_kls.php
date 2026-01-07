@@ -8,7 +8,9 @@ $prd	= $_POST['prd'] ?? '';
 $kls	= $_POST['kls'] ?? '';
 $walas	= $_POST['walas'] ?? '';
 $id_kls	= $_POST['id'] ?? '';
+$siswa  = $_POST['siswa'] ?? '';
 // $m_kls = $_POST['m__kls'] ?? '';
+if( $siswa != '') $siswa = json_encode($siswa);
 
 
 if ($prd == 'add') {
@@ -16,8 +18,8 @@ if ($prd == 'add') {
 		echo 'err';
 		exit;
 	}
-	$qr = 'INSERT INTO tb_kls (tkt, kls, kd_staf) VALUES (?, ?, ?)';
-	$data = [$tkt, $kls, $walas];
+	$qr = 'INSERT INTO tb_kls (tkt, kls, kd_staf, d_sis) VALUES (?, ?, ?, ?)';
+	$data = [$tkt, $kls, $walas, $siswa];
 	$stmt	= db_Proses($pdo_conn, $qr, $data);
 	if (($stmt)) {
 		echo 'ok';

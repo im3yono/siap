@@ -19,6 +19,19 @@ if ($_POST['id'] == 'create') {
 		$bgdt = 'bg-danger-subtle';
 	}
 ?>
+
+
+	<!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+			Toggle width collapse
+		</button>
+	<div class="py-3" style="min-height:auto;">
+		<div class="collapse collapse-horizontal" id="collapseWidthExample">
+			<div class="card card-body" style="width: 300px;">
+				This is some placeholder content for a horizontal collapse. It’s hidden by default and shown when triggered.
+			</div>
+		</div>
+	</div> -->
+
 	<form action="app/report/v_jurnal" method="post" id="form" target="blank">
 		<div class="col-12 h5 <?= $bgdt; ?> mb-2 py-3 text-center" style="border-radius: 5px;">Update Data <br> <?= $date; ?></div>
 		<div class="row">
@@ -26,6 +39,7 @@ if ($_POST['id'] == 'create') {
 				<label for="nama" class="form-label">Nama Guru</label>
 				<select name="nama" id="nama" class="form-select" required>
 					<option value="" selected disabled>-- Pilih --</option>
+					<option value="1" class="text-bg-info">******* Tanpa Nama *******</option>
 					<?php
 					$stmt = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE jptk='Guru' ORDER BY nm_staf ASC");
 					$stmt->execute();
@@ -47,13 +61,13 @@ if ($_POST['id'] == 'create') {
 			</div>
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<label for="mapel" class="form-label">Mata Pelajaran</label>
-				<input type="text" name="mapel" id="mapel" class="form-control" placeholder="Nama Mata Pelajaran" value="">
+				<input type="text" name="mapel" id="mapel" class="form-control" placeholder="Nama Mata Pelajaran" value="" maxlength="35">
 			</div>
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<label for="al_waktu" class="form-label">Alokasi Waktu</label>
 				<div class="input-group">
 					<select name="al_waktu" id="al_waktu" class="form-select" required>
-						<option value="" selected disabled>-- Pilih --</option>
+						<option value="" selected disabled>-- Pilih Jam --</option>
 						<option value="1">1 Jam Pelajaran</option>
 						<option value="2">2 Jam Pelajaran</option>
 						<option value="3">3 Jam Pelajaran</option>
@@ -62,7 +76,7 @@ if ($_POST['id'] == 'create') {
 						<option value="6">6 Jam Pelajaran</option>
 					</select>
 					<select name="al_temu" id="al_temu" class="form-select" required>
-						<option value="" selected disabled>-- Pilih --</option>
+						<option value="" selected disabled>Pilih Pertemuan</option>
 						<option value="1">1 Pertemuan/Pekan</option>
 						<option value="2">2 Pertemuan/Pekan</option>
 						<option value="3">3 Pertemuan/Pekan</option>
@@ -75,12 +89,14 @@ if ($_POST['id'] == 'create') {
 				<label for="bln" class="form-label">Bulan Pelaksanaan</label>
 				<select name="bln" id="bln" class="form-select">
 					<option value="" selected>-- Pilih --</option>
+					<option value="16">Semester Genap</option>
 					<option value="1">Januari</option>
 					<option value="2">Februari</option>
 					<option value="3">Maret</option>
 					<option value="4">April</option>
 					<option value="5">Mei</option>
 					<option value="6">Juni</option>
+					<option value="712">Semester Ganjil</option>
 					<option value="7">Juli</option>
 					<option value="8">Agustus</option>
 					<option value="9">September</option>
@@ -126,7 +142,7 @@ if ($_POST['id'] == 'create') {
 				<label for="all" class="form-check-label fw-bold">Pilih Semua</label>
 			</div>
 			<?php
-			$kls = $pdo_conn->prepare("SELECT kls FROM tb_dsis GROUP BY kls;");
+			$kls = $pdo_conn->prepare("SELECT kls FROM tb_kls ORDER BY kls ASC");
 			$kls->execute();
 			while ($r = $kls->fetch(PDO::FETCH_ASSOC)) { ?>
 				<div class="col-md-4 col-lg-3 col-sm-6 col-12 form-check">
@@ -136,6 +152,13 @@ if ($_POST['id'] == 'create') {
 			<?php } ?>
 		</div>
 		<div class="row">
+			<div class="col-lg-3 col-12 mb-3">
+				<label for="cvr" class="form-label">Sampul/Kover Jurnal</label>
+				<select name="cvr" id="cvr" class="form-select">
+					<option value="1">Sertakan</option>
+					<option value="0">Kecualikan</option>
+				</select>
+			</div>
 			<div class="col-lg-3 col-12 mb-3">
 				<label for="kertas" class="form-label">Ukuran kertas yang akan digunakan</label>
 				<select name="kertas" id="kertas" class="form-select">
@@ -166,6 +189,9 @@ if ($_POST['id'] == 'create') {
 		$(document).ready(function() {
 			$('#nama').on('change', function() {
 				const id = $(this).val();
+				if (id == '1') {
+					return $('#nip').val('');
+				}
 				$.ajax({
 					type: 'POST',
 					url: 'app/proses/simpel.php',
@@ -179,37 +205,38 @@ if ($_POST['id'] == 'create') {
 			})
 		})
 
-$(document).ready(function() {
-    $('#bln').on('change', function() {
-        const bln = parseInt($(this).val());     // bulan yang dipilih
-        const now = new Date();
-        let thn = now.getFullYear();            // tahun sekarang
-        const bln_now = now.getMonth() + 1;     // bulan sekarang (1-12)
+		$(document).ready(function() {
+			$('#bln').on('change', function() {
+				const bln = parseInt($(this).val(), 10);
+				const now = new Date();
+				const nowYear = now.getFullYear();
+				const blnNow = now.getMonth() + 1;
 
-        // === LOGIKA PERGANTIAN TAHUN ===
-        // Jika ingin cetak Januari padahal sekarang Desember
-        // atau bulan dipilih < bulan sekarang → artinya untuk tahun depan
-        if (bln < bln_now) {
-            thn = thn + 1;
-        }
+				if (bln === 712) {
+					$('#smt').val('Ganjil');
+					$('#thn_ajar').val(nowYear + '/' + (nowYear + 1));
+					return;
+				}
 
-        // === TENTUKAN SEMESTER ===
-        let smt = (bln >= 7) ? 'Ganjil' : 'Genap';
-        $('#smt').val(smt);
+				if (bln === 16) {
+					$('#smt').val('Genap');
+					$('#thn_ajar').val((nowYear - 1) + '/' + nowYear);
+					return;
+				}
 
-        // === HITUNG TAHUN AJAR BERDASARKAN BULAN TERPILIH ===
-        let thn_ajar;
-        if (smt === 'Ganjil') {
-            // Tahun ajar ganjil: thn/thn+1
-            thn_ajar = thn + '/' + (thn + 1);
-        } else {
-            // Semester genap: (thn-1)/thn
-            thn_ajar = (thn - 1) + '/' + thn;
-        }
-        
-        $('#thn_ajar').val(thn_ajar);
-    });
-});
+				let thn = nowYear;
+				if (bln < blnNow) thn++;
+
+				const smt = (bln >= 7) ? 'Ganjil' : 'Genap';
+				$('#smt').val(smt);
+
+				const thnAjar = (smt === 'Ganjil') ?
+					thn + '/' + (thn + 1) :
+					(thn - 1) + '/' + thn;
+
+				$('#thn_ajar').val(thnAjar);
+			});
+		});
 
 
 		$(document).ready(function() {

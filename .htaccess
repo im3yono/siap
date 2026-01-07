@@ -1,6 +1,21 @@
 Options -Indexes
 
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine On
 
-# Redirect 404 errors to custom page
-ErrorDocument 403 /siap/app/error/403.php
+    # Jangan rewrite halaman error
+    RewriteRule ^app/error/ - [L]
+
+    # RewriteCond %{REQUEST_URI} ^/([^/]+)
+    # RewriteRule ^ - [E=ROOTFOLDER:%1]
+
+    # Custom error pages (RELATIVE PATH)
+    ErrorDocument 403 app/error/403.php
+    ErrorDocument 404 app/error/404.php
+    ErrorDocument 401 app/error/401.php
+
+    # Remove .php extension
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.+)$ $1.php [L]
+</IfModule>

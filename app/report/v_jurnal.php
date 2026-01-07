@@ -12,10 +12,14 @@ if (isset($_POST['nama']) == '') {
 	exit;
 }
 $id_staf = $_POST['nama'];
-$dt_staf = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE kd_staf =:id");
-$dt_staf->bindParam(':id', $id_staf);
-$dt_staf->execute();
-$result = $dt_staf->fetch(PDO::FETCH_ASSOC);
+if ($id_staf != '1') {
+	$dt_staf = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE kd_staf =:id");
+	$dt_staf->bindParam(':id', $id_staf);
+	$dt_staf->execute();
+	$result = $dt_staf->fetch(PDO::FETCH_ASSOC);
+} else {
+	$result = ['nm_staf' => ' ', 'glar' => ' '];
+}
 
 
 $dt_kepsek = $pdo_conn->prepare("SELECT nm_staf, nip, glar FROM tb_dstaf WHERE jptk ='Kepsek'");
@@ -28,64 +32,35 @@ $kepsek_nm = f_nmGelar($kepsek['nm_staf'], $kepsek['glar']);
 $nmpt = "SMAN 1 Sungai Tabuk";
 $lksi = 'Sungai Tabuk';
 
-$jdl 	= 'JURNAL MENGAJAR ' . f_kapital($nmpt);
+$jdl 		= 'JURNAL MENGAJAR ';
+$jdlpt 	= f_kapital($nmpt);
 
 // $glr_gr	= $result['glar'] == '' ? '' : ', ' . $result['glar'];
-$nm 	= f_nmGelar(f_nama($result['nm_staf']), $result['glar']);
-$nip 	= $_POST['nip'] ?? '';
-$mpel = $_POST['mapel'] ?? '';
-$alw 	= $_POST['al_waktu'] ?? '';
-$alt 	= $_POST['al_temu'] ?? '';
-$bln 	= $_POST['bln'] ?? '............................';
-$thn 	= $_POST['thn_ajar'] ?? '............................';
-$smt 	= $_POST['smt'] ?? '';
-$kls 	= $_POST['kelas'] ?? ['............................'];
-$orien = $_POST['orien'] ?? 'L';
+$nm 		= f_nmGelar(f_nama($result['nm_staf']), $result['glar']);
+$nip	 	= $_POST['nip'] ?? '';
+$mpel 	= $_POST['mapel'] ?? '';
+$alw 		= $_POST['al_waktu'] ?? '';
+$alt 		= $_POST['al_temu'] ?? '';
+$bln 		= $_POST['bln'] ?? '............................';
+$thn 		= $_POST['thn_ajar'] ?? '............................';
+$smt 		= $_POST['smt'] ?? '';
+$pkls 		=	 $_POST['kelas'] ?? [''];
+$orien 	= $_POST['orien'] ?? 'L';
+$cvr 		= $_POST['cvr'] ?? '1';
+
 
 if ($bln != '') {
-	switch ($bln) {
-		case '1':
-			$bln = 'Januari';
-			break;
-		case '2':
-			$bln = 'Februari';
-			break;
-		case '3':
-			$bln = 'Maret';
-			break;
-		case '4':
-			$bln = 'April';
-			break;
-		case '5':
-			$bln = 'Mei';
-			break;
-		case '6':
-			$bln = 'Juni';
-			break;
-		case '7':
-			$bln = 'Juli';
-			break;
-		case '8':
-			$bln = 'Agustus';
-			break;
-		case '9':
-			$bln = 'September';
-			break;
-		case '10':
-			$bln = 'Oktober';
-			break;
-		case '11':
-			$bln = 'November';
-			break;
-		case '12':
-			$bln = 'Desember';
-			break;
-		default:
-			$bln = str_repeat(chr(160), 16); // gunakan 6 non-breaking spaces agar tampil di FPDF
-			break;
+	if ($bln == '16') {
+		$nmbln = ' ' . $thn . ' ' . 'Genap';
+	} elseif ($bln == '712') {
+		$nmbln = ' ' . $thn . ' ' . 'Ganjil';
+	} else {
+		$bln = f_bulan_nama($bln);
+		$nmbln = ' Bulan ' . f_bulan_nama($bln) . ' ' . $thn;
 	}
-}else{
+} else {
 	$bln = str_repeat(chr(160), 22); // gunakan 6 non-breaking spaces agar tampil di FPDF
+	$nmbln = ' Bulan ' . f_bulan_nama($bln);
 }
 $kl 	= [];
 for ($i = 0; $i < $alt; $i++) {
@@ -101,7 +76,7 @@ $pdf = new FPDF();
 // $pdf->__construct("L", "mm", "A4"); // Landscape, mm, A4
 $pdf->SetMargins(5, 2, 2);
 $pdf->SetAutoPageBreak(true, 2);
-$pdf->SetTitle('Jurnal Mengajar ' . $nm . ' Bulan_' . $bln . '_' . $thn);
+$pdf->SetTitle('Jurnal Mengajar ' . $nm . $nmbln);
 
 // Mengatur font
 $pdf->AddFont('Cambria', 'B', 'cambria.php');
@@ -116,7 +91,7 @@ require_once("jrnl_page.php");
 $pdf->SetDisplayMode('real');  // Menampilkan ukuran asli (bukan fit to page)
 // Output PDF
 if (isset($_POST['print'])) {
-	$pdf->Output('I', 'Jurnal Mengajar ' . $nm . ' Bulan_' . $bln . '_' . $thn . '.pdf');
+	$pdf->Output('I', 'Jurnal Mengajar ' . $nm . $nmbln . '.pdf');
 } else {
-	$pdf->Output('D', 'Jurnal Mengajar ' . $nm . ' Bulan_' . $bln . '_' . $thn . '.pdf');
+	$pdf->Output('D', 'Jurnal Mengajar ' . $nm . $nmbln . '.pdf');
 }
