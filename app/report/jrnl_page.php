@@ -235,9 +235,14 @@ if ($cvr == '1'):
 		// $pdf->SetY(210);
 	}
 
+	$jnip = explode(' ', $nip);
+	if (count($jnip) < 2) {
+		$jnip[0] = 'NIP/NUPTK';
+		$jnip[1] = '';
+	}
 
 	dInfo($pdf, 'Nama Guru', $nm, $orien);
-	dInfo($pdf, 'NIP/NUPTK', $nip, $orien);
+	dInfo($pdf, $jnip[0], $jnip[1], $orien);
 	dInfo($pdf, 'Mata Pelajaran', f_kapital($mpel), $orien);
 	dInfo($pdf, 'Alokasi Waktu', $alw . ' Jam Pelajaran, ' . $alt . ' Pertemuan/Pekan', $orien);
 	dInfo($pdf, 'Tahun Ajaran', $thn . ' ' . $smt, $orien);
@@ -246,9 +251,24 @@ if ($cvr == '1'):
 
 endif;
 
+		$pdf->AddPage($orien, $cfg['size'], 0);
+
+// Jika tidak ada kelas dipilih
+if ($pkls == ['']):
+	// $pdf->AddPage($orien, $cfg['size'], 0);
+	$pdf->Rect(5, 5, $gcvr_w + 5, $gcvr_h + 5);
+	$pdf->Rect(10, 10, $gcvr_w - 5, $gcvr_h - 5);
+	$pdf->Rect(30, 30, $gcvr_w - 45, $gcvr_h - 45);
+	$pdf->SetY(90);
+	$pdf->SetFont('Cambria', 'B', 18);
+	$pdf->Cell(0, 10, 'Tidak ada data kelas yang ditemukan', 0, 1, 'C');
+	$pdf->Cell(0, 10, 'pastikan input data sudah benar.', 0, 1, 'C');
+	
+endif;
+
 
 // ISI HALAMAN JURNAL 
-if ($dkls != ''):
+if ($pkls != ''):
 
 	// Perulangan Bulan
 	if ($bln == '16') {
@@ -264,8 +284,6 @@ if ($dkls != ''):
 		if (is_numeric($bln)) $bln = f_bulan_nama($bln);
 
 		// 	$kls = $kls;
-
-		$pdf->AddPage($orien, $cfg['size'], 0);
 
 		// Pembuatan Halaman
 		foreach ($pkls as $kls) {

@@ -57,11 +57,11 @@ if ($_POST['id'] == 'create') {
 			</div>
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<label for="nip" class="form-label">NIP/NUPTK</label>
-				<input type="text" name="nip" id="nip" class="form-control" placeholder="NIP/NUPTK">
+				<input type="text" name="nip" id="nip" class="form-control" placeholder="">
 			</div>
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<label for="mapel" class="form-label">Mata Pelajaran</label>
-				<input type="text" name="mapel" id="mapel" class="form-control" placeholder="Nama Mata Pelajaran" value="" maxlength="35">
+				<input type="text" name="mapel" id="mapel" class="form-control" placeholder="" value="" maxlength="35">
 			</div>
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<label for="al_waktu" class="form-label">Alokasi Waktu</label>
@@ -176,7 +176,7 @@ if ($_POST['id'] == 'create') {
 		</div>
 		<div class="row g-2 justify-content-center">
 			<div class="col-auto">
-				<button type="submit" class="btn btn-primary" id="print" name="print"><i class="bi bi-printer"></i> Cetak Langsung</button>
+				<button type="submit" class="btn btn-outline-primary" id="print" name="print"><i class="bi bi-printer"></i> Cetak Langsung</button>
 			</div>
 			<div class="col-auto">
 				<button type="submit" class="btn btn-outline-dark" id="download" name="download"><i class="bi bi-download"></i> Unduh File Jurnal</button>
@@ -194,14 +194,21 @@ if ($_POST['id'] == 'create') {
 				}
 				$.ajax({
 					type: 'POST',
-					url: 'app/proses/simpel.php',
+					url: 'app/proses/pr_jurnal.php',
 					data: {
-						id: id
+						id: id,
+						prd: 'jrnl'
 					},
+					dataType: 'json',
 					success: function(res) {
-						$('#nip').val(res);
+						// console.log(res);
+						$('#nip').val(res.id || '');
+						$('#mapel').val(res.mpel || '');
+					},
+					error: function(xhr, status, err) {
+						console.error('AJAX error:', status, err, xhr.responseText);
 					}
-				})
+				});
 			})
 		})
 

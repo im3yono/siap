@@ -1,4 +1,3 @@
-
 <?php
 require_once "../../config/server.php";
 require_once("../../assets/fpdf/fpdf.php");  // Include FPDF

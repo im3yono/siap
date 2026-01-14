@@ -1,9 +1,22 @@
 # Aktifkan mod_rewrite
-RewriteEngine On
 
-# Pastikan file dan folder asli tetap bisa diakses
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine On
 
-# Hilangkan ekstensi .php
-RewriteRule ^([a-zA-Z0-9_-]+)/?$ $1.php [L]
+    # Pastikan file dan folder asli tetap bisa diakses
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Hilangkan ekstensi .php
+
+    RewriteRule ^([a-zA-Z0-9_-]+)/?$ $1.php [L]
+
+    # Custom error pages (RELATIVE PATH)
+
+    ErrorDocument 403 /app/error/403.php
+    ErrorDocument 404 /app/error/404.php
+    ErrorDocument 401 /app/error/401.php
+
+</IfModule>

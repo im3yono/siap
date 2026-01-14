@@ -2,7 +2,7 @@
 
 function f_singkatNama($nama, $max = 3)
 {
-	$nm_umum = ['Muhammad', 'Mohammad','Muhamad', 'Ahmad', 'Akhmad'];
+	$nm_umum = ['Muhammad', 'Mohammad', 'Muhamad', 'Ahmad', 'Akhmad'];
 	$nama = ucwords(strtolower($nama)); // ubah menjadi huruf kecil dan kapitalisasi awal kata
 	$kata = explode(' ', $nama);
 	$jumlah = count($kata);
@@ -66,7 +66,7 @@ function fileUser($file, $user, $pass)
 }
 
 
-function f_nmGelar($nm='', $glr = '')
+function f_nmGelar($nm = '', $glr = '')
 {
 	$glr = json_decode($glr, true);
 	$glrd	= $glr['gld'] ?? '';
@@ -81,7 +81,8 @@ function f_nmGelar($nm='', $glr = '')
 	return $glrd . ($nm) . $glrb;
 }
 
-function f_almtL($almt){
+function f_almtL($almt)
+{
 	$almt 	= json_decode($almt, true);
 	$jl 		= $almt['almt'] != "" ? $almt['almt'] : '';
 	$rt 		= $almt['rt'] != "" ? $almt['rt'] : '0';
@@ -98,4 +99,15 @@ function f_almtL($almt){
 	$almt = $jl . " RT " . $rt . "/" . $rw .  $dusun . ", Kel. " . $kel . ", Kec. " . $kec .  $kdpos;
 
 	return $almt;
+}
+
+function f_nik($nik)
+{
+	// if ($label == 'NIK' || $label == 'NIKK') {
+	// $data = substr($data, 0,3) . '****' . substr($data, -3);
+	return substr($nik, 0, 4) . '****';
+	// $data = $data . '<button class="btn btn-sm btn-tool" onclick="togglePassword()"><i class="bi bi-eye"></i></button>';
+
+	// }
+	// return preg_replace('/(\d{6})(\d{8})(\d{4})/', '$1 **** **** $3', $nik);
 }

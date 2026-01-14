@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="assets/css/simple-datatables.css">
 	<link rel="stylesheet" href="assets/css/sweetalert2.min.css">
 	<link rel="stylesheet" href="assets/bootstrap-icons/font/bootstrap-icons.min.css">
+
 	<link rel="stylesheet" href="assets/css/custom.css">
 
 	<!-- lib Modul -->
@@ -159,6 +160,28 @@
 								</li>
 							</ul>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link collapsed">
+								<img src="assets/img/mytbk.png" class="nav-icon">
+								<p>Tes Akademik
+									<i class="nav-arrow bi bi-chevron-right"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<a data-route="peserta" class="nav-link">
+										<img src="assets/icon/person_group.svg" class="nav-icon">
+										<p>Daftar Peserta</p>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a data-route="hasil" class="nav-link">
+										<img src="assets/icon/analytics.svg" class="nav-icon">
+										<p>Hasil Analisa</p>
+									</a>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</nav>
 			</div>
@@ -184,7 +207,7 @@
 		</main>
 		<footer class="app-footer">
 			<strong>
-				<?= $buat.$by.$ver_app; ?>
+				<?= $buat . $by . $ver_app; ?>
 			</strong>
 		</footer>
 	</div>
@@ -486,8 +509,8 @@
 				hideLoading();
 			})
 			.fail(() => $("#content-route").html("Terjadi kesalahan memuat halaman."));
-			// console.clear();
-			// console.log('SIAP (Sistem Infomasi Administrasi Pendidikan)');
+		// console.clear();
+		// console.log('SIAP (Sistem Infomasi Administrasi Pendidikan)');
 	}
 
 	// Ganti spinner -> progress bar

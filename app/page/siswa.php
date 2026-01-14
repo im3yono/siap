@@ -16,7 +16,7 @@
 	.table-responsive th:nth-child(3),
 	.table-responsive td:nth-child(3) {
 		width: auto;
-		min-width: 200px;
+		min-width: 150px;
 		text-align: left;
 		align-content: baseline;
 	}
@@ -37,7 +37,7 @@
 
 	.table-responsive th:nth-child(6) {
 		min-width: 250px;
-		max-width: 300px;
+		max-width: 350px;
 		text-align: center;
 		align-content: baseline;
 	}
@@ -120,6 +120,8 @@
 
 					// $ft = "app/images/siswa/" . $row['nipd'];
 					// $ft = "assets/img/account.png";
+					if (!empty($ayah['sts'])) $ayah['sts'] == 'N' ? $a_sts = "(Ayah alm)" : $a_sts = "(Ayah)";
+					if (!empty($ibu['sts'])) $ibu['sts'] == 'N' ? $i_sts = "(Ibu alm)" : $i_sts = "(Ibu)";
 				?>
 
 					<tr>
@@ -132,9 +134,9 @@
 						<td><?= f_nama($row['tmp_lahir']) . "<br>" . tgl($row['tgl_lahir']); ?></td>
 						<td><?= $almt; ?></td>
 						<td>
-							<?= $ayah['nm']; ?> (Ayah)
+							<?= $ayah['nm'] . ' ' . $a_sts; ?>
 							<br>
-							<?= $ibu['nm']; ?> (Ibu)
+							<?= $ibu['nm'] . ' ' . $i_sts; ?>
 							<br>
 							<?= $wali['nm'] != '' ? $wali['nm'] . ' (Wali)' : ''; ?>
 						</td>
@@ -165,16 +167,17 @@
 	<div class="modal-dialog modal-dialog-scrollable">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="d_siswaLabel">Data Siswa</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<h1 class="modal-title fs-5" id="d_siswaLabel">Biodata Siswa</h1>
+				<!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
 			</div>
 			<div class="modal-body">
 				<div id="viewDataSiswa"></div>
 			</div>
 			<div class="modal-footer" id="md_btn">
 				<button class="btn btn-primary" name="simpan" id="simpan">Simpan</button>
+				<button class="btn btn-outline-danger" name="form" id="form"><i class="bi bi-printer"></i> Cetak</button>
 				<button data-route="fm_sis" data-id="" class="btn btn-primary" id="md_edit" data-bs-dismiss="modal"><i class="bi bi-pencil"></i> Edit</button>
-				<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button> -->
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
 			</div>
 		</div>
 	</div>
@@ -206,7 +209,7 @@
 			$('#md_edit').attr('data-id', id);
 			$('#simpan').hide();
 			$('#md_edit').show();
-			$('#d_siswaLabel').text('Data Siswa');
+			$('#d_siswaLabel').text('Biodata Siswa');
 			$('#md_btn').show();
 		}
 		if (prd == 'add') {
@@ -246,9 +249,10 @@
 			if (result.isConfirmed) {
 				$.ajax({
 					type: 'POST',
-					url: 'app/hapus/h_sis.php',
+					url: 'app/proses/pr_siswa.php',
 					data: {
-						id: id
+						id: id,
+						prd: 'del_sis'
 					},
 					success: function(response) {
 						if (response === 'success') {
@@ -257,12 +261,12 @@
 								'Data berhasil dihapus.',
 								'success'
 							).then(() => {
-								loadRoute('v_siswa', false); // Muat ulang halaman tanpa menambah ke riwayat
+								loadRoute('siswa', false); // Muat ulang halaman tanpa menambah ke riwayat
 							});
 						} else {
 							Swal.fire(
 								'Gagal!',
-								'Gagal menghapus data. Silahkan coba lagi.',
+								'Gagal menghapus data. Silahkan coba lagi.' + response,
 								'error'
 							);
 						}
@@ -270,7 +274,7 @@
 					error: function() {
 						Swal.fire(
 							'Gagal!',
-							'Gagal menghapus data. Silahkan coba lagi.',
+							'Gagal menghapus data. Silahkan coba lagi.' + response,
 							'error'
 						);
 					}
@@ -278,4 +282,5 @@
 			}
 		});
 	}
+
 </script>

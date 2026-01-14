@@ -158,7 +158,7 @@ if ($prd == 'ck_nipd'):
 		$res = [
 			// field utama
 			// 'id_sis' => $d['id_dsis'],
-			'ft' => ft($d['nipd'], 'siswa','../../'),
+			'ft' => ft($d['nipd'], 'siswa', '../../'),
 			'nisn' => $d['nisn'],
 			'nm' => $d['nm'],
 			'jk' => $d['jk'],
@@ -228,7 +228,90 @@ if ($prd == 'ck_nipd'):
 
 		echo json_encode($res);
 	} else {
-		echo '';
+		// echo '';
+		$res = [
+			// field utama
+			// 'id_sis' => $d['id_dsis'],
+			'ft' 			=> 'assets/img/account.png',
+			'nisn' 		=> '',
+			'nm' 			=> '',
+			'jk' 			=> '',
+			'tmp_l' 	=> '',
+			'tgl_l' 	=> '',
+			'nik' 		=> '',
+			'nkk' 		=> '',
+			'agm' 		=> '',
+			'tmp_t' 	=> '',
+			'transpor' => '',
+			'email' 	=> '',
+			'masuk' 	=> '',
+			'kls' 		=> '',
+			'n_akte' 	=> '',
+			'disabel' => '',
+			'asl_sekl' => '',
+			'jrk' 		=> '',
+
+			// field json — pecah jadi key seperti di $_POST
+			'almt' 		=> $almt['almt'] ?? '',
+			'rt' 			=> $almt['rt'] ?? '',
+			'rw' 			=> $almt['rw'] ?? '',
+			'dsn' 		=> $almt['dusun'] ?? '',
+			'desa' 		=> $almt['kel'] ?? '',
+			'kec' 		=> $almt['kec'] ?? '',
+			'kdpos' 	=> $almt['kdpos'] ?? '',
+
+			'tlp' 		=> $tlp['tlp'] ?? '',
+			'hp' 			=> $tlp['hp'] ?? '',
+
+			'sdr' 		=> $sdr['sdr'] ?? '',
+			'a_ke' 		=> $sdr['ke'] ?? '',
+
+			'bb' 			=> $bmilk['bb'] ?? '',
+			'tb' 			=> $bmilk['tb'] ?? '',
+			'lk' 			=> $bmilk['lk'] ?? '',
+
+			// Ayah
+			'nik_a' 	=> $ayah['nik'] ?? '',
+			'nm_a' 		=> $ayah['nm'] ?? '',
+			'thnl_a' 	=> $ayah['thn_l'] ?? '',
+			'almt_a' 	=> $ayah['almt'] ?? '',
+			'pddk_a' 	=> $ayah['pddk'] ?? '',
+			'kerja_a' => $ayah['kerja'] ?? '',
+			'upah_a' 	=> $ayah['upah'] ?? '',
+			'sts_a' 	=> $ayah['sts'] ?? '',
+
+			// Ibu
+			'nik_i' 	=> $ibu['nik'] ?? '',
+			'nm_i' 		=> $ibu['nm'] ?? '',
+			'thnl_i' 	=> $ibu['thn_l'] ?? '',
+			'almt_i' 	=> $ibu['almt'] ?? '',
+			'pddk_i' 	=> $ibu['pddk'] ?? '',
+			'kerja_i' => $ibu['kerja'] ?? '',
+			'upah_i' 	=> $ibu['upah'] ?? '',
+			'sts_i' 	=> $ibu['sts'] ?? '',
+
+			// Wali
+			'nik_w' 	=> $wali['nik'] ?? '',
+			'nm_w' 		=> $wali['nm'] ?? '',
+			'thnl_w' 	=> $wali['thn_l'] ?? '',
+			'almt_w' 	=> $wali['almt'] ?? '',
+			'pddk_w' 	=> $wali['pddk'] ?? '',
+			'kerja_w' => $wali['kerja'] ?? '',
+			'upah_w' 	=> $wali['upah'] ?? '',
+		];
+		echo json_encode($res);
 		exit;
+	}
+endif;
+
+
+// Proses hapus data siswa
+if ($prd == 'del_sis'):
+	$id = $_POST['id'];
+	$stmt = db_Proses($pdo_conn, "DELETE FROM tb_dsis WHERE nipd = ?", [$id]);
+	if ($stmt) {
+		// unlink("../../app/images/siswa/".$id);
+		unlink(ft($id, 'siswa', '../../', '../../'));
+		echo 'success';
 	}
 endif;

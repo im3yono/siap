@@ -31,6 +31,10 @@ if ($prd == 'edt'):
 	$sdr		= json_decode($row['saudr'], true);
 
 
+	if (!empty($ayah['sts'])) $ayah['sts'] == 'N' ? $a_sts = ", Alm" : $a_sts = "";else $a_sts = "";
+	if (!empty($ibu['sts'])) $ibu['sts'] == 'N' ? $i_sts = ", Alm" : $i_sts = "";else $i_sts = "";
+
+
 	$tb_bb_lk = json_decode($row['bb_tb_lk'], true);
 	$bb = $tb_bb_lk['bb'] != "" ? $tb_bb_lk['bb'] . " Kg" : '';
 	$tb = $tb_bb_lk['tb'] != "" ? $tb_bb_lk['tb'] . " Cm" : '';
@@ -38,6 +42,12 @@ if ($prd == 'edt'):
 
 	function barisData($label, $data, $class = '')
 	{
+		if ($label == 'NIK' || $label == 'NIKK') {
+			// $data = substr($data, 0,3) . '****' . substr($data, -3);
+			$data = substr($data, 0, 4) . '****';
+			// $data = $data . '<button class="btn btn-sm btn-tool" onclick="togglePassword()"><i class="bi bi-eye"></i></button>';
+
+		}
 		$view1 = '
 	<div class="col-4">' . $label . '</div>:
 	<div class="col">' . $data . '</div>';
@@ -62,7 +72,7 @@ if ($prd == 'edt'):
 			</div>
 		</div>
 		<div class="col-12">
-			<div class="bg-info p-2 h6" style="border-radius:5px;">Data Siswa</div>
+			<div class="bg-info p-2 h6" style="border-radius:5px;">Biodata Siswa</div>
 			<?php
 			echo
 			barisData('NISN', f_nama($row['nisn']), 'fw-bold')
@@ -72,7 +82,6 @@ if ($prd == 'edt'):
 				. barisData('Jenis Kelamin', $row['jk'] == 'L' ? "Laki-Laki" : "Perempuan")
 				. barisData('Agama', $row['agm'])
 				. barisData('Alamat', $almt)
-				. barisData('Transportasi', $row['trasport'])
 				. barisData('No. Telpon', $tlp['tlp'] ?? '')
 				. barisData('No. Hp', $tlp['hp'] ?? '')
 				. barisData('Email', $row['email'])
@@ -85,20 +94,22 @@ if ($prd == 'edt'):
 				. barisData('Berat', $bb)
 				. barisData('Tinggi', $tb)
 				. barisData(('Lingkar Kepala'), $tb_bb_lk['lk'] . ' Cm')
+				. barisData('Tempat Tinggal', $row['tmp_tinggal'])
 				. barisData('Jarak Rumah', $row['jrk_rmh'] . ' Km')
+				. barisData('Transportasi', $row['trasport'])
 				. '<hr>'
 				. '<div class="bg-info p-2 h6" style="border-radius:5px;">Data Orang Tua/Wali</div>'
 				. '<h6 class="border-bottom">Ayah</h6>'
-				. barisData('Nama ', $ayah['nm'], 'fw-bold')
-				. barisData('NIK ', $ayah['nik'])
+				. barisData('Nama ', $ayah['nm'] . $a_sts, 'fw-bold')
+				. barisData('NIK', $ayah['nik'])
 				. barisData('Tahun Lahir ', $ayah['thn_l'])
 				. barisData('Alamat ', $ayah['almt'])
 				. barisData('Pendidikan ', $ayah['pddk'])
 				. barisData('Pekerjaan ', $ayah['kerja'])
 				. barisData('Penghasilan ', $ayah['upah'])
 				. '<h6 class="mt-3 border-bottom">Ibu</h6>'
-				. barisData('Nama ', $ibu['nm'], 'fw-bold')
-				. barisData('NIK ', $ibu['nik'])
+				. barisData('Nama ', $ibu['nm'] . $i_sts, 'fw-bold')
+				. barisData('NIK', $ibu['nik'])
 				. barisData('Tahun Lahir ', $ibu['thn_l'])
 				. barisData('Alamat ', $ibu['almt'])
 				. barisData('Pendidikan ', $ibu['pddk'])
@@ -107,7 +118,7 @@ if ($prd == 'edt'):
 			if ($wali['nm'] != "") {
 				echo '<h6 class="mt-3 border-bottom">Wali</h6>'
 					. barisData('Nama ', $wali['nm'], 'fw-bold')
-					. barisData('NIK ', $wali['nik'])
+					. barisData('NIK', $wali['nik'])
 					. barisData('Tahun Lahir ', $wali['thn_l'])
 					. barisData('Alamat ', $wali['almt'])
 					. barisData('Pendidikan ', $wali['pddk'])
@@ -118,8 +129,38 @@ if ($prd == 'edt'):
 				;
 			}
 			?>
+			<form id="b_sis">
+				<input type="hidden" name="nipd" id="nipd" value="<?= $row['nipd']; ?>">
+			</form>
 		</div>
 	</div>
+	<script>
+		$(document).ready(function() {
+			$("#form").on("click", function(e) {
+				e.preventDefault();
+
+				let nipd = $("#nipd").val();
+
+				// Buat form POST secara dinamis
+				let form = $('<form>', {
+					method: 'POST',
+					action: 'app/report/v_form_siswa',
+					target: 'blank'
+				});
+
+				// Tambahkan field nipd
+				$('<input>', {
+					type: 'hidden',
+					name: 'nipd',
+					value: nipd
+				}).appendTo(form);
+
+				// Tambahkan form ke body, submit, lalu hapus
+				form.appendTo('body').submit().remove();
+			});
+		});
+	</script>
+
 <?php
 endif;
 

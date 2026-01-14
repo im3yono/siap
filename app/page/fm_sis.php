@@ -58,6 +58,8 @@ $a_almt		= $ayah['almt'] ?? '';
 $a_pddk		= $ayah['pddk'] ?? '';
 $a_kerja	= $ayah['kerja'] ?? '';
 $a_upah		= $ayah['upah'] ?? '';
+$a_sts		= $ayah['sts'] ?? '';
+
 
 $i_nm			= $ibu['nm'] ?? '';
 $i_nik		= $ibu['nik'] ?? '';
@@ -66,6 +68,7 @@ $i_almt		= $ibu['almt'] ?? '';
 $i_pddk		= $ibu['pddk'] ?? '';
 $i_kerja	= $ibu['kerja'] ?? '';
 $i_upah		= $ibu['upah'] ?? '';
+$i_sts		= $ibu['sts'] ?? '';
 
 $w_nm			= $wali['nm'] ?? '';
 $w_nik		= $wali['nik'] ?? '';
@@ -91,7 +94,7 @@ $tb				= $btlData['tb'] ?? '';
 $lk				= $btlData['lk'] ?? '';
 
 $jrk			= $dsis['jrk_rmh'] ?? '';
-$rcd			= $dsis['rcd'] ?? '';
+$rcd			= $dsis['rcd'] ?? date('Y-m-d H:i:s');
 $upd			= $dsis['upd'] ?? '';
 
 
@@ -329,21 +332,21 @@ $upd			= $dsis['upd'] ?? '';
 			<label for="tgl_df">Tanggal Input Data</label>
 			<input type="text" name="tgl_df" id="tgl_df" class="form-control" value="<?= tglJam($rcd, ''); ?>" disabled>
 		</div>
-		<div class="col-lg-4 col-md-6 col-12">
+		<div class="col-lg-4 col-md-6 col-12" <?= $upd == '' ? 'hidden' : ''; ?> id="updt">
 			<label for="tgl_up">Tanggal Terakhir Update Data</label>
 			<input type="text" name="tgl_up" id="tgl_up" class="form-control" value="<?= tglJam($upd, ''); ?>" disabled>
 		</div>
 	</div>
 	<div class="row g-3 mx-lg-4 mx-1 mb-3 mt-5">
 		<h5 class="col-12 border-bottom p-2 bg-secondary-subtle" style="border-radius: 7px;"> Data Orang Tua/Wali</h5>
-		<div class="row g-3 mb-3">
+		<div class="row g-3 mb-3 pb-3">
 			<h6 class="col-12 border-bottom p-1 bg-light"> Data Ayah</h6>
 			<div class="row">
 				<div class="col-auto">
 					<label for="sts_a">Status Ayah</label>
 					<select name="sts_a" id="sts_a" class="form-select">
 						<option value="Y">Ada</option>
-						<option value="N">Meninggal</option>
+						<option value="N" <?= $a_sts == 'N' ? 'selected' : ''; ?>>Meninggal</option>
 					</select>
 				</div>
 			</div>
@@ -376,14 +379,14 @@ $upd			= $dsis['upd'] ?? '';
 				<input type="text" name="upah_a" id="upah_a" class="form-control" value="<?= $a_upah; ?>">
 			</div>
 		</div>
-		<div class="row g-3 mb-3">
+		<div class="row g-3 mb-3 pb-3">
 			<h6 class="col-12 border-bottom p-1 bg-light"> Data Ibu</h6>
 			<div class="row">
 				<div class="col-auto">
 					<label for="sts_i">Status Ibu</label>
 					<select name="sts_i" id="sts_i" class="form-select">
 						<option value="Y">Ada</option>
-						<option value="N">Meninggal</option>
+						<option value="N" <?= $i_sts == 'N' ? 'selected' : ''; ?>>Meninggal</option>
 					</select>
 				</div>
 			</div>
@@ -416,7 +419,7 @@ $upd			= $dsis['upd'] ?? '';
 				<input type="text" name="upah_i" id="upah_i" class="form-control" value="<?= $i_upah; ?>">
 			</div>
 		</div>
-		<div class="row g-3 mb-3">
+		<div class="row g-3 mb-3 pb-3 ">
 			<h6 class="col-12 border-bottom p-1 bg-light"> Data Wali</h6>
 			<div class="col-lg-4 col-md-6 col-12">
 				<label for="nm_w">Nama </label>
@@ -510,6 +513,7 @@ $upd			= $dsis['upd'] ?? '';
 					if (typeof res === 'string') {
 						try {
 							data = JSON.parse(res);
+							$('#updt').removeAttr('hidden');
 						} catch (e) {
 							console.error('Invalid JSON response', e, res);
 							return;

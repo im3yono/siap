@@ -91,7 +91,7 @@
 								$gr = $pdo_conn->prepare("SELECT * FROM tb_dstaf WHERE jptk='Guru' AND kd_staf ='$dt'");
 								$gr->execute();
 								$nm = $gr->fetch(PDO::FETCH_ASSOC);
-								echo $nm['nm_staf'] == '' ? '' : $nm['nm_staf'] . ', ';
+								echo (!empty($nm['nm_staf']) ? $nm['nm_staf'] : '') . (trim($dt) != end($ar_gr) ? ', ' : '');
 							}
 							?></td>
 						<td>
