@@ -109,7 +109,7 @@ class PDF extends FPDF
 
 		// Tambahkan background kartu
 		$this->Image(ft($nipd, 'siswa', '../../', '../../'), $x + 4.5, $y + 15, 15);
-		$this->Image($bg, $x, $y, $w, $h);
+		$this->Image(ft($bg, '', '../../', '../../'), $x, $y, $w, $h);
 
 		// Tambahkan teks di atas background
 		$this->SetTextColor(0, 0, 0);
@@ -156,7 +156,9 @@ class PDF extends FPDF
 		$h = 55; // tinggi kartu
 
 		// Tambahkan background kartu
-		$this->Image($bg, $x, $y, $w, $h);
+		// $this->Image($bg, $x, $y, $w, $h);
+		$this->Image(ft($bg, '', '../../', '../../'), $x, $y, $w, $h);
+
 
 		// Tambahkan teks di atas background
 		$this->SetFont('Arial', '', 8);
@@ -211,8 +213,8 @@ $h 			= 55; // Default Id Card
 $count 	= 0;
 
 foreach ($data as $d) {
-	$pdf->addDepan($x, $y, 'bg_depan.png', $d[0], $d[1], $d[2], $d[3], $d[4]);
-	$pdf->addBelakang($x + 100, $y, 'bg_belakang.png');
+	$pdf->addDepan($x, $y, 'bg_depan', $d[0], $d[1], $d[2], $d[3], $d[4]);
+	$pdf->addBelakang($x + 100, $y, 'bg_belakang');
 	$count++;
 
 	$y += 59 + $jrk; // jarak antar baris
@@ -227,4 +229,4 @@ foreach ($data as $d) {
 // }
 
 $pdf->SetDisplayMode('real');  // Menampilkan ukuran asli (bukan fit to page)
-$pdf->Output('D', $nm_File . '.pdf');
+$pdf->Output('I', $nm_File . '.pdf');

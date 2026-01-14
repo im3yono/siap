@@ -2,6 +2,9 @@
 
 function tgl_hari($waktu)
 {
+	if ($waktu == "0000-00-00") {
+		return '-';
+	}
 	$hari_array = array(
 		'Minggu',
 		'Senin',

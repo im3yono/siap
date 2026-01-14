@@ -13,15 +13,7 @@ if ($prd == 'edt'):
 	$stmt->execute();
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-	$almt 	= json_decode($row['almt'], true);
-	$jl 		= $almt['almt'] != "" ? $almt['almt'] : '';
-	$rt 		= $almt['rt'] != "" ? $almt['rt'] : '0';
-	$rw 		= $almt['rw'] != "" ? $almt['rw'] : '0';
-	$dusun 	= $almt['dusun'] != "" ? ", Dusun " . $almt['dusun'] : '';
-	$kel 		= $almt['kel'] != "" ? $almt['kel'] : '';
-	$kec 		= $almt['kec'] != "" ? $almt['kec'] : '';
-	$kdpos	= $almt['kdpos'] != "" ? ", Kode Pos " . $almt['kdpos'] : '';
-	$almt		= $jl . " RT " . $rt . "/" . $rw .  $dusun . ", Kel. " . $kel . ", Kec. " . $kec .  $kdpos;
+	$almt 	= f_almtL($row['almt']);
 
 	$tlp		= json_decode($row['tlp/hp'], true);
 
@@ -31,8 +23,10 @@ if ($prd == 'edt'):
 	$sdr		= json_decode($row['saudr'], true);
 
 
-	if (!empty($ayah['sts'])) $ayah['sts'] == 'N' ? $a_sts = ", Alm" : $a_sts = "";else $a_sts = "";
-	if (!empty($ibu['sts'])) $ibu['sts'] == 'N' ? $i_sts = ", Alm" : $i_sts = "";else $i_sts = "";
+	if (!empty($ayah['sts'])) $ayah['sts'] == 'N' ? $a_sts = ", Alm" : $a_sts = "";
+	else $a_sts = "";
+	if (!empty($ibu['sts'])) $ibu['sts'] == 'N' ? $i_sts = ", Alm" : $i_sts = "";
+	else $i_sts = "";
 
 
 	$tb_bb_lk = json_decode($row['bb_tb_lk'], true);
@@ -44,7 +38,7 @@ if ($prd == 'edt'):
 	{
 		if ($label == 'NIK' || $label == 'NIKK') {
 			// $data = substr($data, 0,3) . '****' . substr($data, -3);
-			$data = substr($data, 0, 4) . '****';
+			$data = substr($data, 0, 4) . '************';
 			// $data = $data . '<button class="btn btn-sm btn-tool" onclick="togglePassword()"><i class="bi bi-eye"></i></button>';
 
 		}
@@ -69,6 +63,7 @@ if ($prd == 'edt'):
 			</div>
 			<div class="fw-bold h5 pb-3">
 				<?= $row['nipd']; ?>
+				<input type="hidden" id="nipd" value="<?= $row['nipd']; ?>">
 			</div>
 		</div>
 		<div class="col-12">
@@ -208,7 +203,7 @@ if ($prd == 'ktpl'):
 			<div id="tmbh">
 				<div class="col-12" id="ns">
 					<label for="nis" class="form-label">NIS</label>
-					<input type="text" name="nis" id="nis" class="form-control" placeholder="Nomor Induk Siswa">
+					<input type="text" name="nis" id="nis" class="form-control" placeholder="Nomor Induk Siswa" value="<?= $nipd; ?>">
 				</div>
 				<div class="col-12" id="nm">
 					<label for="nama" class="form-label">Nama</label>
@@ -223,9 +218,9 @@ if ($prd == 'ktpl'):
 				</ul>
 				</p>
 			</div>
-			<div id="ctk">
+			<div id="ctk" <?= empty($nipd) ? 'style="display: none;"' : ''; ?>>
 				<div class="col-12">
-					<label for="ketas" class="form-label">Ukuran Kertas</label>
+					<label for="kertas" class="form-label">Ukuran Kertas</label>
 					<select name="kertas" id="kertas" class="form-select">
 						<option value="pvc">PVC ID Card (200x300mm)</option>
 						<option value="a4">A4 (210x297mm)</option>
@@ -265,7 +260,7 @@ if ($prd == 'ktpl'):
 	</script>
 	<script>
 		$(document).ready(function() {
-			$("#ctk").hide();
+			// $("#ctk").hide();
 
 			function cekInput() {
 				let tkt = $("#tkt").val();

@@ -9,7 +9,28 @@ $kntk = json_decode($dt_sf['kontak'], true);
 $tlp = ($kntk['tlp'] ?? '-') . ' / ' . ($kntk['hp'] ?? '-');
 $psng = json_decode($dt_sf['psngn'], true);
 
-$nm = f_nmGelar(f_nama($dt_sf['nm_staf']), $dt_sf['glar'])
+$nm = f_nmGelar(f_nama($dt_sf['nm_staf']), $dt_sf['glar']);
+
+
+function viewData($label, $data, $class = '')
+{
+	if ($label == 'NIK' || $label == 'NIKK') {
+		// $data = substr($data, 0,3) . '****' . substr($data, -3);
+		$data = substr($data, 0, 4) . '************';
+		// $data = $data . '<button class="btn btn-sm btn-tool" onclick="togglePassword()"><i class="bi bi-eye"></i></button>';
+
+	}
+	if ($data == '') $data = '-';
+	$view1 = '
+	<div class="col-md-3 col-4">' . $label . '</div>
+	<div class="col">
+		<div class="row gap-0">
+			<div class="col-auto" style="max-width: 5px;">:</div>
+			<div class="col">' . $data . '</div>
+		</div>
+	</div>';
+	return '<div class="row ' . $class . '">' . $view1 . '</div>';
+}
 ?>
 
 <style>
@@ -23,7 +44,7 @@ $nm = f_nmGelar(f_nama($dt_sf['nm_staf']), $dt_sf['glar'])
 	<div class="col-auto">
 		<button onclick="history.go(-1);" class="btn btn-outline-dark"><i class="bi bi-arrow-left"></i> Kembali</button>
 	</div>
-	<div class="col-auto">Informasi Data Staf</div>
+	<div class="col-auto">Informasi Biodata Staf</div>
 </div>
 <div class="row">
 	<div class="col-xl-4">
@@ -80,151 +101,40 @@ $nm = f_nmGelar(f_nama($dt_sf['nm_staf']), $dt_sf['glar'])
 
 					<h5 class="">Profil Lengakap</h5>
 
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label ">Nama Lengkap</div>
-						<div class="col-lg-9 col-md-8 fw-semibold"><?= $nm; ?></div>
-					</div>
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label ">NIP</div>
-						<div class="col-lg-9 col-md-8 fw-semibold"><?= $dt_sf['nip']; ?></div>
-					</div>
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label ">NUPTK</div>
-						<div class="col-lg-9 col-md-8 fw-semibold"><?= $dt_sf['nuptk']; ?></div>
-					</div>
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label ">NIK</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['nik']; ?></div>
-					</div>
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label ">NKK</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['nkk']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Tempat, Tanggal Lahir</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['tmp_l'] . ', ' . tgl($dt_sf['tgl_l']); ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Jenis Kelamin</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['jk'] == 'L' ? 'Laki-Laki' : 'Perempuan'; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Agama</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['agm']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Alamat</div>
-						<div class="col-lg-9 col-md-8"><?= f_almtL($dt_sf['almt']); ?></div>
-					</div>
-
-					<!-- <div class="row">
-						<div class="col-lg-3 col-md-4 label">Kewarganegaraan</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['warga']; ?></div>
-					</div> -->
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Email</div>
-						<div class="col-lg-9 col-md-8"><?= $kntk['email']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Tlp/Hp</div>
-						<div class="col-lg-9 col-md-8"><?= $tlp; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Pendidikan Terakhir</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['ppdk']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Nama Sekolah/Perguruan Tinggi</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['sklh_univ']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Jabatan</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['jptk']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Status Kepegawaian</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['stt_pgw']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Tugas Tambahan</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['tgs_tmbh']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">SK Pengangkatan</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['sk_pengaktn']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">TMT Pengangkatan</div>
-						<div class="col-lg-9 col-md-8"><?= tgl_hari($dt_sf['jptk']); ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">SK CPNS</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['sk_cpns']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Tanggal CPNS</div>
-						<div class="col-lg-9 col-md-8"><?= tgl_hari($dt_sf['tgl_cpns']); ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Lembaga Pengangkatan</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['lbg_angkt']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Pangkat/Golongan</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['pngkat_gl']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">TMT PNS</div>
-						<div class="col-lg-9 col-md-8"><?= tgl_hari($dt_sf['tmt_pns']); ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Sumber Gajih</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['sgaji']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Nama Ibu</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['nm_ibu']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Status Perkawinan</div>
-						<div class="col-lg-9 col-md-8"><?= $dt_sf['sts_kwn']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Nama Suami/Istri</div>
-						<div class="col-lg-9 col-md-8"><?= $psng['nm']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">NIP Suami/Istri</div>
-						<div class="col-lg-9 col-md-8"><?= $psng['nip']; ?></div>
-					</div>
-
-					<div class="row">
-						<div class="col-lg-3 col-md-4 label">Kerja Suami/Istri</div>
-						<div class="col-lg-9 col-md-8"><?= $psng['kerja']; ?></div>
-					</div>
+					<?=
+					viewData('Nama Lengkap', $nm, 'fw-semibold')
+						. viewData('NIP', $dt_sf['nip'])
+						. viewData('NUPTK', $dt_sf['nuptk'])
+						. viewData('NIK', $dt_sf['nik'])
+						. viewData('NIKK', $dt_sf['nkk'])
+						. viewData('Tempat, Tanggal Lahir', $dt_sf['tmp_l'] . ', ' . tgl($dt_sf['tgl_l']))
+						. viewData('Jenis Kelamin', $dt_sf['jk'] == 'L' ? 'Laki-Laki' : 'Perempuan')
+						. viewData('Agama', $dt_sf['agm'])
+						. viewData('Alamat', f_almtL($dt_sf['almt']))
+						. viewData('Kewarganegaraan', $dt_sf['warga'])
+						. viewData('Email', $kntk['email'])
+						. viewData('Telepon/Hp', $tlp)
+						. viewData('Pendidikan', $dt_sf['ppdk'])
+						. viewData('Nama Sekolah/Perguruan', $dt_sf['sklh_univ'])
+						. viewData('Jabatan', $dt_sf['jptk'])
+						. viewData('Status Kepegawaian', $dt_sf['stt_pgw'])
+						. viewData('Tugas Tambahan', $dt_sf['tgs_tmbh'])
+						. viewData('SK Pengangkatan', $dt_sf['sk_pengaktn'])
+						. viewData('TMT Pengangkatan', tgl_hari($dt_sf['tmt_angkt']))
+						. viewData('SK CPNS', $dt_sf['sk_cpns'])
+						. viewData('Tanggal CPNS', tgl_hari($dt_sf['tgl_cpns']))
+						. viewData('Lembaga Pengagkatan', $dt_sf['lbg_angkt'])
+						. viewData('Pangkat/Golongan', $dt_sf['pngkat_gl'])
+						. viewData('TMT PNS', tgl_hari($dt_sf['tmt_pns']))
+						. viewData('Sumber Gajih', $dt_sf['sgaji'])
+						. viewData('Nama Ibu', $dt_sf['nm_ibu'])
+						. viewData('Status Perkawinan', $dt_sf['sts_kwn'])
+						. viewData('Nama Suami/Istri', $psng['nm'])
+						. viewData('NIP Suami/Istri', $psng['nip'])
+						. viewData('Kerja Suami/Istri', $psng['kerja'])
+						// . viewData('', $dt_sf[''])
+					;
+					?>
 
 				</div>
 				<div class="col-auto px-3">

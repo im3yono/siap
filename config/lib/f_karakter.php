@@ -85,18 +85,18 @@ function f_almtL($almt)
 {
 	$almt 	= json_decode($almt, true);
 	$jl 		= $almt['almt'] != "" ? $almt['almt'] : '';
-	$rt 		= $almt['rt'] != "" ? $almt['rt'] : '0';
-	$rw 		= $almt['rw'] != "" ? $almt['rw'] : '0';
+	$rt 		= " RT " . ($almt['rt'] != "" ? $almt['rt'] : '0');
+	$rw 		= "/" . ($almt['rw'] != "" ? $almt['rw'] : '0');
 	$dusun 	= $almt['dusun'] != "" ? ", Dusun " . $almt['dusun'] : '';
-	$kel 		= $almt['kel'] != "" ? $almt['kel'] : '';
-	$kec 		= $almt['kec'] != "" ? $almt['kec'] : '';
+	$kel 		=  $almt['kel'] != "" ? $almt['kel'] : '';
+	$kec 		=  $almt['kec'] != "" ? $almt['kec'] : '';
 	$kdpos 	= $almt['kdpos'] != "" ? ", Kode Pos " . $almt['kdpos'] : '';
 
 	// remove any "Kel. " prefix (case-insensitive) and trim result
-	$kel = trim(preg_replace('/\bkel\.\s*/i', '', $kel));
-	$kec = trim(preg_replace('/\bkec\.\s*/i', '', $kec));
+	$kel = ", Kel. " . trim(preg_replace('/\bkel\.\s*/i', '', $kel));
+	$kec = ", Kec. " . trim(preg_replace('/\bkec\.\s*/i', '', $kec));
 
-	$almt = $jl . " RT " . $rt . "/" . $rw .  $dusun . ", Kel. " . $kel . ", Kec. " . $kec .  $kdpos;
+	$almt = $jl .  $rt .  $rw .  $dusun .  $kel .  $kec .  $kdpos;
 
 	return $almt;
 }

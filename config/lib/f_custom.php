@@ -2,23 +2,33 @@
 
 function ft($ft, $fldr, $path = "../", $def = '')
 {
-	$format = [
-		".jpg",
-		".jpeg",
-		".png",
-		".JPG",
-		".JPEG",
-		".PNG"
+	$formats = [
+		'.jpg',
+		'.jpeg',
+		'.png',
+		'.JPG',
+		'.JPEG',
+		'.PNG'
 	];
-	$basePath = $path . "app/images/" . $fldr . "/";
-	foreach ($format as $ext) {
+
+	$folder = ($fldr !== '') ? $fldr . '/' : '';
+	$basePath = $path . 'app/images/' . $folder;
+
+	foreach ($formats as $ext) {
 		$filePath = $basePath . $ft . $ext;
+
 		if (file_exists($filePath)) {
-			return $def . "app/images/" . $fldr . "/" . $ft . $ext;
+			return $def . 'app/images/' . $folder . $ft . $ext;
 		}
 	}
-	return $def . "assets/img/account.png";
+
+	if ($fldr === 'siswa' || $fldr === 'staf') {
+		return $def . 'assets/img/account.png';
+	}
+
+	return $def . 'assets/img/hide_image.png';
 }
+
 
 function f_qrCode($data)
 {
@@ -58,4 +68,3 @@ function f_pdfqrCode($data)
 	// Hasilkan string base64 tanpa tag HTML
 	return base64_encode($imageString);
 }
-

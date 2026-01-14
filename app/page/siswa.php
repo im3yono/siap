@@ -103,16 +103,7 @@
 				$stmt->execute(['Y']);
 
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-					$almt 	= json_decode($row['almt'], true);
-					$jl 		= $almt['almt'] != "" ? $almt['almt'] : '';
-					$rt 		= $almt['rt'] != "" ? $almt['rt'] : '0';
-					$rw 		= $almt['rw'] != "" ? $almt['rw'] : '0';
-					$dusun 	= $almt['dusun'] != "" ? ", Dusun " . $almt['dusun'] : '';
-					$kel 		= $almt['kel'] != "" ? $almt['kel'] : '';
-					$kec 		= $almt['kec'] != "" ? $almt['kec'] : '';
-					$kdpos 	= $almt['kdpos'] != "" ? ", Kode Pos " . $almt['kdpos'] : '';
-
-					$almt = $jl . " RT " . $rt . "/" . $rw .  $dusun . ", Kel. " . $kel . ", Kec. " . $kec .  $kdpos;
+					$almt 	= f_almtL($row['almt']);
 
 					$ayah		= json_decode($row['ayah'], true);
 					$ibu		= json_decode($row['ibu'], true);
@@ -175,6 +166,7 @@
 			</div>
 			<div class="modal-footer" id="md_btn">
 				<button class="btn btn-primary" name="simpan" id="simpan">Simpan</button>
+				<button type="button" class="btn btn-outline-secondary" id="mktpl"><i class="bi bi-person-vcard"></i> Kartu Pelajar</button>
 				<button class="btn btn-outline-danger" name="form" id="form"><i class="bi bi-printer"></i> Cetak</button>
 				<button data-route="fm_sis" data-id="" class="btn btn-primary" id="md_edit" data-bs-dismiss="modal"><i class="bi bi-pencil"></i> Edit</button>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -231,6 +223,10 @@
 			},
 			success: function(data) {
 				$('#viewDataSiswa').html(data);
+			if (id != '') {
+				$('#mktpl').attr('onclick',"viewData('ktpl','" + id + "')");
+				// $('#mktpl').attr('data-id',id);
+			}
 			}
 		});
 	}
@@ -282,5 +278,4 @@
 			}
 		});
 	}
-
 </script>
