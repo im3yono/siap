@@ -5,7 +5,7 @@ $id 			= $_POST['id'] ?? '';
 
 
 // whitelist halaman agar aman
-$allowed 	= ['dashboard', 'siswa', 'up_sis', 'fm_sis', 'guru', 'tendik', 'up_staf', 'p_data', 'jurnal', 'mapel', 'kelas', 'jadwal', 'absensi'];
+$allowed 	= ['dashboard', 'siswa', 'up_sis', 'fm_sis', 'guru', 'tendik', 'up_staf', 'p_data', 'jurnal', 'mapel', 'kelas', 'jadwal', 'absensi','mytbk_ps'];
 
 
 if (!in_array($route, $allowed)) {

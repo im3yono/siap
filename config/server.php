@@ -14,7 +14,7 @@ try {
 } catch (PDOException $th) {
 	// eror pada console
 	error_log("Koneksi Database Error: " . $th->getMessage());
-	die( "Koneksi ke database gagal : " . $th->getMessage());
+	die("Koneksi ke database gagal : " . $th->getMessage());
 }
 
 $db_tbl = ['tb_dsis', 'tb_dstaf', 'tb_mpel'];
@@ -34,14 +34,32 @@ function db_Proses(PDO $pdo, string $sql, array $data = [])
 	try {
 		$stmt->execute($data);	// 2. Eksekusi query dengan data array
 		return $stmt;						// 3. Kembalikan statement object
+	} catch (PDOException $e) {
+		// bisa log error ke file, jangan ditampilkan ke user
+		error_log("SQL Error: " . $e->getMessage());
+		return false;
 	}
 	// catch (PDOException $e) {
-	// 	// bisa log error ke file, jangan ditampilkan ke user
-	// 	error_log("SQL Error: " . $e->getMessage());
+	// 	echo "SQL Error: " . $e->getMessage();
 	// 	return false;
 	// }
-	catch (PDOException $e) {
-		echo "SQL Error: " . $e->getMessage();
-		return false;
+}
+
+
+// $user_sm = "mytbk";
+// $pass_sm = "admintbk";
+// Koneksi ke database MyTbk
+function db_Mytbk()
+{
+	try {
+		$conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS, [
+			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+			PDO::ATTR_EMULATE_PREPARES => false,
+		]);
+		// $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		return $conn;
+	} catch (PDOException $e) {
+		die("Koneksi MyTbk gagal: " . $e->getMessage());
 	}
 }

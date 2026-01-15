@@ -169,7 +169,7 @@
 							</a>
 							<ul class="nav nav-treeview">
 								<li class="nav-item">
-									<a data-route="peserta" class="nav-link">
+									<a data-route="mytbk_ps" class="nav-link">
 										<img src="assets/icon/person_group.svg" class="nav-icon">
 										<p>Daftar Peserta</p>
 									</a>
