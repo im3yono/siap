@@ -5,7 +5,13 @@ $id 			= $_POST['id'] ?? '';
 
 
 // whitelist halaman agar aman
-$allowed 	= ['dashboard', 'siswa', 'up_sis', 'fm_sis', 'guru', 'tendik', 'up_staf', 'p_data', 'jurnal', 'mapel', 'kelas', 'jadwal', 'absensi','mytbk_ps'];
+$allowed 	= ['dashboard', 'siswa', 'up_sis', 'fm_sis', 'guru', 'tendik', 'up_staf', 'p_data', 'jurnal', 'mapel', 'kelas', 'jadwal', 'absensi'];
+
+
+// whitelist akses dalam pengambangan
+if ($_SERVER['SERVER_NAME'] == 'mylocalhost.com') {
+	array_push($allowed, 'mytbk_ps', 'mytbk_setps');
+}
 
 
 if (!in_array($route, $allowed)) {

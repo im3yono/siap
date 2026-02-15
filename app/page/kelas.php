@@ -44,7 +44,7 @@
 		<button class="btn btn-primary" id="tambahData" onclick="viewData('add')"><i class="bi bi-plus-lg"></i> Tambah Data</button>
 	</div>
 	<div class="col-auto">
-		<button class="btn btn-outline-primary" id="kls_khusus" onclick="viewData('addkk','','modal-lg')"><i class="bi bi-plus-lg"></i> Kelas Khusus</button>
+		<button class="btn btn-outline-primary" id="kls_khusus" onclick="viewData('addkk','','','modal-lg')"><i class="bi bi-plus-lg"></i> Kelas Khusus</button>
 	</div>
 	<div class="col-auto">
 		<!-- <button data-route="up_staf" data-id="tendik" type="button" class="btn btn-outline-primary"><i class="bi bi-upload"></i> Upload Data</button> -->
@@ -66,6 +66,7 @@
 				<?php
 				require_once("../config/server.php");
 
+				// kelas reguler
 				$kls = db_Proses($pdo_conn, "SELECT kls FROM tb_dsis GROUP BY kls ORDER BY kls ASC");
 				while ($r_sis = $kls->fetch(PDO::FETCH_ASSOC)) {
 					$jml_l = db_Proses($pdo_conn, "SELECT kls, jk FROM tb_dsis WHERE jk = ? AND kls = ?", ["L", $r_sis['kls']]);
@@ -95,7 +96,7 @@
 							<td>
 								<div class="row g-1 justify-content-center">
 									<div class="col-auto">
-										<button class="btn btn-sm btn-info" style="width: 80px;" onclick="viewData('edt','<?= $r_kls['id_kls']; ?>','modal-lg')"><i class="bi bi-pencil"></i> Edit</button>
+										<button class="btn btn-sm btn-info" style="width: 80px;" onclick="viewData('edt','<?= $r_kls['id_kls']; ?>','<?= $r_kls['kls']; ?>','modal-lg')"><i class="bi bi-pencil"></i> Edit</button>
 									</div>
 									<div class="col-auto">
 										<button class="btn btn-sm btn-danger" style="width: 80px;" onclick="delData('<?= $r_kls['id_kls']; ?>','<?= $r_sis['kls']; ?>')"><i class="bi bi-trash3"></i> Hapus</button>
@@ -106,6 +107,7 @@
 					<?php }
 				}
 
+				// kelas khusus atau gabungan
 				$kls_k = db_Proses($pdo_conn, "SELECT * FROM tb_kls");
 				while ($r_kls = $kls_k->fetch(PDO::FETCH_ASSOC)) {
 
@@ -164,7 +166,7 @@
 							<td>
 								<div class="row g-1 justify-content-center">
 									<div class="col-auto">
-										<!-- <button class="btn btn-sm btn-info" style="width: 80px;" onclick="viewData('edt','<?= $r_kls['id_kls']; ?>','modal-lg')"><i class="bi bi-pencil"></i> Edit</button> -->
+										<button class="btn btn-sm btn-info" style="width: 80px;" onclick="viewData('addkk','<?= $r_kls['id_kls']; ?>','<?= $r_kls['kls']; ?>','modal-lg')"><i class="bi bi-pencil"></i> Edit</button>
 									</div>
 									<div class="col-auto">
 										<button class="btn btn-sm btn-danger" style="width: 80px;" onclick="delData('<?= $r_kls['id_kls']; ?>','<?= $r_kls['kls']; ?>')"><i class="bi bi-trash3"></i> Hapus</button>
@@ -204,7 +206,7 @@
 </div>
 
 <script>
-	function viewData(title = '', id = '', size = '') {
+	function viewData(title = '', id = '', id2 = '', size = '') {
 		$('#size').addClass(size);
 		if (size == '') {
 			$('#size').removeClass('modal-lg modal-sm');
@@ -216,12 +218,18 @@
 			$('#md_edit').hide();
 		} else if (title == 'addkk') {
 			$('#d_modal').modal('show');
-			$('#d_modalLabel').text('Tambah Data Kelas Khusus');
-			$('#simpan').show();
-			$('#md_edit').hide();
+			if (id == '' && id2 == '') {
+				$('#d_modalLabel').text('Tambah Data Kelas Khusus');
+				$('#simpan').show();
+				$('#md_edit').hide();
+			} else {
+				$('#d_modalLabel').text('Edit Data Kelas Khusus | ' + id2);
+				$('#simpan').hide();
+				$('#md_edit').show();
+			}
 		} else if (title == 'edt' && id != '') {
 			$('#d_modal').modal('show');
-			$('#d_modalLabel').text('Edit Data Kelas');
+			$('#d_modalLabel').text('Edit Data Kelas ' + id2);
 			$('#simpan').hide();
 			$('#md_edit').show();
 			$('#md_edit').attr('data-id', id);
@@ -231,6 +239,7 @@
 			url: 'app/modal/m_kelas.php',
 			data: {
 				id: id,
+				id2: id2,
 				prd: title
 			},
 			success: function(data) {
@@ -286,7 +295,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: 'app/proses/pr_kls.php',
+			url: 'app/proses/pr_kls',
 			data: $.param(data),
 			success: function(res) {
 				switch (res) {
@@ -306,7 +315,7 @@
 
 					case 'err':
 					default:
-						notif('error', 'Gagal!', 'Gagal menyimpan data. Silahkan coba lagi.');
+						notif('error', 'Gagal!', 'Gagal menyimpan data. Silahkan coba lagi.'+res);
 				}
 				// console.log(res);
 			}

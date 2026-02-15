@@ -21,6 +21,7 @@
 	<link rel="stylesheet" href="assets/bootstrap-icons/font/bootstrap-icons.min.css">
 
 	<link rel="stylesheet" href="assets/css/custom.css">
+	<link rel="stylesheet" href="assets/icon/my_icon.css">
 
 	<!-- lib Modul -->
 	<link rel="stylesheet" href="assets/ckeditor5/ckeditor5.css">
@@ -44,8 +45,8 @@
 							<img src="assets/img/account.png" alt="User Image" class="user-image shadow-sm" />
 							<span class="d-none d-md-inline">Administrator</span>
 						</button>
-						<ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-							<li class="user-header text-bg-primary">
+						<ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end" style="border-radius: 7px;">
+							<li class="user-header text-bg-primary" style="border-top-right-radius: 7px;border-top-left-radius: 7px;">
 								<img src="assets/img/account.png" alt="" class="rounded-circle shadow-sm" />
 								<p>
 									Administrator
@@ -53,7 +54,7 @@
 								</p>
 							</li>
 							<li class="user-footer">
-								<a href="#" class="btn btn-default btn-flat">Profil</a>
+								<a href="#" class="btn btn-default btn-flat"><i class="bi bi-person"></i> Profil</a>
 								<a href="#" class="btn btn-default btn-flat float-end"><i class="bi bi-door-open"></i> Keluar</a>
 							</li>
 						</ul>
@@ -83,7 +84,7 @@
 								<img src="assets/icon/dashboard.svg" class="nav-icon">
 								<p>Dashboard</p>
 							</a>
-						</li>
+						</li><!--  Dashboard  -->
 						<li class="nav-item">
 							<a class="nav-link"><i class="nav-icon bi bi-list-task"></i>
 								<p>Data Induk
@@ -113,7 +114,7 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li><!--  Data Induk  -->
 						<li class="nav-item">
 							<a class="nav-link collapsed">
 								<img src="assets/icon/book_6.svg" class="nav-icon">
@@ -140,13 +141,13 @@
 										<p>Kelas</p>
 									</a>
 								</li>
-								<!-- <li class="nav-item">
+								<li class="nav-item">
 									<a data-route="jadwal" class="nav-link">
 										<img src="./assets/icon/calendar_month.svg" class="nav-icon">
 										<p>Jadwal</p>
 									</a>
 								</li>
-								<li class="nav-item">
+								<!-- <li class="nav-item">
 									<a data-route="absensi" class="nav-link">
 										<img src="./assets/icon/assignment.svg" class="nav-icon">
 										<p>Absensi</p>
@@ -158,8 +159,42 @@
 										<p>Jurnal Mengajar</p>
 									</a>
 								</li>
+								<!-- <li class="nav-item">
+									<a data-route="ab_kelas" class="nav-link">
+										<img src="./assets/icon/list_alt_check.svg" class="nav-icon">
+										<p>Absen Kelas</p>
+									</a>
+								</li> -->
 							</ul>
-						</li>
+						</li><!--  Akademik  -->
+						<li class="nav-item">
+							<a class="nav-link collapsed"><img src="./assets/icon/contract_edit.svg" class="nav-icon">
+								<p>Administrasi
+									<i class="nav-arrow bi bi-chevron-right"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item">
+									<a class="nav-link collapsed"><img src="./assets/icon/schema.svg" class="nav-icon">
+										<p>Data Organisasi
+											<i class="nav-arrow bi bi-chevron-right"></i>
+										</p>
+									</a>
+									<ul class="nav nav-treeview">
+										<li class="nav-item">
+											<a data-route="staf" class="nav-link"><img src="./assets/icon/productivity.svg" class="nav-icon">
+												<p>Staf</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a data-route="siswa" class="nav-link"><img src="./assets/icon/account_tree.svg" class="nav-icon">
+												<p>Siswa</p>
+											</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li><!--  Administrasi  -->
 						<li class="nav-item">
 							<a class="nav-link collapsed">
 								<img src="assets/img/mytbk.png" class="nav-icon">
@@ -181,7 +216,13 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li><!--  Tes Akademik  -->
+						<li class="nav-item">
+							<a class="nav-link collapsed"><img src="./assets/icon/print.svg" class="nav-icon">
+								<p>Cetak<i class="nav-arrow bi bi-chevron-right"></i></p>
+							</a>
+
+						</li><!--  Cetak  -->
 					</ul>
 				</nav>
 			</div>
@@ -247,343 +288,3 @@
 		}
 	});
 </script>
-
-<!-- content-route  -->
-<!-- <script>
-	function loadRoute(route, pushState = true, id = '') {
-		$.ajax({
-			type: "POST",
-			url: "app/route.php",
-			data: {
-				route: route,
-				id: id
-			},
-			success: function(res) {
-				if (res.trim() === "") {
-					$("#content-route").html("<h3 class='text-center text-muted mt-5'>Dalam tahap pengembangan<br>Halaman masih kosong</h3>");
-				} else {
-					$("#content-route").html(res);
-				}
-				// Tambah ke riwayat hanya kalau memang dipicu klik, bukan popstate
-				if (pushState) {
-					history.pushState({
-						route: route,
-						id: id
-					}, "", "?route=" + route + (id ? "&id=" + id : ""));
-				}
-
-				// Jika ada datatable di halaman
-				if ($(".table").length) {
-					// new simpleDatatables.DataTable(".table");
-					var dataTable = new simpleDatatables.DataTable(".table", {
-						perPageSelect: [5, 10, 25, 50, 100],
-						perPage: 10,
-						labels: {
-							placeholder: "Cari...",
-							perPage: " Data per halaman",
-							noRows: "Tidak ada data yang ditemukan",
-							info: "Menampilkan {start}/{end} dari {rows} Data",
-						}
-					});
-				}
-
-				// Update menu aktif
-				updateActiveMenu(route);
-				hideLoading();
-			},
-			error: function() {
-				$("#content-route").html("Terjadi kesalahan memuat halaman.");
-			}
-		});
-	}
-
-	function hideLoading() {
-		setTimeout(function() {
-			document.getElementById("loadingSpinner").style.display = "none";
-			document.getElementById("content-route").style.display = "block";
-		}, 300);
-	}
-
-	function showLoading() {
-		document.getElementById("loadingSpinner").style.display = "flex";
-		document.getElementById("content-route").style.display = "none";
-	}
-
-	function updateActiveMenu(route) {
-		// reset semua menu
-		$('.sidebar-menu .nav-link').removeClass('active');
-		$('.sidebar-menu li').removeClass('menu-open');
-
-		// aktifkan link sesuai route
-		const $link = $(`.sidebar-menu .nav-link[data-route="${route}"]`);
-		$link.addClass('active');
-
-		// jika link ada di dalam treeview
-		const treeview = $link.closest('.nav-treeview');
-		if (treeview.length) {
-			treeview.show();
-			treeview.prev('.nav-link').removeClass('collapsed');
-			treeview.parent('li').addClass('menu-open');
-		}
-	}
-
-	// Klik link dengan atribut data-route
-	$(document).on("click", "nav a", function(e) {
-		e.preventDefault();
-		let route = $(this).data("route");
-		let id = $(this).data("id");
-		if (route !== undefined) {
-			showLoading();
-			loadRoute(route, true, id);
-		} else if (route === '') {
-			showLoading();
-			loadRoute('dashboard', true);
-		}
-	});
-
-	// Klik button dengan atribut data-route
-	$(document).on("click", "button[data-route]", function(e) {
-		e.preventDefault();
-		let route = $(this).data("route");
-		let id = $(this).data("id");
-		if (route !== undefined) {
-			showLoading();
-			loadRoute(route, true, id);
-		} else if (route === '') {
-			showLoading();
-			loadRoute('dashboard', true);
-		}
-	});
-
-	// Saat pertama kali load / refresh
-	$(document).ready(function() {
-		const urlParams = new URLSearchParams(window.location.search);
-		let route = urlParams.get("route") || "dashboard"; // default dashboard
-		let id = urlParams.get("id") || "";
-
-		loadRoute(route, false, id); // false -> jangan pushState ulang
-	});
-
-	// Navigasi back/forward browser
-	window.onpopstate = function(event) {
-		if (event.state && event.state.route) {
-			loadRoute(event.state.route, false); // false -> jangan pushState lagi
-		} else {
-			loadRoute('dashboard', false);
-		}
-	};
-</script> -->
-
-
-<!-- <script>
-	document.addEventListener("DOMContentLoaded", function() {
-		const progressBar = document.getElementById("myProgressBar");
-		let width = 0;
-		const duration = 3000; // 3 seconds
-		const interval = 10;
-		const step = 100 / (duration / interval);
-		const timer = setInterval(() => {
-			width += step;
-			if (width >= 100) {
-				width = 100;
-				clearInterval(timer);
-			}
-			progressBar.style.width = width + "%";
-			progressBar.parentElement.setAttribute("aria-valuenow", Math.round(width));
-		}, interval);
-	});
-</script>
-<script>
-	function loadRoute(route, pushState = true, id = '') {
-		$.post("app/route.php", {
-				route,
-				id
-			})
-			.done(res => {
-				$("#content-route").html(res.trim() ||
-					"<h3 class='text-center text-muted mt-5'>Dalam tahap pengembangan<br>Halaman masih kosong</h3>");
-
-				if (pushState) {
-					history.pushState({
-						route,
-						id
-					}, "", `?route=${route}${id ? "&id=" + id : ""}`);
-				}
-
-				if ($(".table").length) {
-					new simpleDatatables.DataTable(".table", {
-						perPageSelect: [5, 10, 25, 50, 100],
-						perPage: 10,
-						labels: {
-							placeholder: "Cari...",
-							perPage: " Data per halaman",
-							noRows: "Tidak ada data yang ditemukan",
-							info: "Menampilkan {start}/{end} dari {rows} Data",
-						}
-					});
-				}
-
-				updateActiveMenu(route);
-				hideLoading();
-			})
-			.fail(() => $("#content-route").html("Terjadi kesalahan memuat halaman."));
-	}
-
-	const hideLoading = () => setTimeout(() => {
-		$("#loadingSpinner").hide();
-		$("#content-route").show();
-	}, 300);
-
-	const showLoading = () => {
-		$("#loadingSpinner").css("display", "flex");
-		$("#content-route").hide();
-	};
-
-	function updateActiveMenu(route) {
-		$(".sidebar-menu .nav-link").removeClass("active");
-		$(".sidebar-menu li").removeClass("menu-open");
-
-		const $link = $(`.sidebar-menu .nav-link[data-route="${route}"]`).addClass("active");
-		const treeview = $link.closest(".nav-treeview");
-		if (treeview.length) {
-			treeview.show()
-				.prev(".nav-link").removeClass("collapsed")
-				.parent("li").addClass("menu-open");
-		}
-	}
-
-	$(document).on("click", "nav a, button[data-route]", function(e) {
-		e.preventDefault();
-		const route = $(this).data("route");
-		const id = $(this).data("id");
-		if (route === undefined) return;
-		showLoading();
-		loadRoute(route, true, id);
-	});
-
-	// Saat pertama kali load / refresh
-	$(document).ready(() => {
-		const urlParams = new URLSearchParams(window.location.search);
-		const route = urlParams.get("route") || "dashboard";
-		const id = urlParams.get("id") || "";
-		loadRoute(route, false, id);
-	});
-
-	// Navigasi back/forward browser
-	window.onpopstate = e => {
-		loadRoute((e.state && e.state.route) || "dashboard", false, e.state?.id || "");
-	};
-</script> -->
-
-<script>
-	function loadRoute(route, pushState = true, id = '') {
-		$.post("app/route.php", {
-				route,
-				id
-			})
-			.done(res => {
-				$("#content-route").html(res.trim() ||
-					"<h3 class='text-center text-muted mt-5'>Dalam tahap pengembangan<br>Halaman belum dapat di tampilkan</h3>");
-
-				if (pushState) {
-					history.pushState({
-						route,
-						id
-					}, "", `?route=${route}${id ? "&id=" + id : ""}`);
-				}
-
-				if ($(".table").length) {
-					new simpleDatatables.DataTable(".table", {
-						perPageSelect: [5, 10, 25, 50, 100],
-						perPage: 10,
-						labels: {
-							placeholder: "Cari...",
-							perPage: " Data per halaman",
-							noRows: "Tidak ada data yang ditemukan",
-							info: "Menampilkan {start}/{end} dari {rows} Data",
-						}
-					});
-				}
-
-				updateActiveMenu(route);
-				hideLoading();
-			})
-			.fail(() => $("#content-route").html("Terjadi kesalahan memuat halaman."));
-		// console.clear();
-		// console.log('SIAP (Sistem Infomasi Administrasi Pendidikan)');
-	}
-
-	// Ganti spinner -> progress bar
-	let progressInterval;
-
-	const hideLoading = () => {
-		clearInterval(progressInterval);
-		$("#myProgressBar").css("width", "100%");
-		setTimeout(() => {
-			$("#loadingProgress").hide();
-			$("#content-route").show();
-			// Reset ke 0% setelah bar disembunyikan, jadi tidak kelihatan "mundur"
-			$("#myProgressBar").css("width", "0%");
-		}, 900); // kasih delay agar user lihat sebentar 100%
-	};
-
-
-	const showLoading = () => {
-		$("#loadingProgress").show();
-		$("#content-route").hide();
-		let width = 0;
-		const interval = 20; // ms
-		const step = 2; // naik 2% setiap 20ms
-
-		progressInterval = setInterval(() => {
-			if (width < 90) { // tahan di 90%, sisanya nunggu selesai
-				width += step;
-				$("#myProgressBar").css("width", width + "%");
-				$("#loadingProgress").attr("aria-valuenow", width);
-			}
-		}, interval);
-	};
-
-	function updateActiveMenu(route) {
-		$(".sidebar-menu .nav-link").removeClass("active");
-		$(".sidebar-menu li").removeClass("menu-open");
-
-		const $link = $(`.sidebar-menu .nav-link[data-route="${route}"]`).addClass("active");
-		const treeview = $link.closest(".nav-treeview");
-		if (treeview.length) {
-			treeview.show()
-				.prev(".nav-link").removeClass("collapsed")
-				.parent("li").addClass("menu-open");
-		}
-	}
-
-	$(document).on("click", "nav a, button[data-route]", function(e) {
-		e.preventDefault();
-		const route = $(this).data("route");
-		const id = $(this).data("id");
-		if (route === undefined) return;
-		showLoading();
-		loadRoute(route, true, id);
-	});
-
-	// Saat pertama kali load / refresh
-	$(document).ready(() => {
-		const urlParams = new URLSearchParams(window.location.search);
-		const route = urlParams.get("route") || "dashboard";
-		const id = urlParams.get("id") || "";
-		loadRoute(route, false, id);
-	});
-
-	function r_halaman() {
-		const urlParams = new URLSearchParams(window.location.search);
-		const route = urlParams.get("route") || "dashboard";
-		const id = urlParams.get("id") || "";
-		loadRoute(route, false, id);
-	}
-
-	// Navigasi back/forward browser
-	window.onpopstate = e => {
-		loadRoute((e.state && e.state.route) || "dashboard", false, e.state?.id || "");
-	};
-</script>
-<!-- end content-route  -->

@@ -13065,6 +13065,24 @@ fieldset:disabled .btn {
   min-width: 1.5rem;
   max-width: 1.5rem;
 }
+/* button img {
+  display: inline-block;
+  min-width: 1.3rem;
+  max-width: 1.3rem;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
+button svg {
+  fill: currentColor;
+  display: inline-block;
+  min-width: 1.3rem;
+  max-width: 1.3rem;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .sidebar-wrapper .sidebar-menu > .nav-item.menu-open .nav-link.active:not(:hover) {
   --lte-sidebar-menu-active-bg: transparent;
 }

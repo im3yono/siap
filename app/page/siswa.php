@@ -99,8 +99,7 @@
 
 				require_once "../config/server.php";
 
-				$stmt = $pdo_conn->prepare("SELECT * FROM tb_dsis WHERE sts = ?");
-				$stmt->execute(['Y']);
+				$stmt = db_Proses($pdo_conn, "SELECT * FROM tb_dsis WHERE sts = ?", ['Y']);
 
 				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 					$almt 	= f_almtL($row['almt']);

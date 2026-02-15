@@ -1,0 +1,195 @@
+.myicon {
+  width: 1.3em;
+  height: 1.3em;
+
+  background-color: currentColor;
+
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+	padding: 0;
+	margin: 0;
+}
+/* button .myicon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+} */
+
+/* Icon */
+.myicon-account_tree {
+  -webkit-mask-image: url("account_tree.svg");
+  mask-image: url("account_tree.svg");
+}
+.myicon-analystics {
+  -webkit-mask-image: url("analytics.svg");
+  mask-image: url("analytics.svg");
+}
+.myicon-assignment {
+  -webkit-mask-image: url("assignment.svg");
+  mask-image: url("assignment.svg");
+}
+.myicon-bar_chart {
+  -webkit-mask-image: url("bar_chart.svg");
+  mask-image: url("bar_chart.svg");
+}
+.myicon-book {
+  -webkit-mask-image: url("book.svg");
+  mask-image: url("book.svg");
+}
+.myicon-book_6 {
+  -webkit-mask-image: url("book_6.svg");
+  mask-image: url("book_6.svg");
+}
+.myicon-book_open {
+  -webkit-mask-image: url("book_open.svg");
+  mask-image: url("book_open.svg");
+}
+.myicon-box {
+  -webkit-mask-image: url("box.svg");
+  mask-image: url("box.svg");
+}
+.myicon-calendar_mobth {
+  -webkit-mask-image: url("calendar_month.svg");
+  mask-image: url("calendar_month.svg");
+}
+.myicon-content_paste {
+  -webkit-mask-image: url("content_paste.svg");
+  mask-image: url("content_paste.svg");
+}
+.myicon-contract_edit {
+  -webkit-mask-image: url("contract_edit.svg");
+  mask-image: url("contract_edit.svg");
+}
+.myicon-crowdsource {
+  -webkit-mask-image: url("crowdsource.svg");
+  mask-image: url("crowdsource.svg");
+}
+.myicon-dashboard {
+  -webkit-mask-image: url("dashboard.svg");
+  mask-image: url("dashboard.svg");
+}
+.myicon-door_sliding {
+  -webkit-mask-image: url("door_sliding.svg");
+  mask-image: url("door_sliding.svg");
+}
+.myicon-edit_notifications {
+  -webkit-mask-image: url("edit_notifications.svg");
+  mask-image: url("edit_notifications.svg");
+}
+.myicon-event_list {
+  -webkit-mask-image: url("event_list.svg");
+  mask-image: url("event_list.svg");
+}
+.myicon-files {
+  -webkit-mask-image: url("files.svg");
+  mask-image: url("files.svg");
+}
+.myicon-groups {
+  -webkit-mask-image: url("groups.svg");
+  mask-image: url("groups.svg");
+}
+.myicon-history {
+  -webkit-mask-image: url("history.svg");
+  mask-image: url("history.svg");
+}
+.myicon-id_card {
+  -webkit-mask-image: url("id_card.svg");
+  mask-image: url("id_card.svg");
+}
+.myicon-key {
+  -webkit-mask-image: url("key.svg");
+  mask-image: url("key.svg");
+}
+.myicon-list_alt_check {
+  -webkit-mask-image: url("list_alt_check.svg");
+  mask-image: url("list_alt_check.svg");
+}
+.myicon-local_library {
+  -webkit-mask-image: url("local_library.svg");
+  mask-image: url("local_library.svg");
+}
+.myicon-manage_accounts {
+  -webkit-mask-image: url("manage_accounts.svg");
+  mask-image: url("manage_accounts.svg");
+}
+.myicon-monitoring {
+  -webkit-mask-image: url("monitoring.svg");
+  mask-image: url("monitoring.svg");
+}
+.myicon-my_icon {
+  -webkit-mask-image: url("my_icon.css");
+  mask-image: url("my_icon.css");
+}
+.myicon-password_2_off {
+  -webkit-mask-image: url("password_2_off.svg");
+  mask-image: url("password_2_off.svg");
+}
+.myicon-password_2 {
+  -webkit-mask-image: url("password_2.svg");
+  mask-image: url("password_2.svg");
+}
+.myicon-person_alert {
+  -webkit-mask-image: url("person_alert.svg");
+  mask-image: url("person_alert.svg");
+}
+.myicon-person_group {
+  -webkit-mask-image: url("person_group.svg");
+  mask-image: url("person_group.svg");
+}
+.myicon-print {
+  -webkit-mask-image: url("print.svg");
+  mask-image: url("print.svg");
+}
+.myicon-productivity {
+  -webkit-mask-image: url("productivity.svg");
+  mask-image: url("productivity.svg");
+}
+.myicon-rate_review {
+  -webkit-mask-image: url("rate_review.svg");
+  mask-image: url("rate_review.svg");
+}
+.myicon-rule_settings {
+  -webkit-mask-image: url("rule_settings.svg");
+  mask-image: url("rule_settings.svg");
+}
+.myicon-schedule {
+  -webkit-mask-image: url("schedule.svg");
+  mask-image: url("schedule.svg");
+}
+.myicon-schema {
+  -webkit-mask-image: url("schema.svg");
+  mask-image: url("schema.svg");
+}
+.myicon-settings {
+  -webkit-mask-image: url("settings.svg");
+  mask-image: url("settings.svg");
+}
+.myicon-supervisor_account_s {
+  -webkit-mask-image: url("supervisor_account.svg");
+  mask-image: url("supervisor_account.svg");
+}
+.myicon-switch_account {
+  -webkit-mask-image: url("switch_account.svg");
+  mask-image: url("switch_account.svg");
+}
+.myicon-sync {
+  -webkit-mask-image: url("sync.svg");
+  mask-image: url("sync.svg");
+}
+.myicon-table_chart_view {
+  -webkit-mask-image: url("table_chart_view.svg");
+  mask-image: url("table_chart_view.svg");
+}
+.myicon-zone_person_alert {
+  -webkit-mask-image: url("zone_person_alert.svg");
+  mask-image: url("zone_person_alert.svg");
+}

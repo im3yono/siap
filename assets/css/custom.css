@@ -17,3 +17,16 @@
   --bs-btn-font-size: 0.875rem;
   --bs-btn-border-radius: var(--bs-border-radius-sm);
 }
+
+.br-3 {
+  border-radius: 3px;
+}
+.br-5 {
+  border-radius: 5px;
+}
+.br-7 {
+  border-radius: 7px;
+}
+.br-10 {
+  border-radius: 10px;
+}

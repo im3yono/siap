@@ -40,14 +40,23 @@ $nip	 	= $_POST['nip'] ?? '';
 $mpel 	= $_POST['mapel'] ?? '';
 $alw 		= $_POST['al_waktu'] ?? '';
 $alt 		= $_POST['al_temu'] ?? '';
-$bln 		= $_POST['bln'] ?? '............................';
-$thn 		= $_POST['thn_ajar'] ?? '............................';
+$bln 		= $_POST['bln'] ?? '';
+$thn 		= $_POST['thn_ajar'] ?? '';
 $smt 		= $_POST['smt'] ?? '';
-$pkls 		=	 $_POST['kelas'] ?? [''];
+$pkls 	=	 $_POST['kelas'] ?? [''];
 $orien 	= $_POST['orien'] ?? 'L';
 $cvr 		= $_POST['cvr'] ?? '1';
+$ctk		= $_POST['ctjrl'] ?? '';
 
 
+if ($bln <= '6') {
+	$ta = 'Genap';
+	// $thn_a = 
+} elseif ($bln > 6) {
+	$ta = 'Ganjil';
+} else {
+	$ta = '';
+}
 if ($bln != '') {
 	if ($bln == '16') {
 		$nmbln = ' ' . $thn . ' ' . 'Genap';
@@ -55,7 +64,7 @@ if ($bln != '') {
 		$nmbln = ' ' . $thn . ' ' . 'Ganjil';
 	} else {
 		$bln = f_bulan_nama($bln);
-		$nmbln = ' Bulan ' . f_bulan_nama($bln) . ' ' . $thn;
+		$nmbln = ' Bulan ' . ($bln) . ' ' . $thn;
 	}
 } else {
 	$bln = str_repeat(chr(160), 22); // gunakan 6 non-breaking spaces agar tampil di FPDF
@@ -84,7 +93,11 @@ $pdf->AddFont('Arial Narrow', '', 'arialnarrow.php');
 $pdf->SetFillColor(217, 217, 217); // Warna latar belakang
 
 
-require_once("jrnl_page.php");
+if (empty($ctk)):
+	require_once("jrnl_page.php");
+else:
+	require_once("jrnl_onpage.php");
+endif;
 
 
 $pdf->SetDisplayMode('real');  // Menampilkan ukuran asli (bukan fit to page)

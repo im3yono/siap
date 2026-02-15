@@ -10,7 +10,7 @@ $walas	= $_POST['walas'] ?? '';
 $id_kls	= $_POST['id'] ?? '';
 $siswa  = $_POST['siswa'] ?? '';
 // $m_kls = $_POST['m__kls'] ?? '';
-if( $siswa != '') $siswa = json_encode($siswa);
+if ($siswa != '') $siswa = json_encode($siswa);
 
 
 if ($prd == 'add') {
@@ -31,8 +31,8 @@ if ($prd == 'edt' && $id_kls != '') {
 		echo 'err';
 		exit;
 	}
-	$qr = 'UPDATE tb_kls SET tkt = ?, kls = ?, kd_staf = ? WHERE id_kls = ?';
-	$data = [$tkt, $kls, $walas, $id_kls];
+	$qr = 'UPDATE tb_kls SET tkt = ?, kls = ?, kd_staf = ?, d_sis = ? WHERE id_kls = ?';
+	$data = [$tkt, $kls, $walas, $siswa, $id_kls];
 	$stmt	= db_Proses($pdo_conn, $qr, $data);
 	if (($stmt)) {
 		echo 'update';
