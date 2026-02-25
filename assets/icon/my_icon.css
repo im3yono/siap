@@ -1,6 +1,6 @@
 .myicon {
-  width: 1.3em;
-  height: 1.3em;
+  width: 1.5em;
+  height: 1.5em;
 
   background-color: currentColor;
 
@@ -13,10 +13,10 @@
   mask-size: contain;
 
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
   flex-shrink: 0;
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 /* button .myicon {
   display: inline-flex;
@@ -192,4 +192,28 @@
 .myicon-zone_person_alert {
   -webkit-mask-image: url("zone_person_alert.svg");
   mask-image: url("zone_person_alert.svg");
+}
+.myicon-send {
+  -webkit-mask-image: url("send.svg");
+  mask-image: url("send.svg");
+}
+.myicon-download {
+  -webkit-mask-image: url("download.svg");
+  mask-image: url("download.svg");
+}
+.myicon-manufacturing {
+  -webkit-mask-image: url("manufacturing.svg");
+  mask-image: url("manufacturing.svg");
+}
+.myicon-check_box {
+  -webkit-mask-image: url("check_box.svg");
+  mask-image: url("check_box.svg");
+}
+.myicon-check_box_blank {
+  -webkit-mask-image: url("check_box_blank.svg");
+  mask-image: url("check_box_blank.svg");
+}
+.myicon-sync_saved_locally {
+  -webkit-mask-image: url("sync_saved_locally.svg");
+  mask-image: url("sync_saved_locally.svg");
 }

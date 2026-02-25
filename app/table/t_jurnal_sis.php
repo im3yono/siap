@@ -1,5 +1,4 @@
-<?php
-require_once '../../config/server.php'; // sesuaikan path
+<?php require_once "t_sacc.php";
 
 
 $id_kls = $_POST['id_kls'] ?? '';

@@ -1,7 +1,4 @@
-<?php
-// <!-- INSERT INTO `tb_dsis` (`id_dsis`, `nipd`, `nisn`, `nama`, `jk`, `tmp_lahir`, `tgl_lahir`, `nik`, `nkk`, `agm`, `almt`, `tmp_tinggal`, trasport, `tlp/hp`, `email`, `ayah`, `ibu`, `wali`, `masuk`, `kls`, `no_akta`, `disabel`, `sklh_asl`, `saudr`, `bb_tb_lk`, `jrk_rmh`, `sts`, `rcd`, `upd`) VALUES (NULL, '1', '1', '1', 'L', '1', '2025-09-01', '1', '1', '1', '1', '11', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', current_timestamp(), current_timestamp()); -->
-
-require_once "../../config/server.php";
+<?php require_once "t_sacc.php";
 
 $stmt = $pdo_conn->prepare("SELECT * FROM tb_dsis");
 $stmt->execute();

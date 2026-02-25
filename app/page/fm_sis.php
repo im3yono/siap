@@ -470,7 +470,7 @@ $upd			= $dsis['upd'] ?? '';
 		// add a marker field if needed by the server
 		data.append('prd', 'edit_sis');
 		$.ajax({
-			url: 'app/proses/pr_siswa.php',
+			url: 'app/proses/pr_siswa',
 			type: 'POST',
 			data: data,
 			contentType: false,

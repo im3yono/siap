@@ -29,7 +29,7 @@ if ($prd == 'add'):
 				<label for="kls" class="form-label">Kelas</label>
 				<select name="kls" id="kls" class="form-select">
 					<option value="" selected>-- Pilih --</option>
-					<?php 
+					<?php
 					while ($r_kls = $kls->fetch(PDO::FETCH_ASSOC)) {
 						$hide = db_Proses($pdo_conn, 'SELECT * FROM tb_kls WHERE kls = ?', [$r_kls['kls']])->fetch(PDO::FETCH_ASSOC);
 						if ($hide['kd_staf'] != '' && $id_kls == '') {
@@ -66,6 +66,10 @@ if ($prd == 'add'):
 					<option value="XII" <?= $tkt == 'XII' ? 'selected' : ''; ?>>XII</option>
 				</select>
 			</div>
+			<div class="col-12 col-sm-6">
+				<label for="jur" class="form-label">Jurusan</label>
+				<input type="text" name="jur" id="jur" class="form-control" placeholder="Nama Singkat Jurusan" maxlength="10">
+			</div>
 			<div class="col-12">
 				<label for="walas" class="form-label">Wali Kelas</label>
 				<select name="walas" id="walas" class="form-select" <?= $tkt == '' ? 'disabled' : '' ?>>
@@ -89,11 +93,13 @@ endif;
 
 // Tambah Kelas Khusus
 if ($prd == 'addkk'):
+	$i_kls = db_Proses($pdo_conn, "SELECT * FROM tb_kls WHERE id_kls = ?", [$id_kls]);
+	$i_kls = $i_kls->fetch(PDO::FETCH_ASSOC);
 ?>
 	<form method="post" id="add_kls">
 		<input type="text" name="id" id="id" value="<?= $id_kls; ?>" hidden>
 		<div class="row g-2">
-			<div class="col-12 col-sm-6">
+			<div class="col-12 col-sm-6 col-md-4">
 				<label for="kls" class="form-label">Nama Kelas</label>
 				<input type="text" class="form-control" id="kls" name="kls" maxlength="20" value="<?= $d_kls; ?>">
 
@@ -115,7 +121,7 @@ if ($prd == 'addkk'):
 					</script>
 				<?php endif; ?>
 			</div>
-			<div class="col-12 col-sm-6">
+			<div class="col-12 col-sm-6 col-md-4">
 				<label for="tkt" class="form-label">Tingkat</label>
 				<select name="tkt" id="tkt" class="form-select" required <?= empty($d_kls) ? 'disabled' : ''; ?>>
 					<option value="" selected disabled>-- Pilih --</option>
@@ -123,6 +129,10 @@ if ($prd == 'addkk'):
 					<option value="XI" <?= $tkt == 'XI' ? 'selected' : ''; ?>>XI</option>
 					<option value="XII" <?= $tkt == 'XII' ? 'selected' : ''; ?>>XII</option>
 				</select>
+			</div>
+			<div class="col-12 col-sm-6 col-md-4">
+				<label for="jur" class="form-label">Jurusan Kelas Khusus</label>
+				<input type="text" name="jur" id="jur" class="form-control" placeholder="Nama Singkat Jurusan" maxlength="10" value="<?= $i_kls['jur']??''; ?>">
 			</div>
 			<div class="col-12">
 				<label for="walas" class="form-label">Wali Kelas</label>
@@ -218,29 +228,32 @@ endif;
 if ($prd == 'edt' && $id_kls != '') :
 	$dt_sis = db_Proses($pdo_conn, "SELECT nipd, nm, kls FROM tb_dsis WHERE kls = ''");
 	$cek = $dt_sis->rowCount() > 0 ? '' : 'hidden';
+	$i_kls = db_Proses($pdo_conn, "SELECT * FROM tb_kls WHERE id_kls = ?", [$id_kls]);
+	$i_kls = $i_kls->fetch(PDO::FETCH_ASSOC);
 ?>
 	<form method="post" id="add_kls">
 		<input type="hidden" value="<?= $id_kls; ?>" name="id">
 		<input type="hidden" value="<?= $tkt; ?>" name="tkt">
 		<input type="hidden" value="<?= $d_kls; ?>" name="kls">
-	<div class="row">
-		<div class="col-12">
-			<label for="walas" class="form-label">Wali Kelas</label>
-			<select name="walas" id="walas" class="form-select">
-				<option value="" selected disabled>-- Pilih --</option>
-				<?php while ($r_guru = $guru->fetch(PDO::FETCH_ASSOC)) {
-					$hide = db_Proses($pdo_conn, 'SELECT * FROM tb_kls WHERE kd_staf = ?', [$r_guru['id']]);
-					// $hide = $hide->fetch(PDO::FETCH_ASSOC);
-					if ($hide->rowCount() > 0 && ($id_kls == '' || $walas != $r_guru['id'])) {
-						$hide = ' hidden';
-					} else {
-						$hide = '';
-					} ?>
-					<option value="<?= $r_guru['id']; ?>" <?= $hide; ?><?= $walas == $r_guru['id'] ? 'selected' : ''; ?>><?= $r_guru['nama']; ?></option>
-				<?php } ?>
-			</select>
+		<input type="hidden" value="<?= $i_kls['jur']; ?>" name="kls">
+		<div class="row">
+			<div class="col-12">
+				<label for="walas" class="form-label">Wali Kelas</label>
+				<select name="walas" id="walas" class="form-select">
+					<option value="" selected disabled>-- Pilih --</option>
+					<?php while ($r_guru = $guru->fetch(PDO::FETCH_ASSOC)) {
+						$hide = db_Proses($pdo_conn, 'SELECT * FROM tb_kls WHERE kd_staf = ?', [$r_guru['id']]);
+						// $hide = $hide->fetch(PDO::FETCH_ASSOC);
+						if ($hide->rowCount() > 0 && ($id_kls == '' || $walas != $r_guru['id'])) {
+							$hide = ' hidden';
+						} else {
+							$hide = '';
+						} ?>
+						<option value="<?= $r_guru['id']; ?>" <?= $hide; ?><?= $walas == $r_guru['id'] ? 'selected' : ''; ?>><?= $r_guru['nama']; ?></option>
+					<?php } ?>
+				</select>
+			</div>
 		</div>
-	</div>
 	</form>
 	<div class="row my-2" <?= $cek; ?>>
 		<div class="col">

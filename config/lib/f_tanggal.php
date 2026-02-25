@@ -283,3 +283,25 @@ function f_bulan_nama($bln)
 			return str_repeat(chr(160), 16); // non-breaking spaces for FPDF
 	}
 }
+
+function f_tglIndoKeSql($tanggal)
+{
+	$bulan = [
+		'Januari' => '01',
+		'Februari' => '02',
+		'Maret' => '03',
+		'April' => '04',
+		'Mei' => '05',
+		'Juni' => '06',
+		'Juli' => '07',
+		'Agustus' => '08',
+		'September' => '09',
+		'Oktober' => '10',
+		'November' => '11',
+		'Desember' => '12'
+	];
+
+	$pecah = explode(' ', $tanggal);
+	return $pecah[2] . '-' . $bulan[$pecah[1]] . '-' . str_pad($pecah[0], 2, '0', STR_PAD_LEFT);
+}
+

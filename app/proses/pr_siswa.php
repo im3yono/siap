@@ -1,5 +1,5 @@
-<?php
-require_once '../../config/server.php'; // sesuaikan jalur koneksi
+<?php require_once "pr_sacc.php";
+
 $tkt = $_POST['tkt'] ?? '';
 $prd = $_POST['prd'];
 

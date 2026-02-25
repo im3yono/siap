@@ -4,7 +4,7 @@ require_once "lib/funct.php";
 require_once("about.php");
 
 
-//  Koneksi ke database
+//  Database connection
 try {
 	$pdo_conn = new PDO("mysql:host=$server;dbname=$db", $userdb, $passdb, [
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -12,12 +12,13 @@ try {
 		PDO::ATTR_EMULATE_PREPARES => false,
 	]);
 } catch (PDOException $th) {
-	// eror pada console
+	// error in console
 	error_log("Koneksi Database Error: " . $th->getMessage());
 	die("Koneksi ke database gagal : " . $th->getMessage());
 }
 
-$db_tbl = ['tb_dsis', 'tb_dstaf', 'tb_mpel'];
+// List of Tables
+$db_tbl = ['tb_dsis', 'tb_dstaf', 'tb_mpel', 'tb_jrnl', 'tb_kls'];
 foreach ($db_tbl as $table) {
 	$check = $pdo_conn->query("SHOW TABLES LIKE '$table'")->rowCount();
 	if ($check == 0) {

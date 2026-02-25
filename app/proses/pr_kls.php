@@ -1,16 +1,21 @@
-<?php
-require_once "../../config/server.php";
+<?php require_once "pr_sacc.php";
 
 $tkt	= $_POST['tkt'] ?? '';
 $prd	= $_POST['prd'] ?? '';
 
 
 $kls	= $_POST['kls'] ?? '';
+$jur	= $_POST['jur'] ?? '';
 $walas	= $_POST['walas'] ?? '';
 $id_kls	= $_POST['id'] ?? '';
 $siswa  = $_POST['siswa'] ?? '';
 // $m_kls = $_POST['m__kls'] ?? '';
-if ($siswa != '') $siswa = json_encode($siswa);
+
+$sts_kls = 'R';
+if ($siswa != '') {
+	$siswa = json_encode($siswa);
+	$sts_kls = 'K';
+}
 
 
 if ($prd == 'add') {
@@ -18,8 +23,8 @@ if ($prd == 'add') {
 		echo 'err';
 		exit;
 	}
-	$qr = 'INSERT INTO tb_kls (tkt, kls, kd_staf, d_sis) VALUES (?, ?, ?, ?)';
-	$data = [$tkt, $kls, $walas, $siswa];
+	$qr = 'INSERT INTO tb_kls (tkt, kls, jur, kd_staf, d_sis, sts_kls) VALUES (?, ?, ?, ?, ?, ?)';
+	$data = [$tkt, $kls, $jur, $walas, $siswa, $sts_kls];
 	$stmt	= db_Proses($pdo_conn, $qr, $data);
 	if (($stmt)) {
 		echo 'ok';

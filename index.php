@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<?php require_once("config/server.php") ?>
+	<?php require_once ("config/server.php") ?>
 
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 	<title>SIAP</title>
 	<link rel="shortcut icon" href="assets/img/brand.png" type="image/x-icon">
@@ -195,28 +193,30 @@
 								</li>
 							</ul>
 						</li><!--  Administrasi  -->
-						<li class="nav-item">
-							<a class="nav-link collapsed">
-								<img src="assets/img/mytbk.png" class="nav-icon">
-								<p>Tes Akademik
-									<i class="nav-arrow bi bi-chevron-right"></i>
-								</p>
-							</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item">
-									<a data-route="mytbk_ps" class="nav-link">
-										<img src="assets/icon/person_group.svg" class="nav-icon">
-										<p>Daftar Peserta</p>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a data-route="hasil" class="nav-link">
-										<img src="assets/icon/analytics.svg" class="nav-icon">
-										<p>Hasil Analisa</p>
-									</a>
-								</li>
-							</ul>
-						</li><!--  Tes Akademik  -->
+						<?php if (db_Mytbk() == true): ?>
+							<li class="nav-item">
+								<a class="nav-link collapsed">
+									<img src="assets/img/mytbk.png" class="nav-icon">
+									<p>Tes Akademik
+										<i class="nav-arrow bi bi-chevron-right"></i>
+									</p>
+								</a>
+								<ul class="nav nav-treeview">
+									<li class="nav-item">
+										<a data-route="mytbk_ps" class="nav-link">
+											<img src="assets/icon/person_group.svg" class="nav-icon">
+											<p>Daftar Peserta</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a data-route="mytbk_hasil" class="nav-link">
+											<img src="assets/icon/analytics.svg" class="nav-icon">
+											<p>Hasil Analisa</p>
+										</a>
+									</li>
+								</ul>
+							</li>
+						<?php endif; ?><!--  Tes Akademik  -->
 						<li class="nav-item">
 							<a class="nav-link collapsed"><img src="./assets/icon/print.svg" class="nav-icon">
 								<p>Cetak<i class="nav-arrow bi bi-chevron-right"></i></p>

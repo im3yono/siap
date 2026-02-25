@@ -1,6 +1,4 @@
-<?php
-require_once("../../config/server.php");
-require_once("../../assets/vendor/autoload.php");
+<?php require_once "pr_sacc.php";
 
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -38,7 +36,7 @@ if (isset($dt)) {
 			$nm 				= (f_nama($Data[$i][2]));
 			$jk 				= $Data[$i][3];
 			$nisn 			= $Data[$i][4];
-			$tmp_lahir 	= $Data[$i][5];
+			$tmp_lahir 	= f_nama($Data[$i][5]);
 			// $tgl_lahir = $Data[$i][6];
 			if (!empty($Data[$i][6])) {
 				if ($Data[$i][6] != date('Y-m-d', strtotime($Data[$i][6]))) {

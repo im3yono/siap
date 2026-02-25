@@ -1,5 +1,4 @@
-<?php
-require_once "../../config/server.php";
+<?php require_once "pr_sacc.php";
 
 $kd_mpel = $_POST['kode'];
 $nm_mpel = $_POST['mpel'] ?? '';

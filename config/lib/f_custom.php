@@ -29,6 +29,35 @@ function ft($ft, $fldr, $path = "../", $def = '')
 	return $def . 'assets/img/hide_image.png';
 }
 
+function ft_nama($ft, $fldr, $path = "../", $def = '')
+{
+	$formats = [
+		'.jpg',
+		'.jpeg',
+		'.png',
+		'.JPG',
+		'.JPEG',
+		'.PNG'
+	];
+
+	$folder = ($fldr !== '') ? $fldr . '/' : '';
+	$basePath = $path . 'app/images/' . $folder;
+
+	foreach ($formats as $ext) {
+		$filePath = $basePath . $ft . $ext;
+
+		if (file_exists($filePath)) {
+			return $ft . $ext;
+		}
+	}
+
+	if ($fldr === 'siswa' || $fldr === 'staf') {
+		return $def . 'account.png';
+	}
+
+	return $def . 'hide_image.png';
+}
+
 
 function f_qrCode($data)
 {

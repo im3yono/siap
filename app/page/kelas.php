@@ -58,6 +58,7 @@
 				<th>No</th>
 				<th>Tingkat</th>
 				<th>Kelas</th>
+				<th>Jurusan</th>
 				<th>Wali Kelas</th>
 				<th>Jumlah Siswa</th>
 				<th>Opsi</th>
@@ -91,6 +92,7 @@
 							<td><?= $notbl++; ?></td>
 							<td><?= $r_kls['tkt']; ?></td>
 							<td><?= $r_sis['kls']; ?></td>
+							<td><?= $r_kls['jur']; ?></td>
 							<td><?= $r_gr; ?></td>
 							<td><?= $jml_l . ' Laki-Laki <br>' . $jml_p . ' Perempuan'; ?></td>
 							<td>
@@ -161,6 +163,7 @@
 							<td><?= $notbl++; ?></td>
 							<td><?= $r_kls['tkt']; ?></td>
 							<td><?= $r_kls['kls']; ?></td>
+							<td><?= $r_kls['jur']; ?></td>
 							<td><?= $r_gr; ?></td>
 							<td><?= $jml_l; ?> Laki-Laki<br><?= $jml_p; ?> Perempuan</td>
 							<td>
@@ -236,7 +239,7 @@
 		}
 		$.ajax({
 			type: 'POST',
-			url: 'app/modal/m_kelas.php',
+			url: 'app/modal/m_kelas',
 			data: {
 				id: id,
 				id2: id2,

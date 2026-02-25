@@ -1,5 +1,4 @@
-<?php
-require_once '../../config/server.php'; // sesuaikan path
+<?php require_once "t_sacc.php";
 
 
 $d_jurnal = db_Proses($pdo_conn, "SELECT * FROM tb_jrnl ORDER BY tgl DESC, kd_staf ASC");
