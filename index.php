@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-	<?php require_once ("config/server.php") ?>
+<?php require_once("config/server.php") ?>
 
 <head>
 	<meta charset="UTF-8">
@@ -202,6 +202,12 @@
 									</p>
 								</a>
 								<ul class="nav nav-treeview">
+									<li class="nav-item">
+										<a data-route="mytbk_id" class="nav-link">
+											<span class="myicon myicon-identity_platform"></span>
+											<p>Identitas</p>
+										</a>
+									</li>
 									<li class="nav-item">
 										<a data-route="mytbk_ps" class="nav-link">
 											<img src="assets/icon/person_group.svg" class="nav-icon">

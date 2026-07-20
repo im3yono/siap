@@ -165,15 +165,22 @@ endif;
 
 if ($md == 'NSRIP'): ?>
 	<div class="col-12 m-0" style="text-align: justify;">
-		<p class="alert alert-info mx-3">
+		<?php 
+		$start = db_Proses(db_Mytbk(),"SELECT MAX(user) AS up FROM cbt_peserta;");
+		$start = $start->fetch(PDO::FETCH_ASSOC);
+
+		?>
+		<p class="alert alert-success mx-3">
 			<!-- Fitur ini digunakan untuk generate nama pengguna peserta asesmen, pastikan data peserta sudah sesuai dengan yang akan digunakan pada aplikasi MyTBK. <br> -->
-			Format nama pengguna yang dihasilkan adalah awalan yang diinputkan pada form berikut diikuti dengan nomor urut peserta, contoh jika awalan yang diinputkan adalah <b>"siap"</b> maka nama pengguna yang dihasilkan adalah siap001, siap002, dst.
+			Format nama pengguna yang dihasilkan adalah awalan yang diinputkan pada form berikut diikuti dengan nomor urut peserta <b>tanpa menggunakan spasi</b>, contoh jika awalan yang diinputkan adalah <b>"siap"</b> maka nama pengguna yang dihasilkan adalah siap001, siap002, dst. <br><br>
+			Silahkan sesuaikan data pada tabel ini untuk menghasilkan generate data perkelas.
 		</p>
 	</div>
 	<table class="table table-sriped" id="nsrip">
-		<thead>
+		<thead class="text-center">
 			<th>No</th>
 			<th>Kelas</th>
+			<th>Siswa</th>
 			<th>Format Nama Pengguna</th>
 			<th>Sesi</th>
 			<th>Ruang</th>
@@ -205,18 +212,22 @@ if ($md == 'NSRIP'): ?>
 			$d_kls = db_Proses($pdo_conn, $sql, $params);
 
 			while ($r = $d_kls->fetch(PDO::FETCH_ASSOC)):
+				$jml_sis = db_Proses($pdo_conn, "SELECT COUNT(*) AS jml FROM tb_dsis WHERE kls = '$r[kls]' GROUP BY kls;");
+				$jml_sis = $jml_sis->fetch(PDO::FETCH_ASSOC);
+				$np = str_replace(' ','',$r['kls']);
 			?>
 				<tr>
-					<td><?= $notbl++; ?></td>
+					<td class="text-center"><?= $notbl; ?></td>
 					<td><?= $r['kls']; ?></td>
+					<td class="text-center"><?= $jml_sis['jml'] ?></td>
 					<td style="min-width: 155px;max-width: 155px;">
-						<input type="text" class="form-control form-control-sm in_user" placeholder="Nama pengguna tanpa spasi">
+						<input type="text" class="form-control form-control-sm in_user" placeholder="Nama pengguna tanpa spasi" value="<?= $np; ?>-">
 					</td>
 					<td style="min-width: 70px;max-width: 70px;">
-						<input type="number" class="form-control form-control-sm in_sesi" min="1" max="10" value="1">
+						<input type="number" class="form-control form-control-sm in_sesi text-end" min="1" max="10" value="1">
 					</td>
 					<td style="min-width: 70px;max-width: 70px;">
-						<input type="number" class="form-control form-control-sm in_ruang" min="1" max="99" value="1">
+						<input type="number" class="form-control form-control-sm in_ruang text-end" min="1" max="99" value="<?= $notbl++; ?>">
 					</td>
 					<td style="min-width: 155px;">
 						<input type="text" class="form-control form-control-sm in_ip" placeholder="192.168.xxx.xxx" maxlength="15">
@@ -302,6 +313,7 @@ if ($md == 'NSRIP'): ?>
 						let username = tableMap[klsTableData].user + nomor;
 
 						tr.find('.user').val(username);
+						tr.find('.user').attr('readonly', true);
 						tr.find('.sesi').val(tableMap[klsTableData].sesi);
 						tr.find('.ruang').val(tableMap[klsTableData].ruang);
 						tr.find('.ip_server').val(tableMap[klsTableData].ipsv);

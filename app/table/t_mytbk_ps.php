@@ -86,7 +86,7 @@ if ($prd == "d_peserta"):
 						$sts 				= $r_mytbk['sts'] ?? '';
 
 						if ($sts != '') {
-							$sts = '<span class="myicon myicon-sync_saved_locally"></span>';
+							$sts = '<div class="text-primary"><span class="myicon myicon-published_with_changes"></span></div>';
 						} else {
 							$sts = '<span class="myicon myicon-check_box_blank"></span>';
 						}
@@ -134,7 +134,6 @@ if ($prd == "d_peserta"):
 	<script>
 		$('#kirim').click(function() {
 
-			$('#load').show();
 			let tableData = [];
 			let pesanError = "";
 			let ipRegex = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)$/;
@@ -163,6 +162,8 @@ if ($prd == "d_peserta"):
 					valid = false;
 					return false;
 				}
+
+				$('#load').show();
 
 				tableData.push({
 					nis: tr.find('td:eq(1)').text(),
@@ -198,9 +199,9 @@ if ($prd == "d_peserta"):
 				},
 				success: function(response) {
 					// console.log(response);
+					$('#load').hide();
 					if (response.includes("Menambahkan")) {
-						$('#load').hide();
-						notif('success', 'Berhasil', response + '');
+						notif('success', 'Berhasil', response);
 					} else {
 						notif('error', 'Gagal', response);
 					}
@@ -226,11 +227,11 @@ if ($prd == "d_peserta"):
 					// - username tidak mengandung spasi
 					// - IP valid
 					if (!user.includes(' ') && ipRegex.test(ipsv)) {
-						tr.find('#sts_s')
-							.html('<span class="myicon myicon-check_box"></span>');
+						tr.find('#sts_s').html('<span class="myicon myicon-select_check_box"></span>');
+						tr.find('#sts_s').addClass('text-success');
 					} else {
-						tr.find('#sts_s')
-							.html('<span class="myicon myicon-check_box_blank"></span>');
+						tr.find('#sts_s').html('<span class="myicon myicon-check_box_blank"></span>');
+						tr.find('#sts_s').removeClass('text-success');
 					}
 				} else {
 					tr.find('#sts_s')

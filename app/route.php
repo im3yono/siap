@@ -10,7 +10,7 @@ $allowed 	= ['dashboard', 'siswa', 'up_sis', 'fm_sis', 'guru', 'tendik', 'up_sta
 
 // whitelist akses dalam pengambangan
 if ($_SERVER['SERVER_NAME'] == 'mylocalhost.com') {
-	array_push($allowed, 'mytbk_ps', 'mytbk_setps', 'mytbk_sync');
+	array_push($allowed, 'mytbk_ps', 'mytbk_setps', 'mytbk_sync','mytbk_id');
 }
 
 

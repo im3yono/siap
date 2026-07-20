@@ -132,7 +132,7 @@
 	</style>
 	<div class="row p-2 border-bottom fs-3 mb-4 shadow-sm ">
 		<div class="col-auto ">
-			<button  class="btn btn-outline-dark" data-back><i class="bi bi-arrow-left"></i> Kembali</button>
+			<button  class="btn btn-outline-dark" data-back><span class="myicon myicon-arrow_back"></span> Kembali</button>
 		</div>
 		<div class="col">
 			Singkronisasi Data Peserta Asesmen</div>
@@ -180,7 +180,7 @@
 
 	<!-- Modal -->
 	<div class="modal fade" id="modal">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="md_title">Modal title</h1>

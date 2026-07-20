@@ -166,6 +166,12 @@ $(document).on("click", "nav a, button[data-route]", function (e) {
   loadRoute(route, true, id);
 });
 
+// Fungsi khusus untuk tombol kembali
+$(document).on("click", "button[data-back]", function (e) {
+  e.preventDefault();
+  window.history.back();
+});
+
 // Saat pertama kali load / refresh
 $(document).ready(() => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -185,9 +191,3 @@ function r_halaman() {
 window.onpopstate = (e) => {
   loadRoute((e.state && e.state.route) || "dashboard", false, e.state?.id || "");
 };
-
-// Fungsi khusus untuk tombol kembali
-$(document).on("click", "button[data-back]", function (e) {
-  e.preventDefault();
-  window.history.back();
-});

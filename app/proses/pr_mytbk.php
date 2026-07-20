@@ -89,9 +89,9 @@ if ($prd == "sync"):
 
 		$sql_in = "INSERT INTO cbt_peserta (id_peserta, ip_sv, nm, tmp_lahir, tgl_lahir, nis, kd_kls, jns_kel, ft, user, pass, sesi, ruang, sts) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Y')";
 
-		$sql_up = "UPDATE cbt_peserta SET ip_sv = ?, nm = ?, tmp_lahir = ?, tgl_lahir = ?, kd_kls = ?, jns_kel = ?, ft = ?, pass = ?, sesi = ?, ruang = ? WHERE cbt_peserta.user = ? OR nis = ?";
+		$sql_up = "UPDATE cbt_peserta SET ip_sv = ?, nm = ?, tmp_lahir = ?, tgl_lahir = ?, nis = ?, kd_kls = ?, jns_kel = ?, ft = ?, user= ?, pass = ?, sesi = ?, ruang = ? WHERE cbt_peserta.id_peserta= ?";
 
-		$ck_dt = db_Proses(db_Mytbk(), "SELECT * FROM cbt_peserta WHERE cbt_peserta.user= ? OR nis = ?", [$user, $nis]);
+		$ck_dt = db_Proses(db_Mytbk(), "SELECT * FROM cbt_peserta WHERE cbt_peserta.user = ? OR nis = ?", [$user, $nis]);
 
 		if (empty($ck_dt->rowCount())):
 			$exc = db_Proses(db_Mytbk(), $sql_in, [$ipsv, $nm, $tmp_l, $tgl_l, $nis, $kd_kls, $jk, $ft, $user, $pass, $sesi, $ruang]);
@@ -99,7 +99,9 @@ if ($prd == "sync"):
 			else	$total_gagal++;
 
 		else:
-			$exc = db_Proses(db_Mytbk(), $sql_up, [$ipsv, $nm, $tmp_l, $tgl_l, $kd_kls, $jk, $ft, $pass, $sesi, $ruang, $user, $nis]);
+			$id_ps = $ck_dt->fetch(PDO::FETCH_ASSOC);
+			$id_ps = $id_ps['id_peserta'];
+			$exc = db_Proses(db_Mytbk(), $sql_up, [$ipsv, $nm, $tmp_l, $tgl_l, $nis, $kd_kls, $jk, $ft, $user, $pass, $sesi, $ruang, $id_ps]);
 			if ($exc) $total_update++;
 			else $total_gagal++;
 

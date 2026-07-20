@@ -217,3 +217,19 @@
   -webkit-mask-image: url("sync_saved_locally.svg");
   mask-image: url("sync_saved_locally.svg");
 }
+.myicon-identity_platform {
+  -webkit-mask-image: url("identity_platform.svg");
+  mask-image: url("identity_platform.svg");
+}
+.myicon-published_with_changes {
+  -webkit-mask-image: url("published_with_changes.svg");
+  mask-image: url("published_with_changes.svg");
+}
+.myicon-arrow_back {
+  -webkit-mask-image: url("arrow_back.svg");
+  mask-image: url("arrow_back.svg");
+}
+.myicon-select_check_box {
+  -webkit-mask-image: url("select_check_box.svg");
+  mask-image: url("select_check_box.svg");
+}
