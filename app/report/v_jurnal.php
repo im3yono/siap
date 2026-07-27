@@ -96,7 +96,7 @@ $pdf->SetFillColor(217, 217, 217); // Warna latar belakang
 if (empty($ctk)):
 	require_once("jrnl_page.php");
 else:
-	require_once("jrnl_onpage.php");
+	// require_once("jrnl_onpage.php");
 endif;
 
 

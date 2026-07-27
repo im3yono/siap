@@ -1,24 +1,72 @@
 <?php
 
-function f_singkatNama($nama, $max = 3)
+// function f_singkatNama($nama, $max = 3)
+// {
+// 	$nm_umum = ['Muhammad', 'Mohammad', 'Muhamad', 'Ahmad', 'Akhmad'];
+// 	$nama = ucwords(strtolower($nama)); // ubah menjadi huruf kecil dan kapitalisasi awal kata
+// 	$kata = explode(' ', $nama);
+// 	$jumlah = count($kata);
+
+// 	if ($jumlah <= $max) {
+// 		return $nama; // tidak disingkat
+// 	}
+
+// 	$singkat = implode(' ', array_slice($kata, 0, $max)) . ' ';
+
+// 	// ambil inisial dari kata tengah
+// 	for ($i = $max; $i < $jumlah; $i++) {
+// 		$singkat .= strtoupper(substr($kata[$i], 0, 1)) . '. ';
+// 	}
+
+// 	return $singkat;
+// }
+
+function f_singkatNama($nama, $maxChar = 25)
 {
-	$nm_umum = ['Muhammad', 'Mohammad', 'Muhamad', 'Ahmad', 'Akhmad'];
-	$nama = ucwords(strtolower($nama)); // ubah menjadi huruf kecil dan kapitalisasi awal kata
-	$kata = explode(' ', $nama);
-	$jumlah = count($kata);
+	$nm_umum = [
+		'Muhammad' => 'M.',
+		'Mohammad' => 'M.',
+		'Muhamad'  => 'M.',
+		'Ahmad'    => 'A.',
+		'Akhmad'   => 'A.',
+		'Gusti'    => 'Gst',
+		'Gatot'    => 'Gt',
+	];
 
-	if ($jumlah <= $max) {
-		return $nama; // tidak disingkat
+	$nama = ucwords(strtolower(trim($nama)));
+	$kata = preg_split('/\s+/', $nama);
+
+	// Tahap 1: singkatkan kata yang wajib disingkat
+	$hasil = [];
+	foreach ($kata as $k) {
+		if (isset($nm_umum[$k])) {
+			$hasil[] = $nm_umum[$k];
+		} else {
+			$hasil[] = $k;
+		}
 	}
 
-	$singkat = implode(' ', array_slice($kata, 0, $max)) . ' ';
-
-	// ambil inisial dari kata tengah
-	for ($i = $max; $i < $jumlah; $i++) {
-		$singkat .= strtoupper(substr($kata[$i], 0, 1)) . '. ';
+	// Jika setelah singkatan wajib sudah cukup, langsung kembalikan
+	if (strlen(implode(' ', $hasil)) <= $maxChar) {
+		return implode(' ', $hasil);
 	}
 
-	return $singkat;
+	// Tahap 2: singkatkan kata dari belakang (selain yang sudah disingkat)
+	for ($i = count($hasil) - 1; $i >= 0; $i--) {
+
+		// Skip jika sudah berupa inisial
+		if (substr($hasil[$i], -1) == '.') {
+			continue;
+		}
+
+		$hasil[$i] = strtoupper(substr($hasil[$i], 0, 1)) . '.';
+
+		if (strlen(implode(' ', $hasil)) <= $maxChar) {
+			break;
+		}
+	}
+
+	return implode(' ', $hasil);
 }
 
 function f_nama($nama)

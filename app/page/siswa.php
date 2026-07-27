@@ -110,8 +110,8 @@
 
 					// $ft = "app/images/siswa/" . $row['nipd'];
 					// $ft = "assets/img/account.png";
-					if (!empty($ayah['sts'])) $ayah['sts'] == 'N' ? $a_sts = "(Ayah alm)" : $a_sts = "(Ayah)";
-					if (!empty($ibu['sts'])) $ibu['sts'] == 'N' ? $i_sts = "(Ibu alm)" : $i_sts = "(Ibu)";
+					$a_sts =  $ayah['sts'] == 'N' ? "(Ayah alm)" : "(Ayah)";
+					$i_sts =  $ibu['sts'] == 'N' ? "(Ibu alm)" : "(Ibu)";
 				?>
 
 					<tr>
@@ -222,10 +222,10 @@
 			},
 			success: function(data) {
 				$('#viewDataSiswa').html(data);
-			if (id != '') {
-				$('#mktpl').attr('onclick',"viewData('ktpl','" + id + "')");
-				// $('#mktpl').attr('data-id',id);
-			}
+				if (id != '') {
+					$('#mktpl').attr('onclick', "viewData('ktpl','" + id + "')");
+					// $('#mktpl').attr('data-id',id);
+				}
 			}
 		});
 	}

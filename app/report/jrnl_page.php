@@ -36,7 +36,7 @@ $config = [
 			'jrk2' => 2,
 			'th_tbl' => 5,
 			'th_tbl2' => 10,
-			'skt_nm' => 2
+			'skt_nm' => 25
 		],
 		'P' => [
 			'size' => [210, 297],
@@ -69,7 +69,7 @@ $config = [
 			'jrk2' => 2,
 			'th_tbl' => 5,
 			'th_tbl2' => 10,
-			'skt_nm' => 2
+			'skt_nm' => 20
 		]
 	],
 	'f4' => [
@@ -107,7 +107,7 @@ $config = [
 			'jrk2' => 2,
 			'th_tbl' => 5,
 			'th_tbl2' => 10,
-			'skt_nm' => 3
+			'skt_nm' => 35
 		],
 		'P' => [
 			'size' => [210, 330],
@@ -140,7 +140,7 @@ $config = [
 			'jrk2' => 2,
 			'th_tbl' => 5,
 			'th_tbl2' => 10,
-			'skt_nm' => 2
+			'skt_nm' => 20
 		]
 	]
 ];
@@ -243,7 +243,7 @@ if ($cvr == '1'):
 
 	dInfo($pdf, 'Nama Guru', $nm, $orien);
 	dInfo($pdf, $jnip[0], $jnip[1], $orien);
-	dInfo($pdf, 'Mata Pelajaran', f_kapital($mpel), $orien);
+	dInfo($pdf, 'Mata Pelajaran', $mpel, $orien);
 	dInfo($pdf, 'Alokasi Waktu', $alw . ' Jam Pelajaran, ' . $alt . ' Pertemuan/Pekan', $orien);
 	dInfo($pdf, 'Tahun Ajaran', $thn . ' ' . $smt, $orien);
 	dInfo($pdf, 'Mengajar di Kelas', $dkls, $orien);
@@ -293,7 +293,7 @@ if ($pkls != ''):
 				$cek_kls = db_Proses($pdo_conn, "SELECT COUNT(*) AS jml FROM tb_dsis WHERE kls =?", [$kls]);
 				$cek_kls = $cek_kls->fetch(PDO::FETCH_ASSOC);
 				if ($cek_kls['jml'] != 0) {
-					$siswa = db_Proses($pdo_conn, "SELECT nm, jk, nipd FROM tb_dsis WHERE kls = ?", [$kls]);
+					$siswa = db_Proses($pdo_conn, "SELECT nm, jk, nipd FROM tb_dsis WHERE kls = ? ORDER BY nm ASC", [$kls]);
 					$jml_k = db_Proses($pdo_conn, "SELECT jk FROM tb_dsis WHERE kls = ?", [$kls]);
 				} else {
 					$nipd_sis = db_Proses($pdo_conn, "SELECT d_sis FROM tb_kls WHERE kls = ?", [$kls]);
@@ -304,7 +304,7 @@ if ($pkls != ''):
 					$nipd_sis = json_decode($nipd_sis['d_sis'], true);
 
 					$placeholders = implode(',', array_fill(0, count($nipd_sis), '?'));
-					$sql = "SELECT nm, jk, nipd FROM tb_dsis WHERE nipd IN ($placeholders)";
+					$sql = "SELECT nm, jk, nipd FROM tb_dsis WHERE nipd IN ($placeholders) ORDER BY nm ASC";
 
 					$siswa = db_Proses($pdo_conn, $sql, $nipd_sis);
 					$jml_k = db_Proses($pdo_conn, $sql, $nipd_sis);
@@ -325,7 +325,7 @@ if ($pkls != ''):
 				$walas 		= $dtgr['nmgr'] ?? '';
 				$glr 			= $dtgr['glargr'] ?? '';
 				// $glr			= $glr == '' ? '' : ', ' . $glr;
-				$walas		= $walas == '' ? '' : f_singkatNama($walas, 2);
+				$walas		= $walas == '' ? '' : f_singkatNama($walas, 20);
 				// $walas		= $walas == '' ? '' : f_singkatNama($walas, 2) . $glr;
 				$walas		= f_nmGelar($walas, $glr);
 

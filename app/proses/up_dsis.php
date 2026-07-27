@@ -75,7 +75,8 @@ if (isset($dt)) {
 				"almt" 	=> ($Data[$i][25]),
 				"pddk" 	=> ($Data[$i][26]),
 				"kerja" => ($Data[$i][27]),
-				"upah" 	=> ($Data[$i][28])
+				"upah" 	=> ($Data[$i][28]),
+				"sts"		=> ""
 			));
 			$ibu 			= json_encode(array(
 				"nik" 	=> ($Data[$i][29]),
@@ -84,7 +85,8 @@ if (isset($dt)) {
 				"almt" 	=> ($Data[$i][32]),
 				"pddk" 	=> ($Data[$i][33]),
 				"kerja" => ($Data[$i][34]),
-				"upah" 	=> ($Data[$i][35])
+				"upah" 	=> ($Data[$i][35]),
+				"sts"		=> ""
 			));
 			$wali 		= json_encode(array(
 				"nik" 	=> ($Data[$i][36]),
