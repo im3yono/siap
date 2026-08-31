@@ -168,7 +168,7 @@ if ($prd == 'ktpl'):
 		$sql = "SELECT * FROM tb_kls WHERE kls = ?";
 		$stmt1 = db_Proses($pdo_conn, $sql, [$r['kls']]);
 		if ($stmt1->rowCount() == 0) {
-			echo '<h6 class="text-center"> Kelas ' . $r['kls'] . ' belum di tambahkan pada menu kelas.</h6>';
+			echo '<h6 class="text-center"> Kelas <strong>' . $r['kls'] . '</strong> belum di tambahkan pada menu kelas.</h6>';
 			exit;
 		}
 	}

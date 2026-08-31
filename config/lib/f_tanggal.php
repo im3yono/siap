@@ -234,10 +234,29 @@ function tambahJam($awal, $tambah)
 
 function f_bln_ta($ta, $bln)
 {
+	if(empty($bln)){
+		return $bln;
+	}
 	$bln_ta = explode('/', $ta);
-	if ($bln > 6) {
+	$thn		= date('Y');
+	$bulan = [
+		'Januari' => '1',
+		'Februari' => '2',
+		'Maret' => '3',
+		'April' => '4',
+		'Mei' => '5',
+		'Juni' => '6',
+		'Juli' => '7',
+		'Agustus' => '8',
+		'September' => '9',
+		'Oktober' => '10',
+		'November' => '11',
+		'Desember' => '12'
+	];
+
+	if ($bulan[$bln] <= 6) {
 		return $bln_ta[1];
-	} else {
+	} else if ($bulan[$bln] >=7) {
 		return $bln_ta[0];
 	}
 }
@@ -304,4 +323,3 @@ function f_tglIndoKeSql($tanggal)
 	$pecah = explode(' ', $tanggal);
 	return $pecah[2] . '-' . $bulan[$pecah[1]] . '-' . str_pad($pecah[0], 2, '0', STR_PAD_LEFT);
 }
-

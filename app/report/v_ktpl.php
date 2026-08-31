@@ -167,6 +167,11 @@ class PDF extends FPDF
 		// Posisi teks relatif terhadap posisi kartu
 		$this->SetXY($x + 22, $y + 14);
 		$this->Cell(280, 4, '', 0, 2);
+
+
+		$this->SetFontSize(5);
+		$this->SetXY($x + 1, $y + 50);
+		$this->Cell(70, 4, 'Diterbitkan '. tgl(date('Y-m-d')), 0, 2);
 	}
 }
 

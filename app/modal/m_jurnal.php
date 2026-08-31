@@ -10,21 +10,29 @@ if ($_POST['id'] == 'create') :
 	else $smt = 'Ganjil' . date('Y') . '-' . date('Y') + 1;
 
 
-	$updt = $pdo_conn->prepare("SELECT upd FROM `tb_dsis` GROUP BY upd ORDER BY `tb_dsis`.`upd` DESC LIMIT 1;");
+	$updt = $pdo_conn->prepare("SELECT upd FROM tb_dsis GROUP BY upd ORDER BY upd DESC LIMIT 1;");
 	$updt->execute();
 	if ($updt->rowCount() != 0) {
 		$updt = $updt->fetch(PDO::FETCH_ASSOC);
 		$date = tgl_hari(date('d-m-Y', strtotime($updt['upd'])));
 		$date .= ', Pukul ' . date(('H:i'), strtotime($updt['upd']));
-		$bgdt = 'bg-info-subtle';
+		if (date('d-m-Y', strtotime($updt['upd'])) == date('d-m-Y')):
+			$bgdt = 'text-bg-success';
+		elseif (strtotime($updt['upd']) >= strtotime('-7 days')):
+			$bgdt = 'text-bg-info';
+		else:
+			$bgdt = 'text-bg-danger';
+		endif;
 	} else {
 		$date = 'Data Belum Update';
-		$bgdt = 'bg-danger-subtle';
+		$bgdt = 'bg-danger';
 	}
 ?>
 	<form action="app/report/v_jurnal" method="post" id="form" target="blank">
+
 		<div class="col-12 h5 <?= $bgdt; ?> mb-2 py-3 text-center" style="border-radius: 5px;">Update Data <br> <?= $date; ?></div>
-		<div class="row g-3">
+
+		<div class="row g-3 mb-3">
 			<div class="col-lg-4 col-md-6 col-12">
 				<label for="nama" class="form-label">Nama Guru</label>
 				<select name="nama" id="nama" class="form-select" required>
@@ -142,7 +150,7 @@ if ($_POST['id'] == 'create') :
 				</div>
 			<?php } ?>
 		</div>
-		<div class="row">
+		<div class="row mb-3">
 			<div class="col-lg-3 col-12 mb-3">
 				<label for="cvr" class="form-label">Sampul/Kover Jurnal</label>
 				<select name="cvr" id="cvr" class="form-select">
@@ -151,7 +159,7 @@ if ($_POST['id'] == 'create') :
 				</select>
 			</div>
 			<div class="col-lg-3 col-12 mb-3">
-				<label for="kertas" class="form-label">Ukuran kertas yang akan digunakan</label>
+				<label for="kertas" class="form-label">Kertas</label>
 				<select name="kertas" id="kertas" class="form-select">
 					<option value="a4">A4</option>
 					<option value="f4">Folio/F4</option>
@@ -163,6 +171,19 @@ if ($_POST['id'] == 'create') :
 					<option value="L" selected>Landscape</option>
 					<option value="P">Portrait</option>
 				</select>
+			</div>
+			<div class="col-lg-3 col-12 mb-3">
+				<label for="jilid" class="form-label">Jilid</label>
+				<div class="input-group">
+					<select name="jilid" id="jilid" class="form-select">
+						<option value="N" selected>Tidak</option>
+						<option value="Y">Ya</option>
+					</select>
+					<select name="jld_pss" id="jld_pss" class="form-select" style="display: none;">
+						<option value="K" selected>Kiri</option>
+
+					</select>
+				</div>
 			</div>
 		</div>
 		<div class="row g-2 justify-content-center">
@@ -207,6 +228,24 @@ if ($_POST['id'] == 'create') :
 				$('#thn_ajar').val(thnAjar);
 			});
 		});
+
+		$("#orien").on("change", function() {
+			let orien = $("#orien").val();
+			if (orien == "P") {
+				$("#jld_pss").html('<option value="K" selected>Kiri</option><option value="A">Atas</option>');
+			} else {
+				$("#jld_pss").html('<option value="K" selected>Kiri</option>');
+			}
+		})
+
+		$("#jilid").on("change", function() {
+			let jld = $("#jilid").val();
+			if (jld == "Y") {
+				$("#jld_pss").show();
+			} else {
+				$("#jld_pss").hide();
+			}
+		})
 	</script>
 <?php endif;
 

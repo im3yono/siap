@@ -145,10 +145,48 @@ $config = [
 	]
 ];
 
+function scaleConfig(array $cfg, float $scale = 0.95): array
+{
+	foreach ($cfg as $key => $value) {
+		// Jangan ubah ukuran kertas
+		if ($key === 'size') {
+			continue;
+		}
+
+		if (is_numeric($value)) {
+			$cfg[$key] = round($value * $scale, 2);
+		} elseif (is_array($value)) {
+			foreach ($value as $k => $v) {
+				if (is_numeric($v)) {
+					$cfg[$key][$k] = round($v * $scale, 2);
+				}
+			}
+		}
+	}
+
+	return $cfg;
+}
+
 // Ambil konfigurasi sesuai input
 $kertas = strtolower($_POST['kertas']);
 $cfg = $config[$kertas][$orien];
 
+if ($_POST['jilid'] == 'Y') {
+	$cfg = scaleConfig($cfg, $orien == 'P' ? 0.97 : 0.98);
+
+	$margin = [
+		'P' => [
+			'K' => [11, 2, 0],
+			'A' => [7, 11, 0]
+		],
+		'L' => [
+			'K' => [14, 2, 0],
+			'A' => [9, 14, 0]
+		]
+	];
+
+	$pdf->SetMargins(...$margin[$orien][$_POST['jld_pss'] == 'K' ? 'K' : 'A']);
+}
 // Extract variabel biar sama seperti sebelumnya
 extract($cfg);
 
@@ -159,10 +197,32 @@ if ($cvr == '1'):
 	$pdf->AddPage($orien, $cfg['size'], 0);
 	// Set ketebalan garis
 	// $pdf->SetLineWidth(1);
-	$pdf->Rect(5, 5, $gcvr_w, $gcvr_h);
-	$pdf->Rect(10, 10, $gcvr_w, $gcvr_h);
+	if ($_POST['jilid'] == 'Y') {
+		if ($orien == 'P') {
+			$x1 = ($_POST['jld_pss'] == 'K') ? 13 : 9;
+			$y1 = ($_POST['jld_pss'] == 'K') ? 10 : 10;
+			$x2 = ($_POST['jld_pss'] == 'K') ? 18 : 14;
+			$y2 = ($_POST['jld_pss'] == 'K') ? 15 : 15;
+			$setY = 17;
+		} else {
+			$x1 = 13;
+			$y1 = 7;
+			$x2 = 18;
+			$y2 = 12;
+			$setY = 14;
+		}
+	} else {
+		$x1 = 5;
+		$y1 = 5;
+		$x2 = 10;
+		$y2 = 10;
+		$setY = 12;
+	}
 
-	$pdf->SetY(12);
+	$pdf->Rect($x1, $y1, $gcvr_w, $gcvr_h);
+	$pdf->Rect($x2, $y2, $gcvr_w, $gcvr_h);
+	$pdf->SetY($setY);
+
 	$pdf->SetFont('Cambria', 'B', 18);
 	$pdf->Cell(0, 9, $jdl, 0, 1, 'C');
 	$pdf->Cell(0, 9, $jdlpt, 0, 1, 'C');
@@ -184,9 +244,9 @@ if ($cvr == '1'):
 			return;
 		} else {
 			if ($_POST['kertas'] == 'a4') {
-				$pdf->SetX(60);
+				$pdf->SetX(70);
 			} else {
-				$pdf->SetX(80);
+				$pdf->SetX(90);
 			}
 			$pdf->Cell(55, 7, $nama, 0, 0);
 			$pdf->Cell(5, 7, ':', 0, 0);
@@ -251,7 +311,7 @@ if ($cvr == '1'):
 
 endif;
 
-		$pdf->AddPage($orien, $cfg['size'], 0);
+$pdf->AddPage($orien, $cfg['size'], 0);
 
 // Jika tidak ada kelas dipilih
 if ($pkls == ['']):
@@ -263,7 +323,7 @@ if ($pkls == ['']):
 	$pdf->SetFont('Cambria', 'B', 18);
 	$pdf->Cell(0, 10, 'Tidak ada data kelas yang ditemukan', 0, 1, 'C');
 	$pdf->Cell(0, 10, 'pastikan input data sudah benar.', 0, 1, 'C');
-	
+
 endif;
 
 
@@ -275,6 +335,8 @@ if ($pkls != ''):
 		$bln_arr = ['1', '2', '3', '4', '5', '6'];
 	} elseif ($bln == '712') {
 		$bln_arr = ['7', '8', '9', '10', '11', '12'];
+	} elseif ($bln == str_repeat(chr(160), 22)) {
+		$bln_arr = [''];
 	} else {
 		$bln_arr = [$bln];
 	}
@@ -337,7 +399,7 @@ if ($pkls != ''):
 
 				// Sub judul dan Informasi Guru, Kelas, Wali Kelas, Jumlah Siswa
 				if ($orien == 'L') {
-					$pdf->SetFont('Cambria', '', 12);
+					$pdf->SetFont('Cambria', '', 11);
 					$pdf->Cell($j_L, $jt, 'Tahun Ajaran/Semester ', 0, 0);
 					$pdf->Cell($js_L, $jt, ': ' . $thn . ' ' . $smt, 0, 0);
 					$pdf->Cell($j_C, $jt, 'Mata Pelajaran', 0, 0);
@@ -360,7 +422,7 @@ if ($pkls != ''):
 					$pdf->Cell($j_R, $jt, 'Perempuan', 0, 0);
 					$pdf->Cell($js_R, $jt, ': ' . $jml_p . ' Orang', 0, 1);
 				} else {
-					$pdf->SetFont('Cambria', '', 12);
+					$pdf->SetFont('Cambria', '', 11);
 					$pdf->Cell($j_L,  $jt, 'TA/Semester ', 0, 0);
 					$pdf->Cell($js_L, $jt, ': ' . $thn . ' ' . $smt, 0, 0);
 					$pdf->Cell($j_R,  $jt, 'Bulan Pelaksanaan', 0, 0);
@@ -392,7 +454,7 @@ if ($pkls != ''):
 				// Tabel header untuk daftar hadir dan nilai
 				($tm != 0) ? $tm_np = 5 * $tm : $tm_np = 0;
 
-				$pdf->SetFont('Arial Narrow', '', 12);
+				$pdf->SetFont('Arial Narrow', '', 11);
 				$pdf->Cell($h_no, $th_tbl2, 'No', 1, 0, 'C');
 				$pdf->Cell($h_nm, $th_tbl, 'Nama Peserta ', "T", 0, 'C');
 				$pdf->Cell($h_dh, $th_tbl, 'Daftar Hadir', 1, 0, 'C', true); // true untuk fill
@@ -447,10 +509,17 @@ if ($pkls != ''):
 
 				$pdf->SetFont('Arial Narrow', '', 11);
 				$t_tbl = 4.7; // Tinggi baris tabel Lanscape
-				if ($orien == 'P' && $_POST['kertas'] == 'a4') {
-					$t_tbl = 5.3; // Tinggi baris tabel Portrait A4
-				} else if ($orien == 'P' && $_POST['kertas'] == 'f4') {
-					$t_tbl = 6.1; // Tinggi baris tabel Portrait F4
+				if ($orien == 'P') {
+					$tinggi = [
+						'a4' => [5.1, 5.3],
+						'f4' => [5.9, 6.1]
+					];
+
+					$idx = ($_POST['jilid'] == "Y" && $_POST['jld_pss'] == "A") ? 0 : 1;
+
+					if (isset($tinggi[$_POST['kertas']])) {
+						$t_tbl = $tinggi[$_POST['kertas']][$idx];
+					}
 				}
 
 				$i = 1;
@@ -499,7 +568,7 @@ if ($pkls != ''):
 								} else {
 									$pdf->Cell($h_ctt, $t_tbl, '                JP Ke:    s.d.', "B", 0, 'L');
 								}
-								$pdf->Cell($h_ket2, $t_tbl, '', "LR", 1, 'L');
+								$pdf->Cell($h_ket2, $t_tbl, '', "BR", 1, 'L');
 							} else {
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
@@ -549,7 +618,7 @@ if ($pkls != ''):
 								} else {
 									$pdf->Cell($h_ctt, $t_tbl, '                JP Ke:    s.d.', "B", 0, 'L');
 								}
-								$pdf->Cell($h_ket2, $t_tbl, '', "LR", 1, 'L');
+								$pdf->Cell($h_ket2, $t_tbl, '', "BR", 1, 'L');
 							} else {
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
@@ -601,7 +670,7 @@ if ($pkls != ''):
 								} else {
 									$pdf->Cell($h_ctt, $t_tbl, '                JP Ke:    s.d.', "B", 0, 'L');
 								}
-								$pdf->Cell($h_ket2, $t_tbl, '', "LR", 1, 'L');
+								$pdf->Cell($h_ket2, $t_tbl, '', "BR", 1, 'L');
 							} else {
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
@@ -650,7 +719,7 @@ if ($pkls != ''):
 								} else {
 									$pdf->Cell($h_ctt, $t_tbl, '                JP Ke:    s.d.', "B", 0, 'L');
 								}
-								$pdf->Cell($h_ket2, $t_tbl, '', "LR", 1, 'L');
+								$pdf->Cell($h_ket2, $t_tbl, '', "BR", 1, 'L');
 							} else {
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
 								$pdf->Cell($h_ctt, $t_tbl, '', $brd, 0, 'L');
